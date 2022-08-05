@@ -11,6 +11,7 @@ export class AwsCdkStack extends cdk.Stack {
       cidr: '10.0.0.0/16',
       natGateways: 0,
       maxAzs: 3,
+      vpcName: 'main-vpc',
       subnetConfiguration:  [
         {
           name: 'Public',
@@ -29,6 +30,7 @@ export class AwsCdkStack extends cdk.Stack {
     const webserverSG = new ec2.SecurityGroup(this, 'web-server-sg', {
       vpc,
       allowAllOutbound: true,
+      securityGroupName: 'web-server-sg',
       description: 'security group for a web server',
     });
 
@@ -54,6 +56,7 @@ export class AwsCdkStack extends cdk.Stack {
     const backendServerSG = new ec2.SecurityGroup(this, 'backend-server-sg', {
       vpc,
       allowAllOutbound: true,
+      securityGroupName: 'backend-server-sg',
       description: 'security group for a backend server',
     });
     backendServerSG.connections.allowFrom(
@@ -68,6 +71,7 @@ export class AwsCdkStack extends cdk.Stack {
     const dbserverSG = new ec2.SecurityGroup(this, 'database-server-sg', {
       vpc,
       allowAllOutbound: true,
+      securityGroupName: 'database-server-sg',
       description: 'security group for a database server',
     });
 
@@ -78,5 +82,7 @@ export class AwsCdkStack extends cdk.Stack {
       ec2.Port.tcp(3306),
       'allow traffic on port 3306 from the backend server security group',
     );
+
+
   }
 }

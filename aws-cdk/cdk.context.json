@@ -3,5 +3,123 @@
     "ap-south-1a",
     "ap-south-1b",
     "ap-south-1c"
-  ]
+  ],
+  "vpc-provider:account=824709318323:filter.tag:Name=AwsCdkStack/MainVpc:region=ap-south-1:returnAsymmetricSubnets=true": {
+    "vpcId": "vpc-0143b47b5e62ba457",
+    "vpcCidrBlock": "10.0.0.0/16",
+    "availabilityZones": [],
+    "subnetGroups": [
+      {
+        "name": "Public",
+        "type": "Public",
+        "subnets": [
+          {
+            "subnetId": "subnet-0e62bb506e00122de",
+            "cidr": "10.0.0.0/24",
+            "availabilityZone": "ap-south-1a",
+            "routeTableId": "rtb-000c600fc8e4c7fce"
+          },
+          {
+            "subnetId": "subnet-0e2a3980f202162c1",
+            "cidr": "10.0.1.0/24",
+            "availabilityZone": "ap-south-1b",
+            "routeTableId": "rtb-02d61f0b5e4de0f62"
+          },
+          {
+            "subnetId": "subnet-013a9270bd6ae8513",
+            "cidr": "10.0.2.0/24",
+            "availabilityZone": "ap-south-1c",
+            "routeTableId": "rtb-078f4742081d44215"
+          }
+        ]
+      },
+      {
+        "name": "Private",
+        "type": "Isolated",
+        "subnets": [
+          {
+            "subnetId": "subnet-0f54cd98c8650056a",
+            "cidr": "10.0.3.0/28",
+            "availabilityZone": "ap-south-1a",
+            "routeTableId": "rtb-0e962ad3b62ad60d8"
+          },
+          {
+            "subnetId": "subnet-0424f84e7e5abbc64",
+            "cidr": "10.0.3.16/28",
+            "availabilityZone": "ap-south-1b",
+            "routeTableId": "rtb-0301de641501a5eec"
+          },
+          {
+            "subnetId": "subnet-08f22912640e34503",
+            "cidr": "10.0.3.32/28",
+            "availabilityZone": "ap-south-1c",
+            "routeTableId": "rtb-0b460477bd6df4e79"
+          }
+        ]
+      }
+    ]
+  },
+  "security-group:account=824709318323:region=ap-south-1:securityGroupName=AwsCdkStack-databaseserversgE2611B1C-135Q08CYYGOA4:vpcId=vpc-0143b47b5e62ba457": {
+    "securityGroupId": "sg-03fac6a7c13fe72d6",
+    "allowAllOutbound": false
+  },
+  "security-group:account=824709318323:region=ap-south-1:securityGroupName=database-server-sg:vpcId=vpc-0143b47b5e62ba457": {
+    "securityGroupId": "sg-07d8a9bfd73ec63d4",
+    "allowAllOutbound": false
+  },
+  "vpc-provider:account=824709318323:filter.tag:Name=main-vpc:region=ap-south-1:returnAsymmetricSubnets=true": {
+    "vpcId": "vpc-0143b47b5e62ba457",
+    "vpcCidrBlock": "10.0.0.0/16",
+    "availabilityZones": [],
+    "subnetGroups": [
+      {
+        "name": "Public",
+        "type": "Public",
+        "subnets": [
+          {
+            "subnetId": "subnet-0e62bb506e00122de",
+            "cidr": "10.0.0.0/24",
+            "availabilityZone": "ap-south-1a",
+            "routeTableId": "rtb-000c600fc8e4c7fce"
+          },
+          {
+            "subnetId": "subnet-0e2a3980f202162c1",
+            "cidr": "10.0.1.0/24",
+            "availabilityZone": "ap-south-1b",
+            "routeTableId": "rtb-02d61f0b5e4de0f62"
+          },
+          {
+            "subnetId": "subnet-013a9270bd6ae8513",
+            "cidr": "10.0.2.0/24",
+            "availabilityZone": "ap-south-1c",
+            "routeTableId": "rtb-078f4742081d44215"
+          }
+        ]
+      },
+      {
+        "name": "Private",
+        "type": "Isolated",
+        "subnets": [
+          {
+            "subnetId": "subnet-0f54cd98c8650056a",
+            "cidr": "10.0.3.0/28",
+            "availabilityZone": "ap-south-1a",
+            "routeTableId": "rtb-0e962ad3b62ad60d8"
+          },
+          {
+            "subnetId": "subnet-0424f84e7e5abbc64",
+            "cidr": "10.0.3.16/28",
+            "availabilityZone": "ap-south-1b",
+            "routeTableId": "rtb-0301de641501a5eec"
+          },
+          {
+            "subnetId": "subnet-08f22912640e34503",
+            "cidr": "10.0.3.32/28",
+            "availabilityZone": "ap-south-1c",
+            "routeTableId": "rtb-0b460477bd6df4e79"
+          }
+        ]
+      }
+    ]
+  }
 }
