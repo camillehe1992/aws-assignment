@@ -62,5 +62,9 @@
   "security-group:account=824709318323:region=ap-south-1:securityGroupName=database-server-sg:vpcId=vpc-0e33f5d05150f5e8a": {
     "securityGroupId": "sg-03fbdf669896580d0",
     "allowAllOutbound": false
+  },
+  "security-group:account=824709318323:region=ap-south-1:securityGroupName=backend-server-sg:vpcId=vpc-0e33f5d05150f5e8a": {
+    "securityGroupId": "sg-0f4ac3813d0959eb3",
+    "allowAllOutbound": false
   }
 }

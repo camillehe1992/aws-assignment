@@ -357,7 +357,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-deploy-role-824709318323-ap-south-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-cfn-exec-role-824709318323-ap-south-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-824709318323-ap-south-1/e7106642a4ac99ece7f2cf082f12dc65ff506957b2f1cb0c410b59abe4a1f9c6.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-824709318323-ap-south-1/c76a76c3c53287e8d6512000aa90d04817b60548d9322f745b6cf5af7a3e0567.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -373,10 +373,58 @@
         "EcsClusterCdkStack.assets"
       ],
       "metadata": {
-        "/EcsClusterCdkStack/EcsCluster/Resource": [
+        "/EcsClusterCdkStack/EC2InstanceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "EcsCluster97242B84"
+            "data": "EC2InstanceRole0BAA8CDD"
+          }
+        ],
+        "/EcsClusterCdkStack/EC2InstanceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EC2InstanceRoleDefaultPolicy6E0BF0D9"
+          }
+        ],
+        "/EcsClusterCdkStack/Cluster/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ClusterEB0386A7"
+          }
+        ],
+        "/EcsClusterCdkStack/Cluster/Cluster": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Cluster3DA9CCBA"
+          }
+        ],
+        "/EcsClusterCdkStack/ASG-LaunchTemplate/Profile": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ASGLaunchTemplateProfile367835EA"
+          }
+        ],
+        "/EcsClusterCdkStack/ASG-LaunchTemplate/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ASGLaunchTemplate2E225363"
+          }
+        ],
+        "/EcsClusterCdkStack/SsmParameterValue:--aws--service--ecs--optimized-ami--amazon-linux-2--recommended--image_id:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SsmParameterValueawsserviceecsoptimizedamiamazonlinux2recommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter"
+          }
+        ],
+        "/EcsClusterCdkStack/ASG/ASG": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ASG46ED3070"
+          }
+        ],
+        "/EcsClusterCdkStack/AsgCapacityProvider/AsgCapacityProvider": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AsgCapacityProvider760D11D9"
           }
         ],
         "/EcsClusterCdkStack/CDKMetadata/Default": [

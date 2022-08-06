@@ -1,6 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
-import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import { Construct } from 'constructs';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as iam from 'aws-cdk-lib/aws-iam';
 
 export class AwsCdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -82,7 +83,5 @@ export class AwsCdkStack extends cdk.Stack {
       ec2.Port.tcp(3306),
       'allow traffic on port 3306 from the backend server security group',
     );
-
-
   }
 }
