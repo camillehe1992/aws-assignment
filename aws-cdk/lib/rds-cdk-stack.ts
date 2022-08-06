@@ -46,6 +46,7 @@ export class RdsCdkStack extends cdk.Stack {
     });
 
     new cdk.CfnOutput(this, 'secretName', {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
       value: cluster.secret?.secretName!
     });
 
