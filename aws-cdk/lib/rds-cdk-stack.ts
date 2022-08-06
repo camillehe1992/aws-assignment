@@ -15,14 +15,19 @@ export class RdsCdkStack extends cdk.Stack {
     // 👇 import Database Security Group by Name
     const securityGroup = ec2.SecurityGroup.fromLookupByName(this, 'SG', 'database-server-sg', vpc)
     
-    // 👇 create the rds cluster
+    // 👇 create the rds cluster with 2 instances (1 reader and 1 writer)
     const cluster = new rds.DatabaseCluster(this, 'Database', {
-      engine: rds.DatabaseClusterEngine.auroraMysql({ version: rds.AuroraMysqlEngineVersion.VER_3_01_0 }),
-      credentials: rds.Credentials.fromGeneratedSecret('clusteradmin'), // Optional - will default to 'admin' username and generated password
-      defaultDatabaseName: 'mysql-database',
+      engine: rds.DatabaseClusterEngine.auroraMysql({ 
+        version: rds.AuroraMysqlEngineVersion.VER_3_02_0
+      }),
+      // Optional - will default to 'admin' username and generated password
+      credentials: rds.Credentials.fromGeneratedSecret('clusteradmin'),
+      clusterIdentifier: 'mysql',
       instanceProps: {
-        // optional , defaults to t3.medium
-        instanceType: ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE2, ec2.InstanceSize.MICRO),
+        // optional , defaults to t3.medium (wiil incur charge)
+        instanceType: ec2.InstanceType.of(
+          ec2.InstanceClass.T3,
+          ec2.InstanceSize.MEDIUM),
         vpcSubnets: {
           subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
         },
@@ -30,5 +35,19 @@ export class RdsCdkStack extends cdk.Stack {
         securityGroups: [securityGroup]
       },
     });
+
+    // 👇 Output
+    new cdk.CfnOutput(this, 'dbReaderEndpoint', {
+      value: cluster.clusterReadEndpoint.hostname
+    });
+
+    new cdk.CfnOutput(this, 'dbWriterEndpoint', {
+      value: cluster.clusterEndpoint.hostname
+    });
+
+    new cdk.CfnOutput(this, 'secretName', {
+      value: cluster.secret?.secretName!
+    });
+
   }
 }

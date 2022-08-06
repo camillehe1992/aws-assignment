@@ -5,8 +5,10 @@
     "aws-cdk": "bin/aws-cdk.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && cdk context --clear && cdk synth -o cloudformation",
+    "deploy": "cdk deploy",
     "watch": "tsc -w",
+    "destroy": "cdk destroy",
     "test": "jest",
     "cdk": "cdk"
   },
