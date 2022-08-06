@@ -909,6 +909,172 @@
           "version": "2.35.0"
         }
       },
+      "AcmCdkStack": {
+        "id": "AcmCdkStack",
+        "path": "AcmCdkStack",
+        "children": {
+          "MainVpc": {
+            "id": "MainVpc",
+            "path": "AcmCdkStack/MainVpc",
+            "children": {
+              "PublicSubnet1": {
+                "id": "PublicSubnet1",
+                "path": "AcmCdkStack/MainVpc/PublicSubnet1",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.35.0"
+                }
+              },
+              "PublicSubnet2": {
+                "id": "PublicSubnet2",
+                "path": "AcmCdkStack/MainVpc/PublicSubnet2",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.35.0"
+                }
+              },
+              "PublicSubnet3": {
+                "id": "PublicSubnet3",
+                "path": "AcmCdkStack/MainVpc/PublicSubnet3",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.35.0"
+                }
+              },
+              "PrivateSubnet1": {
+                "id": "PrivateSubnet1",
+                "path": "AcmCdkStack/MainVpc/PrivateSubnet1",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.35.0"
+                }
+              },
+              "PrivateSubnet2": {
+                "id": "PrivateSubnet2",
+                "path": "AcmCdkStack/MainVpc/PrivateSubnet2",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.35.0"
+                }
+              },
+              "PrivateSubnet3": {
+                "id": "PrivateSubnet3",
+                "path": "AcmCdkStack/MainVpc/PrivateSubnet3",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.35.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.35.0"
+            }
+          },
+          "HostedZone": {
+            "id": "HostedZone",
+            "path": "AcmCdkStack/HostedZone",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "AcmCdkStack/HostedZone/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Route53::HostedZone",
+                  "aws:cdk:cloudformation:props": {
+                    "name": "camille.awesome.com.",
+                    "vpcs": [
+                      {
+                        "vpcId": "vpc-0e33f5d05150f5e8a",
+                        "vpcRegion": "ap-south-1"
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_route53.CfnHostedZone",
+                  "version": "2.35.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_route53.PrivateHostedZone",
+              "version": "2.35.0"
+            }
+          },
+          "Certificate": {
+            "id": "Certificate",
+            "path": "AcmCdkStack/Certificate",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "AcmCdkStack/Certificate/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::CertificateManager::Certificate",
+                  "aws:cdk:cloudformation:props": {
+                    "domainName": "camille.awesome.com",
+                    "domainValidationOptions": [
+                      {
+                        "domainName": "camille.awesome.com",
+                        "hostedZoneId": {
+                          "Ref": "HostedZoneDB99F866"
+                        }
+                      }
+                    ],
+                    "subjectAlternativeNames": [],
+                    "validationMethod": "DNS"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_certificatemanager.CfnCertificate",
+                  "version": "2.35.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_certificatemanager.Certificate",
+              "version": "2.35.0"
+            }
+          },
+          "domainName": {
+            "id": "domainName",
+            "path": "AcmCdkStack/domainName",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.35.0"
+            }
+          },
+          "certificateArn": {
+            "id": "certificateArn",
+            "path": "AcmCdkStack/certificateArn",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.35.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "AcmCdkStack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "AcmCdkStack/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.35.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.1.67"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.35.0"
+        }
+      },
       "RdsCdkStack": {
         "id": "RdsCdkStack",
         "path": "RdsCdkStack",
@@ -1492,7 +1658,7 @@
                           "deviceName": "/dev/xvda",
                           "ebs": {
                             "encrypted": true,
-                            "volumeSize": 10,
+                            "volumeSize": 30,
                             "volumeType": "standard"
                           }
                         }
@@ -1508,7 +1674,7 @@
                       "imageId": {
                         "Ref": "SsmParameterValueawsserviceecsoptimizedamiamazonlinux2recommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter"
                       },
-                      "instanceType": "t3.medium",
+                      "instanceType": "t3.small",
                       "securityGroupIds": [
                         "sg-0f4ac3813d0959eb3"
                       ],
@@ -1646,7 +1812,7 @@
                       },
                       "managedTerminationProtection": "ENABLED"
                     },
-                    "name": "ECSCapacityProvider"
+                    "name": "AsgCapacityProvider"
                   }
                 },
                 "constructInfo": {
@@ -1657,6 +1823,14 @@
             },
             "constructInfo": {
               "fqn": "aws-cdk-lib.aws_ecs.AsgCapacityProvider",
+              "version": "2.35.0"
+            }
+          },
+          "cluster": {
+            "id": "cluster",
+            "path": "EcsClusterCdkStack/cluster",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.35.0"
             }
           },

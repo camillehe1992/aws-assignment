@@ -131,7 +131,7 @@
        "DeviceName": "/dev/xvda",
        "Ebs": {
         "Encrypted": true,
-        "VolumeSize": 10,
+        "VolumeSize": 30,
         "VolumeType": "standard"
        }
       }
@@ -147,7 +147,7 @@
      "ImageId": {
       "Ref": "SsmParameterValueawsserviceecsoptimizedamiamazonlinux2recommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter"
      },
-     "InstanceType": "t3.medium",
+     "InstanceType": "t3.small",
      "SecurityGroupIds": [
       "sg-0f4ac3813d0959eb3"
      ],
@@ -253,7 +253,7 @@
      },
      "ManagedTerminationProtection": "ENABLED"
     },
-    "Name": "ECSCapacityProvider"
+    "Name": "AsgCapacityProvider"
    },
    "Metadata": {
     "aws:cdk:path": "EcsClusterCdkStack/AsgCapacityProvider/AsgCapacityProvider"
@@ -262,7 +262,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/2VQwU7DMAz9Fu6pYQPEueoBTeIwddyRcb3hLU2qOBmaovw7bQdClJPfe/aTn72G+0e4u8FPrag7VVbeIe8i0sm0rD4FYjP23rJgD7n1lk2zd3Pdeit0megv2jiN6Ii3we/FcjFMCrmxSSOHaeA/bHBAkngZLWfpONSqngSjeKem1sOyP1sX2rRnDfkFk6OPV+4Hi3EO+lcpBlP0SmjFHSDXI9ldyXPwaZgMS62U+UAM2PN37p+/FON8x3DU2/PqAVZP4xePKlKF5KL0DO21fgEuYW5nYQEAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/2VQwU7DMAz9Fu6pYQPEueoBISExddyRcb3hLU2qOBmaov47bTYJUU72e/aTn98a7h/h7ga/taLuWFn5hLyNSEfTsvoUiM00+8iCPeTWWzbNzpW68VboPMPf7sVpREe8CX4nlkfDpJAbmzRymBf+tw0OSBLPk+QkHYda1ZNgFO/U1Lpfzot0wc131pBfMTn6eud+sBiL0b/MaDBFr4RW3B5yPYHtBTwHn4ZZsOTGsTyIAXu++n5LcUixxHBNaDTOdwwHvT2tHmD1NOV5UJEqJBelZ2gv9Qf/8DEoawEAAA=="
    },
    "Metadata": {
     "aws:cdk:path": "EcsClusterCdkStack/CDKMetadata/Default"
@@ -278,6 +278,13 @@
    "Type": "AWS::SSM::Parameter::Value<String>",
    "Default": "/cdk-bootstrap/hnb659fds/version",
    "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Outputs": {
+  "cluster": {
+   "Value": {
+    "Ref": "ClusterEB0386A7"
+   }
   }
  },
  "Rules": {
