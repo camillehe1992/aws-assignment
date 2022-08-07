@@ -559,7 +559,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-deploy-role-824709318323-ap-south-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-cfn-exec-role-824709318323-ap-south-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-824709318323-ap-south-1/60a422c73609fcb840abf183a298745de805d70de4a46f75c25b70d46209bfa5.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-824709318323-ap-south-1/42945c64cc8b824b7fe5dfe9ade1069f17f4b139caf0b7676b54f373f01be277.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -621,6 +621,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "targetGroupD9C5A146"
+          }
+        ],
+        "/SharedCdkStack/AliasRecord/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AliasRecord851000D2"
           }
         ],
         "/SharedCdkStack/albDNS": [

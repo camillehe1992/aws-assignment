@@ -171,10 +171,43 @@
     "aws:cdk:path": "SharedCdkStack/targetGroup/Resource"
    }
   },
+  "AliasRecord851000D2": {
+   "Type": "AWS::Route53::RecordSet",
+   "Properties": {
+    "Name": "camille-ap-south-1-dev.camille.demo.com.",
+    "Type": "A",
+    "AliasTarget": {
+     "DNSName": {
+      "Fn::Join": [
+       "",
+       [
+        "dualstack.",
+        {
+         "Fn::GetAtt": [
+          "alb8A8B13C2",
+          "DNSName"
+         ]
+        }
+       ]
+      ]
+     },
+     "HostedZoneId": {
+      "Fn::GetAtt": [
+       "alb8A8B13C2",
+       "CanonicalHostedZoneID"
+      ]
+     }
+    },
+    "HostedZoneId": "Z0014108131UB8Y0YLZDI"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SharedCdkStack/AliasRecord/Resource"
+   }
+  },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WPzQ6CMBCEn8V7qYIaz+rBmJiYgHdTykoWatu0W4whvLuAkuBpZ/ab7E/C11u+WoiXj2RRRwpz3mYkZM1S8CY4Caxn9xZkwo8PnYEMDul9cibYsy4deM9ACU8olRFFLpTQEnXZJLzdW6tQCkKjLz07jAwc6+f8+XkOPYH+ZSY94zfhSqBx+xCZ2a4bGtdANtCgpvM7pk0BvPLLJt7weNc/W3nEyAVN+ASefusHB3xNpggBAAA="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WQwWrDMAyGn2V3R12Slp23HUahUEh6L66iBbWeHWw5pYS8e502G9nF8sf3IyEVUG7g9UVfQ4bNJTN8gqEWjRdVUXDRI6nkjgNhAZ/ftiaMnuX25V3strb1FIIio4MwGqebkzbaItu2L2B47zrDqIWd3SX38XDkVerzj5c5DkJ2zvz+F/6gfUvymD5FFjiq9AptShgqQuebmmSK/ME4TriP0sVZPPcblXUNwTms+nwN+Vu6xjkwZz5a4R+C6lnvUgs+2ikBAAA="
    },
    "Metadata": {
     "aws:cdk:path": "SharedCdkStack/CDKMetadata/Default"

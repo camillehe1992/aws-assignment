@@ -70,5 +70,9 @@
   "security-group:account=824709318323:region=ap-south-1:securityGroupName=web-server-sg:vpcId=vpc-0e33f5d05150f5e8a": {
     "securityGroupId": "sg-03ad584c72ecd6ba0",
     "allowAllOutbound": false
+  },
+  "hosted-zone:account=824709318323:domainName=camille.demo.com:privateZone=true:region=ap-south-1:vpcId=vpc-0e33f5d05150f5e8a": {
+    "Id": "/hostedzone/Z0014108131UB8Y0YLZDI",
+    "Name": "camille.demo.com."
   }
 }

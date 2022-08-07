@@ -2204,6 +2204,62 @@
               "version": "2.35.0"
             }
           },
+          "PrivateHostedZone": {
+            "id": "PrivateHostedZone",
+            "path": "SharedCdkStack/PrivateHostedZone",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.35.0"
+            }
+          },
+          "AliasRecord": {
+            "id": "AliasRecord",
+            "path": "SharedCdkStack/AliasRecord",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "SharedCdkStack/AliasRecord/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Route53::RecordSet",
+                  "aws:cdk:cloudformation:props": {
+                    "name": "camille-ap-south-1-dev.camille.demo.com.",
+                    "type": "A",
+                    "aliasTarget": {
+                      "hostedZoneId": {
+                        "Fn::GetAtt": [
+                          "alb8A8B13C2",
+                          "CanonicalHostedZoneID"
+                        ]
+                      },
+                      "dnsName": {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "dualstack.",
+                            {
+                              "Fn::GetAtt": [
+                                "alb8A8B13C2",
+                                "DNSName"
+                              ]
+                            }
+                          ]
+                        ]
+                      }
+                    },
+                    "hostedZoneId": "Z0014108131UB8Y0YLZDI"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_route53.CfnRecordSet",
+                  "version": "2.35.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_route53.RecordSet",
+              "version": "2.35.0"
+            }
+          },
           "albDNS": {
             "id": "albDNS",
             "path": "SharedCdkStack/albDNS",

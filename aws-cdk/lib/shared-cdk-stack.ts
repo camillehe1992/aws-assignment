@@ -2,6 +2,8 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as elbv2 from 'aws-cdk-lib/aws-elasticloadbalancingv2';
+import * as route53 from 'aws-cdk-lib/aws-route53';
+import * as targets from 'aws-cdk-lib/aws-route53-targets';
 
 import conf from '../config/app.conf';
 
@@ -68,6 +70,21 @@ export class SharedCdkStack extends cdk.Stack {
       }),
       port: 80,
       protocol: elbv2.ApplicationProtocol.HTTP
+    });
+
+    // Route53 record that points to ALB
+    const zone = route53.HostedZone.fromLookup(this, 'PrivateHostedZone', {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      domainName: conf.hostedZoneName!,
+      privateZone: true,
+      vpcId: vpc.vpcId
+    });
+
+    new route53.RecordSet(this, 'AliasRecord', {
+      recordType: route53.RecordType.A,
+      zone,
+      recordName: `${conf.appName}-${conf.region}-${conf.environment}`,
+      target: route53.RecordTarget.fromAlias(new targets.LoadBalancerTarget(alb))
     });
 
     // 👇 add the ALB DNS as an Output
