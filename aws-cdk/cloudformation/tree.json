@@ -1875,6 +1875,14 @@
         "id": "SharedCdkStack",
         "path": "SharedCdkStack",
         "children": {
+          "DeploymentTable": {
+            "id": "DeploymentTable",
+            "path": "SharedCdkStack/DeploymentTable",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnMapping",
+              "version": "2.35.0"
+            }
+          },
           "MainVpc": {
             "id": "MainVpc",
             "path": "SharedCdkStack/MainVpc",

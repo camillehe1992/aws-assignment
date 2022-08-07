@@ -10,6 +10,19 @@ import conf from '../config/app.conf';
 export class SharedCdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
+
+    // Mappings
+    const deploymentTable = new cdk.CfnMapping(this, 'DeploymentTable', {
+      mapping: {
+        'active': {
+          AlbPort: 443,
+        },
+        'passive': {
+          AlbPort: 8443,
+        }
+      },
+      lazy: true
+    });
     
     // 👇 import VPC by Name
     const vpc = ec2.Vpc.fromLookup(this, 'MainVpc', {
@@ -52,14 +65,14 @@ export class SharedCdkStack extends cdk.Stack {
     alb.addListener('activeListener', {
       certificates: [listenerCertificate],
       defaultAction: elbv2.ListenerAction.forward([targetGroup]),
-      port: 443,
+      port: parseInt(deploymentTable.findInMap('active', 'AlbPort')),
       protocol: elbv2.ApplicationProtocol.HTTPS
     });
 
     alb.addListener('passiveListener', {
       certificates: [listenerCertificate],
       defaultAction: elbv2.ListenerAction.forward([targetGroup]),
-      port: 8443,
+      port: parseInt(deploymentTable.findInMap('passive', 'AlbPort')),
       protocol: elbv2.ApplicationProtocol.HTTPS
     });
 
