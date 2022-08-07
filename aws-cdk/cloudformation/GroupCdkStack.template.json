@@ -1,0 +1,275 @@
+{
+ "Resources": {
+  "SGfromGroupCdkStackApplicationListenerSecurityGroupsg1234567890129F56A9933276865535BB8F9120": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "IpProtocol": "tcp",
+    "Description": "Load balancer to target",
+    "FromPort": 32768,
+    "GroupId": "sg-0f4ac3813d0959eb3",
+    "SourceSecurityGroupId": "sg-12345",
+    "ToPort": 65535
+   },
+   "Metadata": {
+    "aws:cdk:path": "GroupCdkStack/SG/from GroupCdkStackApplicationListenerSecurityGroupsg1234567890129F56A993:32768-65535"
+   }
+  },
+  "SGfromGroupCdkStackPassiveApplicationListenerSecurityGroupsg1234567890122C729B213276865535AB1F1327": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "IpProtocol": "tcp",
+    "Description": "Load balancer to target",
+    "FromPort": 32768,
+    "GroupId": "sg-0f4ac3813d0959eb3",
+    "SourceSecurityGroupId": "sg-12345",
+    "ToPort": 65535
+   },
+   "Metadata": {
+    "aws:cdk:path": "GroupCdkStack/SG/from GroupCdkStackPassiveApplicationListenerSecurityGroupsg1234567890122C729B21:32768-65535"
+   }
+  },
+  "TaskDefinitionTaskRoleFD40A61D": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "GroupCdkStack/TaskDefinition/TaskRole/Resource"
+   }
+  },
+  "TaskDefinitionB36D86D9": {
+   "Type": "AWS::ECS::TaskDefinition",
+   "Properties": {
+    "ContainerDefinitions": [
+     {
+      "Cpu": 128,
+      "Essential": true,
+      "Image": "/aws/aws-example-app",
+      "Memory": 512,
+      "Name": "ContainerDefinition",
+      "PortMappings": [
+       {
+        "ContainerPort": 0,
+        "HostPort": 0,
+        "Protocol": "tcp"
+       }
+      ],
+      "VolumesFrom": [
+       {
+        "ReadOnly": false,
+        "SourceContainer": "container-volume"
+       }
+      ]
+     }
+    ],
+    "Cpu": "128",
+    "Family": "camille-dev-g1",
+    "Memory": "512",
+    "NetworkMode": "bridge",
+    "RequiresCompatibilities": [
+     "EC2"
+    ],
+    "TaskRoleArn": {
+     "Fn::GetAtt": [
+      "TaskDefinitionTaskRoleFD40A61D",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "GroupCdkStack/TaskDefinition/Resource"
+   }
+  },
+  "ApplicationTargetGroup39BF8D27": {
+   "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+   "Properties": {
+    "HealthCheckEnabled": true,
+    "HealthCheckIntervalSeconds": 5,
+    "HealthCheckPath": "/health",
+    "HealthCheckPort": "traffic-port",
+    "HealthCheckProtocol": "HTTP",
+    "HealthCheckTimeoutSeconds": 3,
+    "HealthyThresholdCount": 10,
+    "Matcher": {
+     "HttpCode": "200"
+    },
+    "Name": "camille-dev-g1",
+    "Port": 443,
+    "Protocol": "HTTPS",
+    "TargetGroupAttributes": [
+     {
+      "Key": "deregistration_delay.timeout_seconds",
+      "Value": "300"
+     },
+     {
+      "Key": "stickiness.enabled",
+      "Value": "false"
+     }
+    ],
+    "TargetType": "instance",
+    "UnhealthyThresholdCount": 3,
+    "VpcId": "vpc-0e33f5d05150f5e8a"
+   },
+   "Metadata": {
+    "aws:cdk:path": "GroupCdkStack/ApplicationTargetGroup/Resource"
+   }
+  },
+  "Ec2Service04A33183": {
+   "Type": "AWS::ECS::Service",
+   "Properties": {
+    "Cluster": "MY-FIRST-ECS-CLUSTER",
+    "DeploymentConfiguration": {
+     "MaximumPercent": 200,
+     "MinimumHealthyPercent": 50
+    },
+    "DeploymentController": {
+     "Type": "ECS"
+    },
+    "DesiredCount": 1,
+    "EnableECSManagedTags": false,
+    "HealthCheckGracePeriodSeconds": 60,
+    "LaunchType": "EC2",
+    "LoadBalancers": [
+     {
+      "ContainerName": "ContainerDefinition",
+      "ContainerPort": 0,
+      "TargetGroupArn": {
+       "Ref": "ApplicationTargetGroup39BF8D27"
+      }
+     }
+    ],
+    "SchedulingStrategy": "REPLICA",
+    "ServiceName": "camille-dev-g1",
+    "TaskDefinition": {
+     "Ref": "TaskDefinitionB36D86D9"
+    }
+   },
+   "DependsOn": [
+    "ListenerRule73F9AC5E",
+    "PassiveListenerRule67327952"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "GroupCdkStack/Ec2Service/Service"
+   }
+  },
+  "ListenerRule73F9AC5E": {
+   "Type": "AWS::ElasticLoadBalancingV2::ListenerRule",
+   "Properties": {
+    "Actions": [
+     {
+      "TargetGroupArn": {
+       "Ref": "ApplicationTargetGroup39BF8D27"
+      },
+      "Type": "forward"
+     }
+    ],
+    "Conditions": [
+     {
+      "Field": "path-pattern",
+      "PathPatternConfig": {
+       "Values": [
+        "*"
+       ]
+      }
+     }
+    ],
+    "ListenerArn": "arn:aws:elasticloadbalancing:us-west-2:123456789012:listener/application/my-load-balancer/50dc6c495c0c9188/f2f7dc8efc522ab2",
+    "Priority": 30
+   },
+   "Metadata": {
+    "aws:cdk:path": "GroupCdkStack/ListenerRule/Resource"
+   }
+  },
+  "PassiveListenerRule67327952": {
+   "Type": "AWS::ElasticLoadBalancingV2::ListenerRule",
+   "Properties": {
+    "Actions": [
+     {
+      "TargetGroupArn": {
+       "Ref": "ApplicationTargetGroup39BF8D27"
+      },
+      "Type": "forward"
+     }
+    ],
+    "Conditions": [
+     {
+      "Field": "path-pattern",
+      "PathPatternConfig": {
+       "Values": [
+        "*"
+       ]
+      }
+     },
+     {
+      "Field": "http-header",
+      "HttpHeaderConfig": {
+       "HttpHeaderName": "X-Forword-To-Passive",
+       "Values": [
+        "true"
+       ]
+      }
+     }
+    ],
+    "ListenerArn": "arn:aws:elasticloadbalancing:us-west-2:123456789012:listener/application/my-load-balancer/50dc6c495c0c9188/f2f7dc8efc522ab2",
+    "Priority": 20
+   },
+   "Metadata": {
+    "aws:cdk:path": "GroupCdkStack/PassiveListenerRule/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/11QwU7DMAz9Fu5pYB2IMwKEkNil3R15qVd5zZIoTopQlH8nTZGoOD372Xrv2a3cP8i7G/jiRg1To+kkUx9ATeL5bA7gHJlRdMg2eoWirH0mVK0swx5V9BS+37yN7t2MHpkFKpbpCDy94JkMBbJmEfrPWBOADPoN96raHv1MxaWK1zILgqtMndWVXTAL1MCBlLYwnECDUSXi3Mr05JwmBYvaEfyIoSZb7f/azdYHccCSoour/LbPuRr+Hp6FsQPKC9/Ou3u5eywfuzBR46MJdEXZrfgDa5b5gE0BAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "GroupCdkStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

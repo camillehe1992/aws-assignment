@@ -9,5 +9,9 @@ export default {
   ec2InstanceRoleName: process.env.EC2_INSTANCE_ROLE_NAME,
   ecsClusterName: process.env.ECS_CLUSTER_NAME,
   ec2InstanceType: process.env.ECS_INSTANCE_TYPE,
-  certArn: process.env.CERTIFICATE_ARN
+  certArn: process.env.CERTIFICATE_ARN,
+  taskCpu: process.env.TASK_CPU,
+  taskMemoryMiB: process.env.TASK_MEMORY,
+  groupId: process.env.GROUP_ID,
+  containerCount: process.env.CONTAINER_COUNT
 };

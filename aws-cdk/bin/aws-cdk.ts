@@ -6,6 +6,7 @@ import { HostedZoneCdkStack } from '../lib/hostzone-cdk-stack';
 import { RdsCdkStack } from '../lib/rds-cdk-stack';
 import { EcsClusterCdkStack } from '../lib/ecs-cluster-cdk-stack';
 import { SharedCdkStack } from '../lib/shared-cdk-stack';
+import { GroupCdkStack } from '../lib/group-cdk-stack';
 
 import conf from '../config/app.conf';
 
@@ -21,3 +22,4 @@ new HostedZoneCdkStack(app, 'HostedZoneCdkStack', { env });
 new RdsCdkStack(app, 'RdsCdkStack', { env });
 new EcsClusterCdkStack(app, 'EcsClusterCdkStack', { env });
 new SharedCdkStack(app, 'SharedCdkStack', { env });
+new GroupCdkStack(app, 'GroupCdkStack', { env });

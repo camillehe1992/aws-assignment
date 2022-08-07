@@ -12,7 +12,7 @@ export class SharedCdkStack extends cdk.Stack {
     super(scope, id, props);
 
     // Mappings
-    const deploymentTable = new cdk.CfnMapping(this, 'DeploymentTable', {
+    const deploymentMapping = new cdk.CfnMapping(this, 'deploymentMapping', {
       mapping: {
         'active': {
           AlbPort: 443,
@@ -65,14 +65,14 @@ export class SharedCdkStack extends cdk.Stack {
     alb.addListener('activeListener', {
       certificates: [listenerCertificate],
       defaultAction: elbv2.ListenerAction.forward([targetGroup]),
-      port: parseInt(deploymentTable.findInMap('active', 'AlbPort')),
+      port: parseInt(deploymentMapping.findInMap('active', 'AlbPort')),
       protocol: elbv2.ApplicationProtocol.HTTPS
     });
 
     alb.addListener('passiveListener', {
       certificates: [listenerCertificate],
       defaultAction: elbv2.ListenerAction.forward([targetGroup]),
-      port: parseInt(deploymentTable.findInMap('passive', 'AlbPort')),
+      port: parseInt(deploymentMapping.findInMap('passive', 'AlbPort')),
       protocol: elbv2.ApplicationProtocol.HTTPS
     });
 

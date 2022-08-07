@@ -1875,9 +1875,9 @@
         "id": "SharedCdkStack",
         "path": "SharedCdkStack",
         "children": {
-          "DeploymentTable": {
-            "id": "DeploymentTable",
-            "path": "SharedCdkStack/DeploymentTable",
+          "deploymentMapping": {
+            "id": "deploymentMapping",
+            "path": "SharedCdkStack/deploymentMapping",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnMapping",
               "version": "2.35.0"
@@ -2283,6 +2283,494 @@
               "Default": {
                 "id": "Default",
                 "path": "SharedCdkStack/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.35.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.1.67"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.35.0"
+        }
+      },
+      "GroupCdkStack": {
+        "id": "GroupCdkStack",
+        "path": "GroupCdkStack",
+        "children": {
+          "deploymentMapping": {
+            "id": "deploymentMapping",
+            "path": "GroupCdkStack/deploymentMapping",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnMapping",
+              "version": "2.35.0"
+            }
+          },
+          "validationMapping": {
+            "id": "validationMapping",
+            "path": "GroupCdkStack/validationMapping",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnMapping",
+              "version": "2.35.0"
+            }
+          },
+          "MainVpc": {
+            "id": "MainVpc",
+            "path": "GroupCdkStack/MainVpc",
+            "children": {
+              "PublicSubnet1": {
+                "id": "PublicSubnet1",
+                "path": "GroupCdkStack/MainVpc/PublicSubnet1",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.35.0"
+                }
+              },
+              "PublicSubnet2": {
+                "id": "PublicSubnet2",
+                "path": "GroupCdkStack/MainVpc/PublicSubnet2",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.35.0"
+                }
+              },
+              "PublicSubnet3": {
+                "id": "PublicSubnet3",
+                "path": "GroupCdkStack/MainVpc/PublicSubnet3",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.35.0"
+                }
+              },
+              "PrivateSubnet1": {
+                "id": "PrivateSubnet1",
+                "path": "GroupCdkStack/MainVpc/PrivateSubnet1",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.35.0"
+                }
+              },
+              "PrivateSubnet2": {
+                "id": "PrivateSubnet2",
+                "path": "GroupCdkStack/MainVpc/PrivateSubnet2",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.35.0"
+                }
+              },
+              "PrivateSubnet3": {
+                "id": "PrivateSubnet3",
+                "path": "GroupCdkStack/MainVpc/PrivateSubnet3",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.35.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.35.0"
+            }
+          },
+          "SG": {
+            "id": "SG",
+            "path": "GroupCdkStack/SG",
+            "children": {
+              "from GroupCdkStackApplicationListenerSecurityGroupsg1234567890129F56A993:32768-65535": {
+                "id": "from GroupCdkStackApplicationListenerSecurityGroupsg1234567890129F56A993:32768-65535",
+                "path": "GroupCdkStack/SG/from GroupCdkStackApplicationListenerSecurityGroupsg1234567890129F56A993:32768-65535",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupIngress",
+                  "aws:cdk:cloudformation:props": {
+                    "ipProtocol": "tcp",
+                    "description": "Load balancer to target",
+                    "fromPort": 32768,
+                    "groupId": "sg-0f4ac3813d0959eb3",
+                    "sourceSecurityGroupId": "sg-12345",
+                    "toPort": 65535
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupIngress",
+                  "version": "2.35.0"
+                }
+              },
+              "from GroupCdkStackPassiveApplicationListenerSecurityGroupsg1234567890122C729B21:32768-65535": {
+                "id": "from GroupCdkStackPassiveApplicationListenerSecurityGroupsg1234567890122C729B21:32768-65535",
+                "path": "GroupCdkStack/SG/from GroupCdkStackPassiveApplicationListenerSecurityGroupsg1234567890122C729B21:32768-65535",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupIngress",
+                  "aws:cdk:cloudformation:props": {
+                    "ipProtocol": "tcp",
+                    "description": "Load balancer to target",
+                    "fromPort": 32768,
+                    "groupId": "sg-0f4ac3813d0959eb3",
+                    "sourceSecurityGroupId": "sg-12345",
+                    "toPort": 65535
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupIngress",
+                  "version": "2.35.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.35.0"
+            }
+          },
+          "Cluster": {
+            "id": "Cluster",
+            "path": "GroupCdkStack/Cluster",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.35.0"
+            }
+          },
+          "TaskDefinition": {
+            "id": "TaskDefinition",
+            "path": "GroupCdkStack/TaskDefinition",
+            "children": {
+              "TaskRole": {
+                "id": "TaskRole",
+                "path": "GroupCdkStack/TaskDefinition/TaskRole",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "GroupCdkStack/TaskDefinition/TaskRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "ecs-tasks.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.35.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.35.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "GroupCdkStack/TaskDefinition/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ECS::TaskDefinition",
+                  "aws:cdk:cloudformation:props": {
+                    "containerDefinitions": [
+                      {
+                        "cpu": 128,
+                        "essential": true,
+                        "image": "/aws/aws-example-app",
+                        "memory": 512,
+                        "name": "ContainerDefinition",
+                        "portMappings": [
+                          {
+                            "containerPort": 0,
+                            "hostPort": 0,
+                            "protocol": "tcp"
+                          }
+                        ],
+                        "volumesFrom": [
+                          {
+                            "sourceContainer": "container-volume",
+                            "readOnly": false
+                          }
+                        ]
+                      }
+                    ],
+                    "cpu": "128",
+                    "family": "camille-dev-g1",
+                    "memory": "512",
+                    "networkMode": "bridge",
+                    "requiresCompatibilities": [
+                      "EC2"
+                    ],
+                    "taskRoleArn": {
+                      "Fn::GetAtt": [
+                        "TaskDefinitionTaskRoleFD40A61D",
+                        "Arn"
+                      ]
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.CfnTaskDefinition",
+                  "version": "2.35.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ecs.TaskDefinition",
+              "version": "2.35.0"
+            }
+          },
+          "ContainerDefinition": {
+            "id": "ContainerDefinition",
+            "path": "GroupCdkStack/ContainerDefinition",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ecs.ContainerDefinition",
+              "version": "2.35.0"
+            }
+          },
+          "ApplicationTargetGroup": {
+            "id": "ApplicationTargetGroup",
+            "path": "GroupCdkStack/ApplicationTargetGroup",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "GroupCdkStack/ApplicationTargetGroup/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "healthCheckEnabled": true,
+                    "healthCheckIntervalSeconds": 5,
+                    "healthCheckPath": "/health",
+                    "healthCheckPort": "traffic-port",
+                    "healthCheckProtocol": "HTTP",
+                    "healthCheckTimeoutSeconds": 3,
+                    "healthyThresholdCount": 10,
+                    "matcher": {
+                      "httpCode": "200"
+                    },
+                    "name": "camille-dev-g1",
+                    "port": 443,
+                    "protocol": "HTTPS",
+                    "targetGroupAttributes": [
+                      {
+                        "key": "deregistration_delay.timeout_seconds",
+                        "value": "300"
+                      },
+                      {
+                        "key": "stickiness.enabled",
+                        "value": "false"
+                      }
+                    ],
+                    "targetType": "instance",
+                    "unhealthyThresholdCount": 3,
+                    "vpcId": "vpc-0e33f5d05150f5e8a"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnTargetGroup",
+                  "version": "2.35.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationTargetGroup",
+              "version": "2.35.0"
+            }
+          },
+          "Ec2Service": {
+            "id": "Ec2Service",
+            "path": "GroupCdkStack/Ec2Service",
+            "children": {
+              "Service": {
+                "id": "Service",
+                "path": "GroupCdkStack/Ec2Service/Service",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ECS::Service",
+                  "aws:cdk:cloudformation:props": {
+                    "cluster": "MY-FIRST-ECS-CLUSTER",
+                    "deploymentConfiguration": {
+                      "maximumPercent": 200,
+                      "minimumHealthyPercent": 50
+                    },
+                    "deploymentController": {
+                      "type": "ECS"
+                    },
+                    "desiredCount": 1,
+                    "enableEcsManagedTags": false,
+                    "healthCheckGracePeriodSeconds": 60,
+                    "launchType": "EC2",
+                    "loadBalancers": [
+                      {
+                        "targetGroupArn": {
+                          "Ref": "ApplicationTargetGroup39BF8D27"
+                        },
+                        "containerName": "ContainerDefinition",
+                        "containerPort": 0
+                      }
+                    ],
+                    "schedulingStrategy": "REPLICA",
+                    "serviceName": "camille-dev-g1",
+                    "taskDefinition": {
+                      "Ref": "TaskDefinitionB36D86D9"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.CfnService",
+                  "version": "2.35.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ecs.Ec2Service",
+              "version": "2.35.0"
+            }
+          },
+          "ApplicationListener": {
+            "id": "ApplicationListener",
+            "path": "GroupCdkStack/ApplicationListener",
+            "children": {
+              "SecurityGroup-sg-123456789012": {
+                "id": "SecurityGroup-sg-123456789012",
+                "path": "GroupCdkStack/ApplicationListener/SecurityGroup-sg-123456789012",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.35.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.35.0"
+            }
+          },
+          "ListenerRule": {
+            "id": "ListenerRule",
+            "path": "GroupCdkStack/ListenerRule",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "GroupCdkStack/ListenerRule/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::ListenerRule",
+                  "aws:cdk:cloudformation:props": {
+                    "actions": [
+                      {
+                        "type": "forward",
+                        "targetGroupArn": {
+                          "Ref": "ApplicationTargetGroup39BF8D27"
+                        }
+                      }
+                    ],
+                    "conditions": [
+                      {
+                        "field": "path-pattern",
+                        "pathPatternConfig": {
+                          "values": [
+                            "*"
+                          ]
+                        }
+                      }
+                    ],
+                    "listenerArn": "arn:aws:elasticloadbalancing:us-west-2:123456789012:listener/application/my-load-balancer/50dc6c495c0c9188/f2f7dc8efc522ab2",
+                    "priority": 30
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnListenerRule",
+                  "version": "2.35.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListenerRule",
+              "version": "2.35.0"
+            }
+          },
+          "PassiveApplicationListener": {
+            "id": "PassiveApplicationListener",
+            "path": "GroupCdkStack/PassiveApplicationListener",
+            "children": {
+              "SecurityGroup-sg-123456789012": {
+                "id": "SecurityGroup-sg-123456789012",
+                "path": "GroupCdkStack/PassiveApplicationListener/SecurityGroup-sg-123456789012",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.35.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.35.0"
+            }
+          },
+          "PassiveListenerRule": {
+            "id": "PassiveListenerRule",
+            "path": "GroupCdkStack/PassiveListenerRule",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "GroupCdkStack/PassiveListenerRule/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::ListenerRule",
+                  "aws:cdk:cloudformation:props": {
+                    "actions": [
+                      {
+                        "type": "forward",
+                        "targetGroupArn": {
+                          "Ref": "ApplicationTargetGroup39BF8D27"
+                        }
+                      }
+                    ],
+                    "conditions": [
+                      {
+                        "field": "path-pattern",
+                        "pathPatternConfig": {
+                          "values": [
+                            "*"
+                          ]
+                        }
+                      },
+                      {
+                        "field": "http-header",
+                        "httpHeaderConfig": {
+                          "httpHeaderName": "X-Forword-To-Passive",
+                          "values": [
+                            "true"
+                          ]
+                        }
+                      }
+                    ],
+                    "listenerArn": "arn:aws:elasticloadbalancing:us-west-2:123456789012:listener/application/my-load-balancer/50dc6c495c0c9188/f2f7dc8efc522ab2",
+                    "priority": 20
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnListenerRule",
+                  "version": "2.35.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListenerRule",
+              "version": "2.35.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "GroupCdkStack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "GroupCdkStack/CDKMetadata/Default",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnResource",
                   "version": "2.35.0"

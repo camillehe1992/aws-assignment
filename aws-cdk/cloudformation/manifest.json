@@ -575,10 +575,10 @@
         "SharedCdkStack.assets"
       ],
       "metadata": {
-        "/SharedCdkStack/DeploymentTable": [
+        "/SharedCdkStack/deploymentMapping": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "DeploymentTable"
+            "data": "deploymentMapping"
           }
         ],
         "/SharedCdkStack/SG/from 0.0.0.0_0:443": [
@@ -661,6 +661,272 @@
         ]
       },
       "displayName": "SharedCdkStack"
+    },
+    "GroupCdkStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "GroupCdkStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "GroupCdkStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://824709318323/ap-south-1",
+      "properties": {
+        "templateFile": "GroupCdkStack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-deploy-role-824709318323-ap-south-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-cfn-exec-role-824709318323-ap-south-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-824709318323-ap-south-1/fb67606550e464d4d3bc795afaeebc87a8178506fce7cf4c3eec7fdad85102c3.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "GroupCdkStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-lookup-role-824709318323-ap-south-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "GroupCdkStack.assets"
+      ],
+      "metadata": {
+        "/GroupCdkStack": [
+          {
+            "type": "aws:cdk:error",
+            "data": "'camille-dev-active-listener' is not a valid listener ARN",
+            "trace": [
+              "Annotations.addMessage (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\aws-cdk-lib\\core\\lib\\annotations.js:1:1213)",
+              "Annotations.addError (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\aws-cdk-lib\\core\\lib\\annotations.js:1:765)",
+              "Function.getValue (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\aws-cdk-lib\\core\\lib\\context-provider.js:2:1160)",
+              "Function._queryContextProvider (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\aws-cdk-lib\\aws-elasticloadbalancingv2\\lib\\shared\\base-listener.js:1:1247)",
+              "Function.fromLookup (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\aws-cdk-lib\\aws-elasticloadbalancingv2\\lib\\alb\\application-listener.js:1:3340)",
+              "new GroupCdkStack (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\lib\\group-cdk-stack.ts:111:43)",
+              "Object.<anonymous> (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\bin\\aws-cdk.ts:25:1)",
+              "Module._compile (internal/modules/cjs/loader.js:1068:30)",
+              "Module.m._compile (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\ts-node\\src\\index.ts:1618:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\ts-node\\src\\index.ts:1621:12)",
+              "Module.load (internal/modules/cjs/loader.js:933:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:774:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "phase4 (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\ts-node\\src\\bin.ts:649:14)",
+              "bootstrap (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\ts-node\\src\\bin.ts:95:10)",
+              "main (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\ts-node\\src\\bin.ts:55:10)",
+              "Object.<anonymous> (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\ts-node\\src\\bin.ts:800:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1068:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:933:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:774:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "internal/main/run_main_module.js:17:47"
+            ]
+          },
+          {
+            "type": "aws:cdk:error",
+            "data": "'camille-dev-active-listener' is not a valid listener ARN",
+            "trace": [
+              "Annotations.addMessage (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\aws-cdk-lib\\core\\lib\\annotations.js:1:1213)",
+              "Annotations.addError (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\aws-cdk-lib\\core\\lib\\annotations.js:1:765)",
+              "Function.getValue (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\aws-cdk-lib\\core\\lib\\context-provider.js:2:1160)",
+              "Function._queryContextProvider (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\aws-cdk-lib\\aws-elasticloadbalancingv2\\lib\\shared\\base-listener.js:1:1247)",
+              "Function.fromLookup (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\aws-cdk-lib\\aws-elasticloadbalancingv2\\lib\\alb\\application-listener.js:1:3340)",
+              "new GroupCdkStack (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\lib\\group-cdk-stack.ts:122:43)",
+              "Object.<anonymous> (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\bin\\aws-cdk.ts:25:1)",
+              "Module._compile (internal/modules/cjs/loader.js:1068:30)",
+              "Module.m._compile (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\ts-node\\src\\index.ts:1618:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\ts-node\\src\\index.ts:1621:12)",
+              "Module.load (internal/modules/cjs/loader.js:933:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:774:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "phase4 (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\ts-node\\src\\bin.ts:649:14)",
+              "bootstrap (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\ts-node\\src\\bin.ts:95:10)",
+              "main (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\ts-node\\src\\bin.ts:55:10)",
+              "Object.<anonymous> (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\ts-node\\src\\bin.ts:800:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1068:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:933:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:774:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "internal/main/run_main_module.js:17:47"
+            ]
+          }
+        ],
+        "/GroupCdkStack/deploymentMapping": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "deploymentMapping"
+          }
+        ],
+        "/GroupCdkStack/validationMapping": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "validationMapping"
+          }
+        ],
+        "/GroupCdkStack/SG/from GroupCdkStackApplicationListenerSecurityGroupsg1234567890129F56A993:32768-65535": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SGfromGroupCdkStackApplicationListenerSecurityGroupsg1234567890129F56A9933276865535BB8F9120"
+          }
+        ],
+        "/GroupCdkStack/SG/from GroupCdkStackPassiveApplicationListenerSecurityGroupsg1234567890122C729B21:32768-65535": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SGfromGroupCdkStackPassiveApplicationListenerSecurityGroupsg1234567890122C729B213276865535AB1F1327"
+          }
+        ],
+        "/GroupCdkStack/TaskDefinition/TaskRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TaskDefinitionTaskRoleFD40A61D"
+          }
+        ],
+        "/GroupCdkStack/TaskDefinition/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TaskDefinitionB36D86D9"
+          }
+        ],
+        "/GroupCdkStack/ApplicationTargetGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApplicationTargetGroup39BF8D27"
+          }
+        ],
+        "/GroupCdkStack/Ec2Service/Service": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Ec2Service04A33183"
+          }
+        ],
+        "/GroupCdkStack/ApplicationListener": [
+          {
+            "type": "aws:cdk:error",
+            "data": "Invalid id: \"sg-123456789012\"",
+            "trace": [
+              "Annotations.addMessage (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\aws-cdk-lib\\core\\lib\\annotations.js:1:1213)",
+              "Annotations.addError (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\aws-cdk-lib\\core\\lib\\annotations.js:1:765)",
+              "Function.getValue (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\aws-cdk-lib\\core\\lib\\context-provider.js:2:1160)",
+              "Function.fromLookupAttributes (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\security-group.js:1:5529)",
+              "Function.fromLookupById (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\security-group.js:1:3845)",
+              "new LookedUpApplicationListener (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\aws-cdk-lib\\aws-elasticloadbalancingv2\\lib\\alb\\application-listener.js:1:10861)",
+              "Function.fromLookup (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\aws-cdk-lib\\aws-elasticloadbalancingv2\\lib\\alb\\application-listener.js:1:3502)",
+              "new GroupCdkStack (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\lib\\group-cdk-stack.ts:111:43)",
+              "Object.<anonymous> (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\bin\\aws-cdk.ts:25:1)",
+              "Module._compile (internal/modules/cjs/loader.js:1068:30)",
+              "Module.m._compile (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\ts-node\\src\\index.ts:1618:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\ts-node\\src\\index.ts:1621:12)",
+              "Module.load (internal/modules/cjs/loader.js:933:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:774:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "phase4 (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\ts-node\\src\\bin.ts:649:14)",
+              "bootstrap (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\ts-node\\src\\bin.ts:95:10)",
+              "main (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\ts-node\\src\\bin.ts:55:10)",
+              "Object.<anonymous> (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\ts-node\\src\\bin.ts:800:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1068:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:933:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:774:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "internal/main/run_main_module.js:17:47"
+            ]
+          }
+        ],
+        "/GroupCdkStack/ListenerRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ListenerRule73F9AC5E"
+          }
+        ],
+        "/GroupCdkStack/PassiveApplicationListener": [
+          {
+            "type": "aws:cdk:error",
+            "data": "Invalid id: \"sg-123456789012\"",
+            "trace": [
+              "Annotations.addMessage (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\aws-cdk-lib\\core\\lib\\annotations.js:1:1213)",
+              "Annotations.addError (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\aws-cdk-lib\\core\\lib\\annotations.js:1:765)",
+              "Function.getValue (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\aws-cdk-lib\\core\\lib\\context-provider.js:2:1160)",
+              "Function.fromLookupAttributes (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\security-group.js:1:5529)",
+              "Function.fromLookupById (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\security-group.js:1:3845)",
+              "new LookedUpApplicationListener (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\aws-cdk-lib\\aws-elasticloadbalancingv2\\lib\\alb\\application-listener.js:1:10861)",
+              "Function.fromLookup (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\aws-cdk-lib\\aws-elasticloadbalancingv2\\lib\\alb\\application-listener.js:1:3502)",
+              "new GroupCdkStack (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\lib\\group-cdk-stack.ts:122:43)",
+              "Object.<anonymous> (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\bin\\aws-cdk.ts:25:1)",
+              "Module._compile (internal/modules/cjs/loader.js:1068:30)",
+              "Module.m._compile (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\ts-node\\src\\index.ts:1618:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\ts-node\\src\\index.ts:1621:12)",
+              "Module.load (internal/modules/cjs/loader.js:933:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:774:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "phase4 (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\ts-node\\src\\bin.ts:649:14)",
+              "bootstrap (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\ts-node\\src\\bin.ts:95:10)",
+              "main (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\ts-node\\src\\bin.ts:55:10)",
+              "Object.<anonymous> (C:\\Users\\Camille\\Documents\\Projects\\aws-assignment\\aws-cdk\\node_modules\\ts-node\\src\\bin.ts:800:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1068:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:933:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:774:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "internal/main/run_main_module.js:17:47"
+            ]
+          }
+        ],
+        "/GroupCdkStack/PassiveListenerRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PassiveListenerRule67327952"
+          }
+        ],
+        "/GroupCdkStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/GroupCdkStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/GroupCdkStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "GroupCdkStack"
     }
-  }
+  },
+  "missing": [
+    {
+      "key": "load-balancer-listener:account=824709318323:listenerArn=camille-dev-active-listener:loadBalancerType=application:region=ap-south-1",
+      "provider": "load-balancer-listener",
+      "props": {
+        "account": "824709318323",
+        "region": "ap-south-1",
+        "listenerArn": "camille-dev-active-listener",
+        "loadBalancerType": "application",
+        "lookupRoleArn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-lookup-role-824709318323-ap-south-1"
+      }
+    },
+    {
+      "key": "security-group:account=824709318323:region=ap-south-1:securityGroupId=sg-123456789012",
+      "provider": "security-group",
+      "props": {
+        "account": "824709318323",
+        "region": "ap-south-1",
+        "securityGroupId": "sg-123456789012",
+        "lookupRoleArn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-lookup-role-824709318323-ap-south-1"
+      }
+    }
+  ]
 }

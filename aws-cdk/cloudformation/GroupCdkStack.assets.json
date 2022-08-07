@@ -1,0 +1,20 @@
+{
+  "version": "20.0.0",
+  "files": {
+    "fb67606550e464d4d3bc795afaeebc87a8178506fce7cf4c3eec7fdad85102c3": {
+      "source": {
+        "path": "GroupCdkStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "824709318323-ap-south-1": {
+          "bucketName": "cdk-hnb659fds-assets-824709318323-ap-south-1",
+          "objectKey": "fb67606550e464d4d3bc795afaeebc87a8178506fce7cf4c3eec7fdad85102c3.json",
+          "region": "ap-south-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-file-publishing-role-824709318323-ap-south-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
