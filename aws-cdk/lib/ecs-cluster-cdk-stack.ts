@@ -6,9 +6,32 @@ import * as autoscaling from 'aws-cdk-lib/aws-autoscaling';
 import * as iam from 'aws-cdk-lib/aws-iam';
 // import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch';
 
+import conf from '../config/app.conf';
+
 export class EcsClusterCdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
+    
+    // Parameters
+    const roleName = new cdk.CfnParameter(this, "EC2InstanceRoleName", {
+      type: "String",
+      description: 'The role is assumed by EC2 instances running in ECS Cluster',
+      default: conf.ec2InstanceRoleName
+    });
+
+    const clusterName = new cdk.CfnParameter(this, "ECSClusterName", {
+      type: "String",
+      description: 'The name of ECS Cluster',
+      default: conf.ecsClusterName
+    });
+
+    const instanceType = new cdk.CfnParameter(this, "InstanceType", {
+      type: "String",
+      description: 'The EC2 instance type',
+      default: conf.ec2InstanceType
+    });
+
+
     // 👇 import VPC by Name
     const vpc = ec2.Vpc.fromLookup(this, 'MainVpc', {
       vpcName: 'main-vpc',
@@ -20,19 +43,19 @@ export class EcsClusterCdkStack extends cdk.Stack {
     // 👇 create a IAM role to associate with the instance profile that is used by instances    
     const ec2InstanceRole = new iam.Role(this, 'EC2InstanceRole', {
       assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
-      description: 'IAM role to associate with the instance profile that is used by instances',
-      roleName: 'ECS_Instance_Role',
+      description: roleName.description,
+      roleName: roleName.valueAsString,
     });
   
     // create an ECS cluster
     const cluster = new ecs.Cluster(this, 'Cluster', {
       vpc,
-      clusterName: 'MY-FIRST-ECS-CLUSTER',
+      clusterName: clusterName.valueAsString,
     });
 
     // create a EC2 launch template
     const launchTemplate = new ec2.LaunchTemplate(this, 'ASG-LaunchTemplate', {
-      instanceType: new ec2.InstanceType('t3.small'),
+      instanceType: new ec2.InstanceType(instanceType.valueAsString),
       machineImage: ecs.EcsOptimizedImage.amazonLinux2(),
       userData: ec2.UserData.forLinux(),
       securityGroup: securityGroup,
@@ -112,7 +135,7 @@ export class EcsClusterCdkStack extends cdk.Stack {
 
     // Outputs
     new cdk.CfnOutput(this, 'cluster', {
-      value: cluster.clusterName
+      value: cluster.clusterName,
     });
 
   }

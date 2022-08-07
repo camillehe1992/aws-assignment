@@ -1,3 +1,3 @@
-#!usr/bin/env bash
+#! /bin/bash
 
-npm run deploy
+npm run deploy *Stack

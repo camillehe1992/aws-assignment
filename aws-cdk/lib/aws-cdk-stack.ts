@@ -43,13 +43,19 @@ export class AwsCdkStack extends cdk.Stack {
     webserverSG.addIngressRule(
       ec2.Peer.anyIpv4(),
       ec2.Port.tcp(80),
-      'allow HTTP traffic from anywhere',
+      'allow HTTP traffic from anywhere on port 80',
+    );
+    
+    webserverSG.addIngressRule(
+      ec2.Peer.anyIpv4(),
+      ec2.Port.tcp(8443),
+      'allow HTTPS traffic from anywhere on port 8443',
     );
 
     webserverSG.addIngressRule(
       ec2.Peer.anyIpv4(),
       ec2.Port.tcp(443),
-      'allow HTTPS traffic from anywhere',
+      'allow HTTPS traffic from anywhere on port 443',
     );
 
     // 👇 Create a SG for a backend server

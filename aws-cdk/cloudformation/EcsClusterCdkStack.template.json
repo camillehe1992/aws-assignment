@@ -1,4 +1,30 @@
 {
+ "Parameters": {
+  "EC2InstanceRoleName": {
+   "Type": "String",
+   "Default": "EC2_Instance_Role",
+   "Description": "The role is assumed by EC2 instances running in ECS Cluster"
+  },
+  "ECSClusterName": {
+   "Type": "String",
+   "Default": "MY-FIRST-ECS-CLUSTER",
+   "Description": "The name of ECS Cluster"
+  },
+  "InstanceType": {
+   "Type": "String",
+   "Default": "t3.small",
+   "Description": "The EC2 instance type"
+  },
+  "SsmParameterValueawsserviceecsoptimizedamiamazonlinux2recommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter": {
+   "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
+   "Default": "/aws/service/ecs/optimized-ami/amazon-linux-2/recommended/image_id"
+  },
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
  "Resources": {
   "EC2InstanceRole0BAA8CDD": {
    "Type": "AWS::IAM::Role",
@@ -15,8 +41,10 @@
      ],
      "Version": "2012-10-17"
     },
-    "Description": "IAM role to associate with the instance profile that is used by instances",
-    "RoleName": "ECS_Instance_Role"
+    "Description": "The role is assumed by EC2 instances running in ECS Cluster",
+    "RoleName": {
+     "Ref": "EC2InstanceRoleName"
+    }
    },
    "Metadata": {
     "aws:cdk:path": "EcsClusterCdkStack/EC2InstanceRole/Resource"
@@ -86,7 +114,9 @@
   "ClusterEB0386A7": {
    "Type": "AWS::ECS::Cluster",
    "Properties": {
-    "ClusterName": "MY-FIRST-ECS-CLUSTER"
+    "ClusterName": {
+     "Ref": "ECSClusterName"
+    }
    },
    "Metadata": {
     "aws:cdk:path": "EcsClusterCdkStack/Cluster/Resource"
@@ -147,7 +177,9 @@
      "ImageId": {
       "Ref": "SsmParameterValueawsserviceecsoptimizedamiamazonlinux2recommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter"
      },
-     "InstanceType": "t3.small",
+     "InstanceType": {
+      "Ref": "InstanceType"
+     },
      "SecurityGroupIds": [
       "sg-0f4ac3813d0959eb3"
      ],
@@ -262,22 +294,11 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/2VQwU7DMAz9Fu6pYQPEueoBISExddyRcb3hLU2qOBmaov47bTYJUU72e/aTn98a7h/h7ga/taLuWFn5hLyNSEfTsvoUiM00+8iCPeTWWzbNzpW68VboPMPf7sVpREe8CX4nlkfDpJAbmzRymBf+tw0OSBLPk+QkHYda1ZNgFO/U1Lpfzot0wc131pBfMTn6eud+sBiL0b/MaDBFr4RW3B5yPYHtBTwHn4ZZsOTGsTyIAXu++n5LcUixxHBNaDTOdwwHvT2tHmD1NOV5UJEqJBelZ2gv9Qf/8DEoawEAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/2VQy07DMBD8Fu6OoQ/EOcoBVUIiSrmjxdmWbR078tpFleV/x3YREuE0u7Mz+1rLzaN8uIMvbtR4bjR9yLj3oM6iO5geHEzo0YkB2QanUGTheySYZBysxiKq2FtN6lo9v9HOsAejsHf2QBqTQMUydjpw6ZgF/8MOZlDkr9lyoRFdy2wVgSdrWLR8XNardcGVOWsZXyAY9fmG06zB10X/MklA8JYVaDJHGduc7G/Js7NhLoYll1JhX4Ofg6+X/zwlCWNHlCe+v6y2cvWU/3liosYF42lCOdzwG3322DVrAQAA"
    },
    "Metadata": {
     "aws:cdk:path": "EcsClusterCdkStack/CDKMetadata/Default"
    }
-  }
- },
- "Parameters": {
-  "SsmParameterValueawsserviceecsoptimizedamiamazonlinux2recommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter": {
-   "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
-   "Default": "/aws/service/ecs/optimized-ami/amazon-linux-2/recommended/image_id"
-  },
-  "BootstrapVersion": {
-   "Type": "AWS::SSM::Parameter::Value<String>",
-   "Default": "/cdk-bootstrap/hnb659fds/version",
-   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
   }
  },
  "Outputs": {

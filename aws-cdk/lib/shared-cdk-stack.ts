@@ -2,7 +2,8 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as elbv2 from 'aws-cdk-lib/aws-elasticloadbalancingv2';
-// import * as acm from 'aws-cdk-lib/aws-certificatemanager';
+
+import conf from '../config/app.conf';
 
 export class SharedCdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -14,17 +15,14 @@ export class SharedCdkStack extends cdk.Stack {
     });
 
     // 👇 import Database Security Group by Name
-    const securityGroup = ec2.SecurityGroup.fromLookupByName(this, 'SG', 'webs-server-sg', vpc)
-    
-    // 👇 import Certificate by Name
-    // const certificate = acm.Certificate.fromCertificateArn()
+    const securityGroup = ec2.SecurityGroup.fromLookupByName(this, 'SG', 'web-server-sg', vpc)
     
     // 👇 create a alb
     const alb = new elbv2.ApplicationLoadBalancer(this, 'alb', {
       vpc,
       idleTimeout: cdk.Duration.seconds(60),
       ipAddressType: elbv2.IpAddressType.IPV4,
-      loadBalancerName: 'my-loadbalancer',
+      loadBalancerName: `${conf.appName}-${conf.environment}`,
       securityGroup,
       vpcSubnets: {
         subnetType: ec2.SubnetType.PUBLIC
@@ -46,15 +44,20 @@ export class SharedCdkStack extends cdk.Stack {
       vpc
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const listenerCertificate = elbv2.ListenerCertificate.fromArn(conf.certArn!);
+
     alb.addListener('activeListener', {
+      certificates: [listenerCertificate],
       defaultAction: elbv2.ListenerAction.forward([targetGroup]),
-      port: 80,
+      port: 443,
       protocol: elbv2.ApplicationProtocol.HTTPS
     });
 
     alb.addListener('passiveListener', {
+      certificates: [listenerCertificate],
       defaultAction: elbv2.ListenerAction.forward([targetGroup]),
-      port: 80,
+      port: 8443,
       protocol: elbv2.ApplicationProtocol.HTTPS
     });
 

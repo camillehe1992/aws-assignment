@@ -23,7 +23,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-deploy-role-824709318323-ap-south-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-cfn-exec-role-824709318323-ap-south-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-824709318323-ap-south-1/c46afff67b8e0d80bf67409faad2bbbf185b8466d0993c22716200abfc953aed.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-824709318323-ap-south-1/701fb83b087b5e9c73549d94027a91dc53e7a54a5a92183896164ac3fa66aa98.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -234,27 +234,27 @@
       },
       "displayName": "AwsCdkStack"
     },
-    "AcmCdkStack.assets": {
+    "HostedZoneCdkStack.assets": {
       "type": "cdk:asset-manifest",
       "properties": {
-        "file": "AcmCdkStack.assets.json",
+        "file": "HostedZoneCdkStack.assets.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
       }
     },
-    "AcmCdkStack": {
+    "HostedZoneCdkStack": {
       "type": "aws:cloudformation:stack",
       "environment": "aws://824709318323/ap-south-1",
       "properties": {
-        "templateFile": "AcmCdkStack.template.json",
+        "templateFile": "HostedZoneCdkStack.template.json",
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-deploy-role-824709318323-ap-south-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-cfn-exec-role-824709318323-ap-south-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-824709318323-ap-south-1/e75b26bcbe3142ed033d1d623706ec4b1700dcfbe75497ea3cc0420276effbf7.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-824709318323-ap-south-1/61aed91cb885ea2c771fc29488d400cece2870d31ac596c1d52dd62d6c5b751e.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
-          "AcmCdkStack.assets"
+          "HostedZoneCdkStack.assets"
         ],
         "lookupRole": {
           "arn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-lookup-role-824709318323-ap-south-1",
@@ -263,53 +263,47 @@
         }
       },
       "dependencies": [
-        "AcmCdkStack.assets"
+        "HostedZoneCdkStack.assets"
       ],
       "metadata": {
-        "/AcmCdkStack/HostedZone/Resource": [
+        "/HostedZoneCdkStack/HostedZoneName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HostedZoneName"
+          }
+        ],
+        "/HostedZoneCdkStack/HostedZone/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "HostedZoneDB99F866"
           }
         ],
-        "/AcmCdkStack/Certificate/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "Certificate4E7ABB08"
-          }
-        ],
-        "/AcmCdkStack/domainName": [
+        "/HostedZoneCdkStack/domainName": [
           {
             "type": "aws:cdk:logicalId",
             "data": "domainName"
           }
         ],
-        "/AcmCdkStack/certificateArn": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "certificateArn"
-          }
-        ],
-        "/AcmCdkStack/CDKMetadata/Default": [
+        "/HostedZoneCdkStack/CDKMetadata/Default": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CDKMetadata"
           }
         ],
-        "/AcmCdkStack/BootstrapVersion": [
+        "/HostedZoneCdkStack/BootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
             "data": "BootstrapVersion"
           }
         ],
-        "/AcmCdkStack/CheckBootstrapVersion": [
+        "/HostedZoneCdkStack/CheckBootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CheckBootstrapVersion"
           }
         ]
       },
-      "displayName": "AcmCdkStack"
+      "displayName": "HostedZoneCdkStack"
     },
     "RdsCdkStack.assets": {
       "type": "cdk:asset-manifest",
@@ -434,7 +428,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-deploy-role-824709318323-ap-south-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-cfn-exec-role-824709318323-ap-south-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-824709318323-ap-south-1/602c61cf81f1175d476816b3a1a759d77c742aaef68e1239438d8b55dea9973e.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-824709318323-ap-south-1/b43bb5b5e72f5eb4a4c7f7c760626425bc3dc7a0e9acaa52c47a455c8046e983.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -450,6 +444,24 @@
         "EcsClusterCdkStack.assets"
       ],
       "metadata": {
+        "/EcsClusterCdkStack/EC2InstanceRoleName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EC2InstanceRoleName"
+          }
+        ],
+        "/EcsClusterCdkStack/ECSClusterName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ECSClusterName"
+          }
+        ],
+        "/EcsClusterCdkStack/InstanceType": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "InstanceType"
+          }
+        ],
         "/EcsClusterCdkStack/EC2InstanceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -530,6 +542,113 @@
         ]
       },
       "displayName": "EcsClusterCdkStack"
+    },
+    "SharedCdkStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "SharedCdkStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "SharedCdkStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://824709318323/ap-south-1",
+      "properties": {
+        "templateFile": "SharedCdkStack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-deploy-role-824709318323-ap-south-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-cfn-exec-role-824709318323-ap-south-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-824709318323-ap-south-1/60a422c73609fcb840abf183a298745de805d70de4a46f75c25b70d46209bfa5.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "SharedCdkStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-lookup-role-824709318323-ap-south-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "SharedCdkStack.assets"
+      ],
+      "metadata": {
+        "/SharedCdkStack/SG/from 0.0.0.0_0:443": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SGfrom00000443CBF757BB"
+          }
+        ],
+        "/SharedCdkStack/SG/from 0.0.0.0_0:8443": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SGfrom00000844349AC9CF2"
+          }
+        ],
+        "/SharedCdkStack/SG/from 0.0.0.0_0:80": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SGfrom00000804D95EC57"
+          }
+        ],
+        "/SharedCdkStack/alb/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "alb8A8B13C2"
+          }
+        ],
+        "/SharedCdkStack/alb/activeListener/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "albactiveListenerED1E7225"
+          }
+        ],
+        "/SharedCdkStack/alb/passiveListener/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "albpassiveListenerB9128559"
+          }
+        ],
+        "/SharedCdkStack/alb/redirectListener/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "albredirectListenerD4CFE443"
+          }
+        ],
+        "/SharedCdkStack/targetGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "targetGroupD9C5A146"
+          }
+        ],
+        "/SharedCdkStack/albDNS": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "albDNS"
+          }
+        ],
+        "/SharedCdkStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/SharedCdkStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/SharedCdkStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "SharedCdkStack"
     }
   }
 }

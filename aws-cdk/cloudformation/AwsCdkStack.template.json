@@ -476,14 +476,21 @@
      },
      {
       "CidrIp": "0.0.0.0/0",
-      "Description": "allow HTTP traffic from anywhere",
+      "Description": "allow HTTP traffic from anywhere on port 80",
       "FromPort": 80,
       "IpProtocol": "tcp",
       "ToPort": 80
      },
      {
       "CidrIp": "0.0.0.0/0",
-      "Description": "allow HTTPS traffic from anywhere",
+      "Description": "allow HTTPS traffic from anywhere on port 8443",
+      "FromPort": 8443,
+      "IpProtocol": "tcp",
+      "ToPort": 8443
+     },
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "allow HTTPS traffic from anywhere on port 443",
       "FromPort": 443,
       "IpProtocol": "tcp",
       "ToPort": 443
