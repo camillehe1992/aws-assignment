@@ -2046,126 +2046,6 @@
                   "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnLoadBalancer",
                   "version": "2.35.0"
                 }
-              },
-              "activeListener": {
-                "id": "activeListener",
-                "path": "SharedCdkStack/alb/activeListener",
-                "children": {
-                  "Resource": {
-                    "id": "Resource",
-                    "path": "SharedCdkStack/alb/activeListener/Resource",
-                    "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::Listener",
-                      "aws:cdk:cloudformation:props": {
-                        "defaultActions": [
-                          {
-                            "type": "forward",
-                            "targetGroupArn": {
-                              "Ref": "targetGroupD9C5A146"
-                            }
-                          }
-                        ],
-                        "loadBalancerArn": {
-                          "Ref": "alb8A8B13C2"
-                        },
-                        "certificates": [
-                          {
-                            "certificateArn": "arn:aws:acm:ap-south-1:824709318323:certificate/dcea95f0-055b-41b8-99d4-1d944e8d7ed1"
-                          }
-                        ],
-                        "port": 443,
-                        "protocol": "HTTPS"
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnListener",
-                      "version": "2.35.0"
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListener",
-                  "version": "2.35.0"
-                }
-              },
-              "passiveListener": {
-                "id": "passiveListener",
-                "path": "SharedCdkStack/alb/passiveListener",
-                "children": {
-                  "Resource": {
-                    "id": "Resource",
-                    "path": "SharedCdkStack/alb/passiveListener/Resource",
-                    "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::Listener",
-                      "aws:cdk:cloudformation:props": {
-                        "defaultActions": [
-                          {
-                            "type": "forward",
-                            "targetGroupArn": {
-                              "Ref": "targetGroupD9C5A146"
-                            }
-                          }
-                        ],
-                        "loadBalancerArn": {
-                          "Ref": "alb8A8B13C2"
-                        },
-                        "certificates": [
-                          {
-                            "certificateArn": "arn:aws:acm:ap-south-1:824709318323:certificate/dcea95f0-055b-41b8-99d4-1d944e8d7ed1"
-                          }
-                        ],
-                        "port": 8443,
-                        "protocol": "HTTPS"
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnListener",
-                      "version": "2.35.0"
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListener",
-                  "version": "2.35.0"
-                }
-              },
-              "redirectListener": {
-                "id": "redirectListener",
-                "path": "SharedCdkStack/alb/redirectListener",
-                "children": {
-                  "Resource": {
-                    "id": "Resource",
-                    "path": "SharedCdkStack/alb/redirectListener/Resource",
-                    "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::Listener",
-                      "aws:cdk:cloudformation:props": {
-                        "defaultActions": [
-                          {
-                            "type": "redirect",
-                            "redirectConfig": {
-                              "statusCode": "HTTP_302",
-                              "port": "443",
-                              "protocol": "HTTPS"
-                            }
-                          }
-                        ],
-                        "loadBalancerArn": {
-                          "Ref": "alb8A8B13C2"
-                        },
-                        "port": 80,
-                        "protocol": "HTTP"
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnListener",
-                      "version": "2.35.0"
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListener",
-                  "version": "2.35.0"
-                }
               }
             },
             "constructInfo": {
@@ -2212,6 +2092,126 @@
               "version": "2.35.0"
             }
           },
+          "ActiveListener": {
+            "id": "ActiveListener",
+            "path": "SharedCdkStack/ActiveListener",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "SharedCdkStack/ActiveListener/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::Listener",
+                  "aws:cdk:cloudformation:props": {
+                    "defaultActions": [
+                      {
+                        "type": "forward",
+                        "targetGroupArn": {
+                          "Ref": "targetGroupD9C5A146"
+                        }
+                      }
+                    ],
+                    "loadBalancerArn": {
+                      "Ref": "alb8A8B13C2"
+                    },
+                    "certificates": [
+                      {
+                        "certificateArn": "arn:aws:acm:ap-south-1:824709318323:certificate/dcea95f0-055b-41b8-99d4-1d944e8d7ed1"
+                      }
+                    ],
+                    "port": 443,
+                    "protocol": "HTTPS"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnListener",
+                  "version": "2.35.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListener",
+              "version": "2.35.0"
+            }
+          },
+          "PassiveListener": {
+            "id": "PassiveListener",
+            "path": "SharedCdkStack/PassiveListener",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "SharedCdkStack/PassiveListener/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::Listener",
+                  "aws:cdk:cloudformation:props": {
+                    "defaultActions": [
+                      {
+                        "type": "forward",
+                        "targetGroupArn": {
+                          "Ref": "targetGroupD9C5A146"
+                        }
+                      }
+                    ],
+                    "loadBalancerArn": {
+                      "Ref": "alb8A8B13C2"
+                    },
+                    "certificates": [
+                      {
+                        "certificateArn": "arn:aws:acm:ap-south-1:824709318323:certificate/dcea95f0-055b-41b8-99d4-1d944e8d7ed1"
+                      }
+                    ],
+                    "port": 8443,
+                    "protocol": "HTTPS"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnListener",
+                  "version": "2.35.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListener",
+              "version": "2.35.0"
+            }
+          },
+          "RedirectListener": {
+            "id": "RedirectListener",
+            "path": "SharedCdkStack/RedirectListener",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "SharedCdkStack/RedirectListener/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::Listener",
+                  "aws:cdk:cloudformation:props": {
+                    "defaultActions": [
+                      {
+                        "type": "redirect",
+                        "redirectConfig": {
+                          "statusCode": "HTTP_302",
+                          "port": "443",
+                          "protocol": "HTTPS"
+                        }
+                      }
+                    ],
+                    "loadBalancerArn": {
+                      "Ref": "alb8A8B13C2"
+                    },
+                    "port": 80,
+                    "protocol": "HTTP"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnListener",
+                  "version": "2.35.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListener",
+              "version": "2.35.0"
+            }
+          },
           "PrivateHostedZone": {
             "id": "PrivateHostedZone",
             "path": "SharedCdkStack/PrivateHostedZone",
@@ -2254,7 +2254,7 @@
                         ]
                       }
                     },
-                    "hostedZoneId": "Z0014108131UB8Y0YLZDI"
+                    "hostedZoneId": "Z02249162DDNRSLC2ELQL"
                   }
                 },
                 "constructInfo": {
@@ -2271,6 +2271,22 @@
           "albDNS": {
             "id": "albDNS",
             "path": "SharedCdkStack/albDNS",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.35.0"
+            }
+          },
+          "ActiveListenerArn": {
+            "id": "ActiveListenerArn",
+            "path": "SharedCdkStack/ActiveListenerArn",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.35.0"
+            }
+          },
+          "PassiveListenerArn": {
+            "id": "PassiveListenerArn",
+            "path": "SharedCdkStack/PassiveListenerArn",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.35.0"
@@ -2381,46 +2397,6 @@
           "SG": {
             "id": "SG",
             "path": "GroupCdkStack/SG",
-            "children": {
-              "from GroupCdkStackApplicationListenerSecurityGroupsg1234567890129F56A993:32768-65535": {
-                "id": "from GroupCdkStackApplicationListenerSecurityGroupsg1234567890129F56A993:32768-65535",
-                "path": "GroupCdkStack/SG/from GroupCdkStackApplicationListenerSecurityGroupsg1234567890129F56A993:32768-65535",
-                "attributes": {
-                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupIngress",
-                  "aws:cdk:cloudformation:props": {
-                    "ipProtocol": "tcp",
-                    "description": "Load balancer to target",
-                    "fromPort": 32768,
-                    "groupId": "sg-0f4ac3813d0959eb3",
-                    "sourceSecurityGroupId": "sg-12345",
-                    "toPort": 65535
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupIngress",
-                  "version": "2.35.0"
-                }
-              },
-              "from GroupCdkStackPassiveApplicationListenerSecurityGroupsg1234567890122C729B21:32768-65535": {
-                "id": "from GroupCdkStackPassiveApplicationListenerSecurityGroupsg1234567890122C729B21:32768-65535",
-                "path": "GroupCdkStack/SG/from GroupCdkStackPassiveApplicationListenerSecurityGroupsg1234567890122C729B21:32768-65535",
-                "attributes": {
-                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupIngress",
-                  "aws:cdk:cloudformation:props": {
-                    "ipProtocol": "tcp",
-                    "description": "Load balancer to target",
-                    "fromPort": 32768,
-                    "groupId": "sg-0f4ac3813d0959eb3",
-                    "sourceSecurityGroupId": "sg-12345",
-                    "toPort": 65535
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupIngress",
-                  "version": "2.35.0"
-                }
-              }
-            },
             "constructInfo": {
               "fqn": "aws-cdk-lib.Resource",
               "version": "2.35.0"
@@ -2633,134 +2609,43 @@
               "version": "2.35.0"
             }
           },
-          "ApplicationListener": {
-            "id": "ApplicationListener",
-            "path": "GroupCdkStack/ApplicationListener",
-            "children": {
-              "SecurityGroup-sg-123456789012": {
-                "id": "SecurityGroup-sg-123456789012",
-                "path": "GroupCdkStack/ApplicationListener/SecurityGroup-sg-123456789012",
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.Resource",
-                  "version": "2.35.0"
-                }
-              }
-            },
-            "constructInfo": {
-              "fqn": "aws-cdk-lib.Resource",
-              "version": "2.35.0"
-            }
-          },
           "ListenerRule": {
             "id": "ListenerRule",
             "path": "GroupCdkStack/ListenerRule",
-            "children": {
-              "Resource": {
-                "id": "Resource",
-                "path": "GroupCdkStack/ListenerRule/Resource",
-                "attributes": {
-                  "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::ListenerRule",
-                  "aws:cdk:cloudformation:props": {
-                    "actions": [
-                      {
-                        "type": "forward",
-                        "targetGroupArn": {
-                          "Ref": "ApplicationTargetGroup39BF8D27"
+            "attributes": {
+              "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::ListenerRule",
+              "aws:cdk:cloudformation:props": {
+                "actions": [
+                  {
+                    "type": "forword",
+                    "forwardConfig": {
+                      "targetGroups": [
+                        {
+                          "targetGroupArn": {
+                            "Ref": "ApplicationTargetGroup39BF8D27"
+                          }
                         }
-                      }
-                    ],
-                    "conditions": [
-                      {
-                        "field": "path-pattern",
-                        "pathPatternConfig": {
-                          "values": [
-                            "*"
-                          ]
-                        }
-                      }
-                    ],
-                    "listenerArn": "arn:aws:elasticloadbalancing:us-west-2:123456789012:listener/application/my-load-balancer/50dc6c495c0c9188/f2f7dc8efc522ab2",
-                    "priority": 30
+                      ]
+                    }
                   }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnListenerRule",
-                  "version": "2.35.0"
-                }
-              }
-            },
-            "constructInfo": {
-              "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListenerRule",
-              "version": "2.35.0"
-            }
-          },
-          "PassiveApplicationListener": {
-            "id": "PassiveApplicationListener",
-            "path": "GroupCdkStack/PassiveApplicationListener",
-            "children": {
-              "SecurityGroup-sg-123456789012": {
-                "id": "SecurityGroup-sg-123456789012",
-                "path": "GroupCdkStack/PassiveApplicationListener/SecurityGroup-sg-123456789012",
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.Resource",
-                  "version": "2.35.0"
-                }
-              }
-            },
-            "constructInfo": {
-              "fqn": "aws-cdk-lib.Resource",
-              "version": "2.35.0"
-            }
-          },
-          "PassiveListenerRule": {
-            "id": "PassiveListenerRule",
-            "path": "GroupCdkStack/PassiveListenerRule",
-            "children": {
-              "Resource": {
-                "id": "Resource",
-                "path": "GroupCdkStack/PassiveListenerRule/Resource",
-                "attributes": {
-                  "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::ListenerRule",
-                  "aws:cdk:cloudformation:props": {
-                    "actions": [
-                      {
-                        "type": "forward",
-                        "targetGroupArn": {
-                          "Ref": "ApplicationTargetGroup39BF8D27"
-                        }
-                      }
-                    ],
-                    "conditions": [
-                      {
-                        "field": "path-pattern",
-                        "pathPatternConfig": {
-                          "values": [
-                            "*"
-                          ]
-                        }
-                      },
-                      {
-                        "field": "http-header",
-                        "httpHeaderConfig": {
-                          "httpHeaderName": "X-Forword-To-Passive",
-                          "values": [
-                            "true"
-                          ]
-                        }
-                      }
-                    ],
-                    "listenerArn": "arn:aws:elasticloadbalancing:us-west-2:123456789012:listener/application/my-load-balancer/50dc6c495c0c9188/f2f7dc8efc522ab2",
-                    "priority": 20
+                ],
+                "conditions": [
+                  {
+                    "pathPatternConfig": {
+                      "values": [
+                        "*"
+                      ]
+                    }
                   }
+                ],
+                "listenerArn": {
+                  "Fn::ImportValue": "camille-dev-ActiveListener"
                 },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnListenerRule",
-                  "version": "2.35.0"
-                }
+                "priority": 30
               }
             },
             "constructInfo": {
-              "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListenerRule",
+              "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnListenerRule",
               "version": "2.35.0"
             }
           },

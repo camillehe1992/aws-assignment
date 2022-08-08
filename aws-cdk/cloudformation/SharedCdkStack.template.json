@@ -72,81 +72,6 @@
     "aws:cdk:path": "SharedCdkStack/alb/Resource"
    }
   },
-  "albactiveListenerED1E7225": {
-   "Type": "AWS::ElasticLoadBalancingV2::Listener",
-   "Properties": {
-    "DefaultActions": [
-     {
-      "TargetGroupArn": {
-       "Ref": "targetGroupD9C5A146"
-      },
-      "Type": "forward"
-     }
-    ],
-    "LoadBalancerArn": {
-     "Ref": "alb8A8B13C2"
-    },
-    "Certificates": [
-     {
-      "CertificateArn": "arn:aws:acm:ap-south-1:824709318323:certificate/dcea95f0-055b-41b8-99d4-1d944e8d7ed1"
-     }
-    ],
-    "Port": 443,
-    "Protocol": "HTTPS"
-   },
-   "Metadata": {
-    "aws:cdk:path": "SharedCdkStack/alb/activeListener/Resource"
-   }
-  },
-  "albpassiveListenerB9128559": {
-   "Type": "AWS::ElasticLoadBalancingV2::Listener",
-   "Properties": {
-    "DefaultActions": [
-     {
-      "TargetGroupArn": {
-       "Ref": "targetGroupD9C5A146"
-      },
-      "Type": "forward"
-     }
-    ],
-    "LoadBalancerArn": {
-     "Ref": "alb8A8B13C2"
-    },
-    "Certificates": [
-     {
-      "CertificateArn": "arn:aws:acm:ap-south-1:824709318323:certificate/dcea95f0-055b-41b8-99d4-1d944e8d7ed1"
-     }
-    ],
-    "Port": 8443,
-    "Protocol": "HTTPS"
-   },
-   "Metadata": {
-    "aws:cdk:path": "SharedCdkStack/alb/passiveListener/Resource"
-   }
-  },
-  "albredirectListenerD4CFE443": {
-   "Type": "AWS::ElasticLoadBalancingV2::Listener",
-   "Properties": {
-    "DefaultActions": [
-     {
-      "RedirectConfig": {
-       "Port": "443",
-       "Protocol": "HTTPS",
-       "StatusCode": "HTTP_302"
-      },
-      "Type": "redirect"
-     }
-    ],
-    "LoadBalancerArn": {
-     "Ref": "alb8A8B13C2"
-    },
-    "Port": 80,
-    "Protocol": "HTTP"
-   },
-   "Metadata": {
-    "aws:cdk:path": "SharedCdkStack/alb/redirectListener/Resource"
-   }
-  },
   "targetGroupD9C5A146": {
    "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
    "Properties": {
@@ -169,6 +94,81 @@
    },
    "Metadata": {
     "aws:cdk:path": "SharedCdkStack/targetGroup/Resource"
+   }
+  },
+  "ActiveListenerD6C39D0D": {
+   "Type": "AWS::ElasticLoadBalancingV2::Listener",
+   "Properties": {
+    "DefaultActions": [
+     {
+      "TargetGroupArn": {
+       "Ref": "targetGroupD9C5A146"
+      },
+      "Type": "forward"
+     }
+    ],
+    "LoadBalancerArn": {
+     "Ref": "alb8A8B13C2"
+    },
+    "Certificates": [
+     {
+      "CertificateArn": "arn:aws:acm:ap-south-1:824709318323:certificate/dcea95f0-055b-41b8-99d4-1d944e8d7ed1"
+     }
+    ],
+    "Port": 443,
+    "Protocol": "HTTPS"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SharedCdkStack/ActiveListener/Resource"
+   }
+  },
+  "PassiveListener6E1EB3B9": {
+   "Type": "AWS::ElasticLoadBalancingV2::Listener",
+   "Properties": {
+    "DefaultActions": [
+     {
+      "TargetGroupArn": {
+       "Ref": "targetGroupD9C5A146"
+      },
+      "Type": "forward"
+     }
+    ],
+    "LoadBalancerArn": {
+     "Ref": "alb8A8B13C2"
+    },
+    "Certificates": [
+     {
+      "CertificateArn": "arn:aws:acm:ap-south-1:824709318323:certificate/dcea95f0-055b-41b8-99d4-1d944e8d7ed1"
+     }
+    ],
+    "Port": 8443,
+    "Protocol": "HTTPS"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SharedCdkStack/PassiveListener/Resource"
+   }
+  },
+  "RedirectListener3D74E4BA": {
+   "Type": "AWS::ElasticLoadBalancingV2::Listener",
+   "Properties": {
+    "DefaultActions": [
+     {
+      "RedirectConfig": {
+       "Port": "443",
+       "Protocol": "HTTPS",
+       "StatusCode": "HTTP_302"
+      },
+      "Type": "redirect"
+     }
+    ],
+    "LoadBalancerArn": {
+     "Ref": "alb8A8B13C2"
+    },
+    "Port": 80,
+    "Protocol": "HTTP"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SharedCdkStack/RedirectListener/Resource"
    }
   },
   "AliasRecord851000D2": {
@@ -198,7 +198,7 @@
       ]
      }
     },
-    "HostedZoneId": "Z0014108131UB8Y0YLZDI"
+    "HostedZoneId": "Z02249162DDNRSLC2ELQL"
    },
    "Metadata": {
     "aws:cdk:path": "SharedCdkStack/AliasRecord/Resource"
@@ -207,7 +207,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WQwU7DMAyGn4V76rGOiTNwmJBASO3uk+eayltIosQZQlXffek2ULk4/vV90a+khtUa7u/wO1XUHSsrexhaRTqal0/3jiGI603DyedIbIq2G5hqKLBlylH0ZxN9Dq+uj5ySYYtJhazHbo8WHZXrpxqGpxCsEKp491bY84VxnEr+5bknSdndnN99xrcYe9ZL+6TM4mjKVF6vYGiYfOxa1kn5C+M4xY+sId/A9X2jcb5jOKTFafkAy8fyMYckUsXsVL4Ymut5BkCnWmQ0AQAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WQQU/DMAyFfwv31Ns6Js7AASGBkFruyHNN5S0kUeIMoar/felWoe5kP33Pz7Jr2O5gfYe/qaLuWFnZw9Aq0tE8f7t3DEFcbxpOPkdiU2xfA1MNBbZMOYr+vUSfw6vrI6dk2GJSIeux26NFR2X8VMPwGIIVQhXv3gp7ujCO05IbvfB9YuxZL+mTbSmXaZKU3Zw096MpLuXdFoaGyceuZZ34vxjHSX5kDXkG1/tG43zHcEir0+YeNg/lMYckUsXsVH4Ymms9AwMr64U0AQAA"
    },
    "Metadata": {
     "aws:cdk:path": "SharedCdkStack/CDKMetadata/Default"
@@ -221,6 +221,22 @@
      "alb8A8B13C2",
      "DNSName"
     ]
+   }
+  },
+  "ActiveListenerArn": {
+   "Value": {
+    "Ref": "ActiveListenerD6C39D0D"
+   },
+   "Export": {
+    "Name": "camille-dev-ActiveListener"
+   }
+  },
+  "PassiveListenerArn": {
+   "Value": {
+    "Ref": "PassiveListener6E1EB3B9"
+   },
+   "Export": {
+    "Name": "camille-dev-PassiveListener"
    }
   }
  },

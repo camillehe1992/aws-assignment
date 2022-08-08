@@ -1,33 +1,5 @@
 {
  "Resources": {
-  "SGfromGroupCdkStackApplicationListenerSecurityGroupsg1234567890129F56A9933276865535BB8F9120": {
-   "Type": "AWS::EC2::SecurityGroupIngress",
-   "Properties": {
-    "IpProtocol": "tcp",
-    "Description": "Load balancer to target",
-    "FromPort": 32768,
-    "GroupId": "sg-0f4ac3813d0959eb3",
-    "SourceSecurityGroupId": "sg-12345",
-    "ToPort": 65535
-   },
-   "Metadata": {
-    "aws:cdk:path": "GroupCdkStack/SG/from GroupCdkStackApplicationListenerSecurityGroupsg1234567890129F56A993:32768-65535"
-   }
-  },
-  "SGfromGroupCdkStackPassiveApplicationListenerSecurityGroupsg1234567890122C729B213276865535AB1F1327": {
-   "Type": "AWS::EC2::SecurityGroupIngress",
-   "Properties": {
-    "IpProtocol": "tcp",
-    "Description": "Load balancer to target",
-    "FromPort": 32768,
-    "GroupId": "sg-0f4ac3813d0959eb3",
-    "SourceSecurityGroupId": "sg-12345",
-    "ToPort": 65535
-   },
-   "Metadata": {
-    "aws:cdk:path": "GroupCdkStack/SG/from GroupCdkStackPassiveApplicationListenerSecurityGroupsg1234567890122C729B21:32768-65535"
-   }
-  },
   "TaskDefinitionTaskRoleFD40A61D": {
    "Type": "AWS::IAM::Role",
    "Properties": {
@@ -155,28 +127,29 @@
      "Ref": "TaskDefinitionB36D86D9"
     }
    },
-   "DependsOn": [
-    "ListenerRule73F9AC5E",
-    "PassiveListenerRule67327952"
-   ],
    "Metadata": {
     "aws:cdk:path": "GroupCdkStack/Ec2Service/Service"
    }
   },
-  "ListenerRule73F9AC5E": {
+  "ListenerRule": {
    "Type": "AWS::ElasticLoadBalancingV2::ListenerRule",
    "Properties": {
     "Actions": [
      {
-      "TargetGroupArn": {
-       "Ref": "ApplicationTargetGroup39BF8D27"
+      "ForwardConfig": {
+       "TargetGroups": [
+        {
+         "TargetGroupArn": {
+          "Ref": "ApplicationTargetGroup39BF8D27"
+         }
+        }
+       ]
       },
-      "Type": "forward"
+      "Type": "forword"
      }
     ],
     "Conditions": [
      {
-      "Field": "path-pattern",
       "PathPatternConfig": {
        "Values": [
         "*"
@@ -184,54 +157,19 @@
       }
      }
     ],
-    "ListenerArn": "arn:aws:elasticloadbalancing:us-west-2:123456789012:listener/application/my-load-balancer/50dc6c495c0c9188/f2f7dc8efc522ab2",
+    "ListenerArn": {
+     "Fn::ImportValue": "camille-dev-ActiveListener"
+    },
     "Priority": 30
    },
    "Metadata": {
-    "aws:cdk:path": "GroupCdkStack/ListenerRule/Resource"
-   }
-  },
-  "PassiveListenerRule67327952": {
-   "Type": "AWS::ElasticLoadBalancingV2::ListenerRule",
-   "Properties": {
-    "Actions": [
-     {
-      "TargetGroupArn": {
-       "Ref": "ApplicationTargetGroup39BF8D27"
-      },
-      "Type": "forward"
-     }
-    ],
-    "Conditions": [
-     {
-      "Field": "path-pattern",
-      "PathPatternConfig": {
-       "Values": [
-        "*"
-       ]
-      }
-     },
-     {
-      "Field": "http-header",
-      "HttpHeaderConfig": {
-       "HttpHeaderName": "X-Forword-To-Passive",
-       "Values": [
-        "true"
-       ]
-      }
-     }
-    ],
-    "ListenerArn": "arn:aws:elasticloadbalancing:us-west-2:123456789012:listener/application/my-load-balancer/50dc6c495c0c9188/f2f7dc8efc522ab2",
-    "Priority": 20
-   },
-   "Metadata": {
-    "aws:cdk:path": "GroupCdkStack/PassiveListenerRule/Resource"
+    "aws:cdk:path": "GroupCdkStack/ListenerRule"
    }
   },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/11QwU7DMAz9Fu5pYB2IMwKEkNil3R15qVd5zZIoTopQlH8nTZGoOD372Xrv2a3cP8i7G/jiRg1To+kkUx9ATeL5bA7gHJlRdMg2eoWirH0mVK0swx5V9BS+37yN7t2MHpkFKpbpCDy94JkMBbJmEfrPWBOADPoN96raHv1MxaWK1zILgqtMndWVXTAL1MCBlLYwnECDUSXi3Mr05JwmBYvaEfyIoSZb7f/azdYHccCSoour/LbPuRr+Hp6FsQPKC9/Ou3u5eywfuzBR46MJdEXZrfgDa5b5gE0BAAA="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/11PQXLCMAx8S++OKAGGc6ft9AKXhDujOIIRcWSP7YSDJ3/HIRzanlbaWe1qS9js4P0N76HQbVcYbiDVEXWnPi9yROdYrqqiYAevSWXZOZEOkE4Yui+6sHBkK7P4P2MlIgv5X9y3LmvyI2enfPAaJ8XYQ6qsebIzTooMhsjaWGwbNCg6vzGWkD6cM6xxdjuhv1L88XZwS/yf9cAhUk6vhmw3PY1fJSYltiW4hdW43sJ6n9vfAnPhB4ncE1QLPgC9192/GQEAAA=="
    },
    "Metadata": {
     "aws:cdk:path": "GroupCdkStack/CDKMetadata/Default"

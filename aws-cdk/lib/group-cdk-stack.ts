@@ -10,6 +10,23 @@ export class GroupCdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: cdk.StackProps) {
     super(scope, id, props);
 
+    // // Conditions
+    // const IsActive = new cdk.CfnCondition(
+    //   this,
+    //   'IsActive',
+    //   {
+    //     expression: cdk.Fn.conditionEquals(this, 'true')
+    //   }
+    // );
+    
+    // const IsNotActive = new cdk.CfnCondition(
+    //   this,
+    //   'IsNotActive',
+    //   {
+    //     expression: cdk.Fn.conditionNot(cdk.Fn.conditionEquals(IsActive, 'true'))
+    //   }
+    // );
+
     // Mappings
     const deploymentMapping = new cdk.CfnMapping(this, 'deploymentMapping', {
       mapping: {
@@ -107,26 +124,27 @@ export class GroupCdkStack extends cdk.Stack {
 
     ecsService.attachToApplicationTargetGroup(targetGroup);
 
-    const listenerRule = new elbv2.ApplicationListenerRule(this, 'ListenerRule', {
-      listener: elbv2.ApplicationListener.fromLookup(this, 'ApplicationListener', {
-        listenerArn: `${conf.appName}-${conf.environment}-active-listener`
-      }),
-      priority: parseInt(deploymentMapping.findInMap(conf.groupId ?? '0', 'RulePriority')),
-      action: elbv2.ListenerAction.forward([targetGroup]),
-      conditions: [
-        elbv2.ListenerCondition.pathPatterns(['*']),
-      ]
-    });
+    const listenerArn = cdk.Fn.importValue(`${conf.appName}-${conf.environment}-ActiveListener`)
 
-    const passiveListenerRule = new elbv2.ApplicationListenerRule(this, 'PassiveListenerRule', {
-      listener: elbv2.ApplicationListener.fromLookup(this, 'PassiveApplicationListener', {
-        listenerArn: `${conf.appName}-${conf.environment}-active-listener`
-      }),
-      priority: parseInt(validationMapping.findInMap(conf.groupId ?? '0', 'RulePriority')),
-      action: elbv2.ListenerAction.forward([targetGroup]),
+    const listenerRule = new elbv2.CfnListenerRule(this, 'ListenerRule', {
+      listenerArn,
+      priority: parseInt(deploymentMapping.findInMap(conf.groupId ?? '0', 'RulePriority')),
+      actions: [
+        {
+          type: 'forword',
+          forwardConfig: {
+            targetGroups: [{
+              targetGroupArn: targetGroup.targetGroupArn
+            }],
+          },
+        }
+      ],
       conditions: [
-        elbv2.ListenerCondition.pathPatterns(['*']),
-        elbv2.ListenerCondition.httpHeader('X-Forword-To-Passive', ['true'])
+        {
+          pathPatternConfig: {
+            values: ['*'],
+          },
+        }
       ]
     });
   }

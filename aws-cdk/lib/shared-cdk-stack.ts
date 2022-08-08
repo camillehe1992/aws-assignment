@@ -61,22 +61,25 @@ export class SharedCdkStack extends cdk.Stack {
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const listenerCertificate = elbv2.ListenerCertificate.fromArn(conf.certArn!);
-
-    alb.addListener('activeListener', {
+    
+    const activeListener = new elbv2.ApplicationListener(this, 'ActiveListener', {
+      loadBalancer: alb,
       certificates: [listenerCertificate],
       defaultAction: elbv2.ListenerAction.forward([targetGroup]),
       port: parseInt(deploymentMapping.findInMap('active', 'AlbPort')),
       protocol: elbv2.ApplicationProtocol.HTTPS
     });
 
-    alb.addListener('passiveListener', {
+    const passiveListener =  new elbv2.ApplicationListener(this, 'PassiveListener', {
+      loadBalancer: alb,
       certificates: [listenerCertificate],
       defaultAction: elbv2.ListenerAction.forward([targetGroup]),
       port: parseInt(deploymentMapping.findInMap('passive', 'AlbPort')),
       protocol: elbv2.ApplicationProtocol.HTTPS
     });
 
-    alb.addListener('redirectListener', {
+    new elbv2.ApplicationListener(this, 'RedirectListener', {
+      loadBalancer: alb,
       defaultAction: elbv2.ListenerAction.redirect({
         protocol: elbv2.ApplicationProtocol.HTTPS,
         port: '443'
@@ -86,9 +89,8 @@ export class SharedCdkStack extends cdk.Stack {
     });
 
     // Route53 record that points to ALB
-    const zone = route53.HostedZone.fromLookup(this, 'PrivateHostedZone', {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      domainName: conf.hostedZoneName!,
+    const zone = route53.PrivateHostedZone.fromLookup(this, 'PrivateHostedZone', {
+      domainName: conf.hostedZoneName || '',
       privateZone: true,
       vpcId: vpc.vpcId
     });
@@ -103,6 +105,16 @@ export class SharedCdkStack extends cdk.Stack {
     // 👇 add the ALB DNS as an Output
     new cdk.CfnOutput(this, 'albDNS', {
       value: alb.loadBalancerDnsName,
+    });
+
+    new cdk.CfnOutput(this, 'ActiveListenerArn', {
+      value: activeListener.listenerArn,
+      exportName: `${conf.appName}-${conf.environment}-ActiveListener`
+    });
+
+    new cdk.CfnOutput(this, 'PassiveListenerArn', {
+      value: passiveListener.listenerArn,
+      exportName: `${conf.appName}-${conf.environment}-PassiveListener`
     });
   }
 }
