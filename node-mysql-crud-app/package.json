@@ -18,5 +18,8 @@
     "express-fileupload": "^1.4.0",
     "mysql2": "^2.3.3",
     "req-flash": "0.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
   }
 }

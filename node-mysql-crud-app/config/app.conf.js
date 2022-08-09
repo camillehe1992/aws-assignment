@@ -3,9 +3,9 @@ module.exports = {
     port: process.env.PORT || 5000,
   },
   database: {
-    host: process.env.DB_HOST || "localhost",
-    user: process.env.DB_USER || "root",
-    password: process.env.DB_PASS,
-    databse: process.env.DB_NAME || "player_db",
+    host: process.env.MYSQL_DB_HOST || "localhost",
+    user: process.env.MYSQL_ROOT_USER || "root",
+    password: process.env.MYSQL_ROOT_PASSWORD,
+    databse: process.env.MYSQL_DB_NAME || "player_db",
   },
 };
