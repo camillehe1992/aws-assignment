@@ -4,6 +4,7 @@ const fileUpload = require("express-fileupload");
 const bodyParser = require("body-parser");
 const mysql = require("mysql2");
 const path = require("path");
+const { getSecretValue } = require("./helpers/aws");
 const app = express();
 
 const conf = require("./config/app.conf");
@@ -19,7 +20,15 @@ const {
 
 // create connection to database
 // the mysql.createConnection function takes in a configuration object which contains host, user, password and the database name.
-const db = mysql.createConnection(conf.database);
+const { host, username, password } = getSecretValue(conf.database.secretId);
+console.log(`Get secret for ${host}`);
+
+const db = mysql.createConnection({
+  host,
+  user: username,
+  password,
+  multipleStatements: true,
+});
 
 // connect to database
 db.connect((err) => {

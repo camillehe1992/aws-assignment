@@ -40,17 +40,17 @@ export class GroupCdkStack extends cdk.Stack {
       lazy: true
     });
 
-    const validationMapping = new cdk.CfnMapping(this, 'validationMapping', {
-      mapping: {
-        'g1': {
-          RulePriority: 20,
-        },
-        'g2': {
-          RulePriority: 10,
-        }
-      },
-      lazy: true
-    });
+    // const validationMapping = new cdk.CfnMapping(this, 'validationMapping', {
+    //   mapping: {
+    //     'g1': {
+    //       RulePriority: 20,
+    //     },
+    //     'g2': {
+    //       RulePriority: 10,
+    //     }
+    //   },
+    //   lazy: true
+    // });
 
     // 👇 import VPC by Name
     const vpc = ec2.Vpc.fromLookup(this, 'MainVpc', {
@@ -76,7 +76,7 @@ export class GroupCdkStack extends cdk.Stack {
     });
 
     const containerDefinition = new ecs.ContainerDefinition(this, 'ContainerDefinition', {
-      image: ecs.ContainerImage.fromRegistry('/aws/aws-example-app'),
+      image: ecs.ContainerImage.fromRegistry('camillehe1992/web-app'),
       taskDefinition,
       cpu: parseInt(conf.taskCpu ?? '0'),
       memoryLimitMiB: parseInt(conf.taskMemoryMiB ?? '0'),
@@ -85,7 +85,10 @@ export class GroupCdkStack extends cdk.Stack {
           containerPort: 0,
           protocol: ecs.Protocol.TCP
         }
-      ]
+      ],
+      environment: {
+        ['AWS_SECRET_ID']: cdk.Fn.importValue('dbSecretName')
+      }
     });
 
     containerDefinition.addVolumesFrom({

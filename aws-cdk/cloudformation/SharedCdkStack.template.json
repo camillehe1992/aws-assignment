@@ -198,7 +198,7 @@
       ]
      }
     },
-    "HostedZoneId": "Z02249162DDNRSLC2ELQL"
+    "HostedZoneId": "Z06405621KCPSS0STMJTY"
    },
    "Metadata": {
     "aws:cdk:path": "SharedCdkStack/AliasRecord/Resource"

@@ -26,8 +26,16 @@
     "ContainerDefinitions": [
      {
       "Cpu": 128,
+      "Environment": [
+       {
+        "Name": "SSM_SECRET_NAME",
+        "Value": {
+         "Fn::ImportValue": "dbSecretName"
+        }
+       }
+      ],
       "Essential": true,
-      "Image": "/aws/aws-example-app",
+      "Image": "camillehe1992/web-app",
       "Memory": 512,
       "Name": "ContainerDefinition",
       "PortMappings": [

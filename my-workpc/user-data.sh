@@ -10,7 +10,8 @@ apt-get update && apt-get install \
   curl \
   gnupg \
   lsb-release \
-  npm
+  npm \
+  awscli
 
 # Add Docker’s official GPG key:
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg

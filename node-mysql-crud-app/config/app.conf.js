@@ -7,5 +7,6 @@ module.exports = {
     user: process.env.MYSQL_ROOT_USER || "root",
     password: process.env.MYSQL_ROOT_PASSWORD,
     databse: process.env.MYSQL_DB_NAME || "player_db",
+    secretId: process.env.SECRET_NAME,
   },
 };
