@@ -5,13 +5,12 @@
 sudo su
 
 # Setting up repository
-apt-get update
-
-apt-get install \
+apt-get update && apt-get install \
   ca-certificates \
   curl \
   gnupg \
-  lsb-release
+  lsb-release \
+  npm
 
 # Add Docker’s official GPG key:
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -22,10 +21,20 @@ echo \
 
 
 # According to official doc updating the package manager and installing docker engine
-apt-get update && sudo apt-get install docker-ce docker-ce-cli containerd.io
+apt-get install docker-ce docker-ce-cli containerd.io
+
+# https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-20-04
+# install env for mysql
+apt-get install mysql-server
+
+systemctl start mysql.service
+
+
+mkdir code 
+cd code
+git clone https://github.com/camillehe1992/aws-assignment.git
+
+mysql -u root -p --database=socka < ./aws-assignment/node-mysql-crud-app/create-db.sql
 
 docker -v
-
-# install mysql database in instance for testing purpose
-docker run --name test-mysql -e DB_PASS=123 -d mysql:latest
 
