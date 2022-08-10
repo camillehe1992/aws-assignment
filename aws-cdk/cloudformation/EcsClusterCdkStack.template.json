@@ -305,6 +305,9 @@
   "cluster": {
    "Value": {
     "Ref": "ClusterEB0386A7"
+   },
+   "Export": {
+    "Name": "ECSClusterName"
    }
   }
  },

@@ -63,7 +63,7 @@ export class GroupCdkStack extends cdk.Stack {
     const cluster = ecs.Cluster.fromClusterAttributes(this, 'Cluster', {
       vpc,
       securityGroups: [securityGroup],
-      clusterName: conf.ecsClusterName ?? ''
+      clusterName: cdk.Fn.importValue('ECSClusterName')
     });
 
     // Resources
@@ -76,7 +76,7 @@ export class GroupCdkStack extends cdk.Stack {
     });
 
     const containerDefinition = new ecs.ContainerDefinition(this, 'ContainerDefinition', {
-      image: ecs.ContainerImage.fromRegistry('camillehe1992/web-app'),
+      image: ecs.ContainerImage.fromRegistry('nginx'),
       taskDefinition,
       cpu: parseInt(conf.taskCpu ?? '0'),
       memoryLimitMiB: parseInt(conf.taskMemoryMiB ?? '0'),
@@ -131,22 +131,17 @@ export class GroupCdkStack extends cdk.Stack {
 
     const listenerRule = new elbv2.CfnListenerRule(this, 'ListenerRule', {
       listenerArn,
-      priority: parseInt(deploymentMapping.findInMap(conf.groupId ?? '0', 'RulePriority')),
+      priority: 30,
       actions: [
         {
           type: 'forword',
-          forwardConfig: {
-            targetGroups: [{
-              targetGroupArn: targetGroup.targetGroupArn
-            }],
-          },
+          targetGroupArn: targetGroup.targetGroupArn
         }
       ],
       conditions: [
         {
-          pathPatternConfig: {
-            values: ['*'],
-          },
+          field: 'path-pattern',
+          values: ['*']
         }
       ]
     });

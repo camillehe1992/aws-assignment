@@ -2,6 +2,7 @@ const {
   SecretsManagerClient,
   GetSecretValueCommand,
 } = require("@aws-sdk/client-secrets-manager");
+const conf = require("../../config/app.conf");
 
 const getSecretValue = async (secretId) => {
   const client = new SecretsManagerClient({

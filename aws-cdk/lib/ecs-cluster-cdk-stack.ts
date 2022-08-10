@@ -136,6 +136,7 @@ export class EcsClusterCdkStack extends cdk.Stack {
     // Outputs
     new cdk.CfnOutput(this, 'cluster', {
       value: cluster.clusterName,
+      exportName: 'ECSClusterName'
     });
 
   }

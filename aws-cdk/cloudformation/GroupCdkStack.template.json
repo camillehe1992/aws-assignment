@@ -28,14 +28,14 @@
       "Cpu": 128,
       "Environment": [
        {
-        "Name": "SSM_SECRET_NAME",
+        "Name": "AWS_SECRET_ID",
         "Value": {
          "Fn::ImportValue": "dbSecretName"
         }
        }
       ],
       "Essential": true,
-      "Image": "camillehe1992/web-app",
+      "Image": "nginx",
       "Memory": 512,
       "Name": "ContainerDefinition",
       "PortMappings": [
@@ -108,7 +108,9 @@
   "Ec2Service04A33183": {
    "Type": "AWS::ECS::Service",
    "Properties": {
-    "Cluster": "MY-FIRST-ECS-CLUSTER",
+    "Cluster": {
+     "Fn::ImportValue": "ECSClusterName"
+    },
     "DeploymentConfiguration": {
      "MaximumPercent": 200,
      "MinimumHealthyPercent": 50
@@ -144,25 +146,18 @@
    "Properties": {
     "Actions": [
      {
-      "ForwardConfig": {
-       "TargetGroups": [
-        {
-         "TargetGroupArn": {
-          "Ref": "ApplicationTargetGroup39BF8D27"
-         }
-        }
-       ]
+      "TargetGroupArn": {
+       "Ref": "ApplicationTargetGroup39BF8D27"
       },
       "Type": "forword"
      }
     ],
     "Conditions": [
      {
-      "PathPatternConfig": {
-       "Values": [
-        "*"
-       ]
-      }
+      "Field": "path-pattern",
+      "Values": [
+       "*"
+      ]
      }
     ],
     "ListenerArn": {

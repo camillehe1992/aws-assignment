@@ -2328,14 +2328,6 @@
               "version": "2.35.0"
             }
           },
-          "validationMapping": {
-            "id": "validationMapping",
-            "path": "GroupCdkStack/validationMapping",
-            "constructInfo": {
-              "fqn": "aws-cdk-lib.CfnMapping",
-              "version": "2.35.0"
-            }
-          },
           "MainVpc": {
             "id": "MainVpc",
             "path": "GroupCdkStack/MainVpc",
@@ -2459,7 +2451,7 @@
                       {
                         "cpu": 128,
                         "essential": true,
-                        "image": "camillehe1992/web-app",
+                        "image": "nginx",
                         "memory": 512,
                         "name": "ContainerDefinition",
                         "portMappings": [
@@ -2477,7 +2469,7 @@
                         ],
                         "environment": [
                           {
-                            "name": "SSM_SECRET_NAME",
+                            "name": "AWS_SECRET_ID",
                             "value": {
                               "Fn::ImportValue": "dbSecretName"
                             }
@@ -2578,7 +2570,9 @@
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::ECS::Service",
                   "aws:cdk:cloudformation:props": {
-                    "cluster": "MY-FIRST-ECS-CLUSTER",
+                    "cluster": {
+                      "Fn::ImportValue": "ECSClusterName"
+                    },
                     "deploymentConfiguration": {
                       "maximumPercent": 200,
                       "minimumHealthyPercent": 50
@@ -2626,24 +2620,17 @@
                 "actions": [
                   {
                     "type": "forword",
-                    "forwardConfig": {
-                      "targetGroups": [
-                        {
-                          "targetGroupArn": {
-                            "Ref": "ApplicationTargetGroup39BF8D27"
-                          }
-                        }
-                      ]
+                    "targetGroupArn": {
+                      "Ref": "ApplicationTargetGroup39BF8D27"
                     }
                   }
                 ],
                 "conditions": [
                   {
-                    "pathPatternConfig": {
-                      "values": [
-                        "*"
-                      ]
-                    }
+                    "field": "path-pattern",
+                    "values": [
+                      "*"
+                    ]
                   }
                 ],
                 "listenerArn": {
