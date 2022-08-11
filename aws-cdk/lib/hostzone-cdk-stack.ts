@@ -28,7 +28,7 @@ export class HostedZoneCdkStack extends cdk.Stack {
     });
 
     // Ouputs
-    new cdk.CfnOutput(this, 'domainName', {
+    new cdk.CfnOutput(this, 'PrivateHostedZoneName', {
       value: hostedZone.zoneName,
       description: 'The name of private hosted zone',
       exportName: 'PrivateHostedZoneName'

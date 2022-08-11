@@ -12,19 +12,6 @@ export class SharedCdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // Mappings
-    const deploymentMapping = new cdk.CfnMapping(this, 'deploymentMapping', {
-      mapping: {
-        'active': {
-          AlbPort: 443,
-        },
-        'passive': {
-          AlbPort: 8443,
-        }
-      },
-      lazy: true
-    });
-    
     // 👇 import VPC by Name
     const vpc = ec2.Vpc.fromLookup(this, 'MainVpc', {
       vpcName: 'main-vpc',
@@ -45,53 +32,30 @@ export class SharedCdkStack extends cdk.Stack {
       }
     });
 
-    new ssm.StringParameter(this, 'albArn', {
-      parameterName: '/SharedCdkStack/albArn',
+    // save albArn into ssm so that it can be associated in another stacks
+    new ssm.StringParameter(this, 'AlbArn', {
+      parameterName: `/${this.stackName}/albArn`,
       stringValue: alb.loadBalancerArn
     })
     
-    const targetGroup = new elbv2.ApplicationTargetGroup(this, 'targetGroup', {
+    const targetGroup = new elbv2.ApplicationTargetGroup(this, 'TargetGroup', {
       healthCheck: {
         path: '/health',
         unhealthyThresholdCount: 2,
         healthyThresholdCount: 5,
         interval: cdk.Duration.seconds(30),
       },
-      port: 443,
-      protocol: elbv2.ApplicationProtocol.HTTPS,
+      port: 80,
       protocolVersion: elbv2.ApplicationProtocolVersion.HTTP1,
-      targetGroupName: 'DefaultTargetGroup',
+      targetGroupName: `${conf.appName}-${conf.environment}-target-group`,
       targetType: elbv2.TargetType.INSTANCE,
       vpc
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const listenerCertificate = elbv2.ListenerCertificate.fromArn(conf.certArn!);
-    
-    const activeListener = new elbv2.ApplicationListener(this, 'ActiveListener', {
+    const albListener = new elbv2.ApplicationListener(this, 'ActiveListener', {
       loadBalancer: alb,
-      certificates: [listenerCertificate],
-      defaultAction: elbv2.ListenerAction.forward([targetGroup]),
-      port: parseInt(deploymentMapping.findInMap('active', 'AlbPort')),
-      protocol: elbv2.ApplicationProtocol.HTTPS
-    });
-
-    const passiveListener =  new elbv2.ApplicationListener(this, 'PassiveListener', {
-      loadBalancer: alb,
-      certificates: [listenerCertificate],
-      defaultAction: elbv2.ListenerAction.forward([targetGroup]),
-      port: parseInt(deploymentMapping.findInMap('passive', 'AlbPort')),
-      protocol: elbv2.ApplicationProtocol.HTTPS
-    });
-
-    new elbv2.ApplicationListener(this, 'RedirectListener', {
-      loadBalancer: alb,
-      defaultAction: elbv2.ListenerAction.redirect({
-        protocol: elbv2.ApplicationProtocol.HTTPS,
-        port: '443'
-      }),
       port: 80,
-      protocol: elbv2.ApplicationProtocol.HTTP
+      defaultAction: elbv2.ListenerAction.forward([targetGroup])
     });
 
     // Route53 record that points to ALB
@@ -101,26 +65,21 @@ export class SharedCdkStack extends cdk.Stack {
       vpcId: vpc.vpcId
     });
 
-    new route53.RecordSet(this, 'AliasRecord', {
-      recordType: route53.RecordType.A,
+    new route53.ARecord(this, 'AliasRecord', {
       zone,
-      recordName: `${conf.appName}-${conf.region}-${conf.environment}`,
+      recordName: `${conf.appName}-${conf.environment}-${conf.region}`,
       target: route53.RecordTarget.fromAlias(new targets.LoadBalancerTarget(alb))
     });
 
-    // 👇 add the ALB DNS as an Output
-    new cdk.CfnOutput(this, 'albDNS', {
+    // Outputs
+    new cdk.CfnOutput(this, 'AlbDNSName', {
       value: alb.loadBalancerDnsName,
+      exportName: 'AlbDNSName'
     });
 
-    new cdk.CfnOutput(this, 'ActiveListenerArn', {
-      value: activeListener.listenerArn,
-      exportName: `${conf.appName}-${conf.environment}-ActiveListener`
-    });
-
-    new cdk.CfnOutput(this, 'PassiveListenerArn', {
-      value: passiveListener.listenerArn,
-      exportName: `${conf.appName}-${conf.environment}-PassiveListener`
+    new cdk.CfnOutput(this, 'AlbListenerArn', {
+      value: albListener.listenerArn,
+      exportName: 'AlbListenerArn'
     });
   }
 }

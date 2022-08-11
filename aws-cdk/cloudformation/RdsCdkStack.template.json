@@ -143,7 +143,7 @@
   }
  },
  "Outputs": {
-  "dbReaderEndpoint": {
+  "DbReaderEndpoint": {
    "Value": {
     "Fn::GetAtt": [
      "DatabaseB269D8BB",
@@ -151,7 +151,7 @@
     ]
    }
   },
-  "dbWriterEndpoint": {
+  "DbWriterEndpoint": {
    "Value": {
     "Fn::GetAtt": [
      "DatabaseB269D8BB",
@@ -159,7 +159,7 @@
     ]
    }
   },
-  "secretName": {
+  "SecretName": {
    "Value": {
     "Fn::Join": [
      "-",
@@ -214,7 +214,7 @@
     ]
    },
    "Export": {
-    "Name": "dbSecretName"
+    "Name": "DbSecretName"
    }
   }
  },

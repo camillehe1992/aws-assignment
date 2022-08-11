@@ -37,18 +37,17 @@ export class RdsCdkStack extends cdk.Stack {
     });
 
     // 👇 Output
-    new cdk.CfnOutput(this, 'dbReaderEndpoint', {
+    new cdk.CfnOutput(this, 'DbReaderEndpoint', {
       value: cluster.clusterReadEndpoint.hostname
     });
 
-    new cdk.CfnOutput(this, 'dbWriterEndpoint', {
+    new cdk.CfnOutput(this, 'DbWriterEndpoint', {
       value: cluster.clusterEndpoint.hostname
     });
 
-    new cdk.CfnOutput(this, 'secretName', {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
-      value: cluster.secret?.secretName!,
-      exportName: 'dbSecretName'
+    new cdk.CfnOutput(this, 'SecretName', {
+      value: cluster.secret?.secretName || '',
+      exportName: 'DbSecretName'
     });
 
   }

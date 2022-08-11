@@ -1,33 +1,5 @@
 {
  "Resources": {
-  "SGfrom00000443CBF757BB": {
-   "Type": "AWS::EC2::SecurityGroupIngress",
-   "Properties": {
-    "IpProtocol": "tcp",
-    "CidrIp": "0.0.0.0/0",
-    "Description": "Allow from anyone on port 443",
-    "FromPort": 443,
-    "GroupId": "sg-03ad584c72ecd6ba0",
-    "ToPort": 443
-   },
-   "Metadata": {
-    "aws:cdk:path": "SharedCdkStack/SG/from 0.0.0.0_0:443"
-   }
-  },
-  "SGfrom00000844349AC9CF2": {
-   "Type": "AWS::EC2::SecurityGroupIngress",
-   "Properties": {
-    "IpProtocol": "tcp",
-    "CidrIp": "0.0.0.0/0",
-    "Description": "Allow from anyone on port 8443",
-    "FromPort": 8443,
-    "GroupId": "sg-03ad584c72ecd6ba0",
-    "ToPort": 8443
-   },
-   "Metadata": {
-    "aws:cdk:path": "SharedCdkStack/SG/from 0.0.0.0_0:8443"
-   }
-  },
   "SGfrom00000804D95EC57": {
    "Type": "AWS::EC2::SecurityGroupIngress",
    "Properties": {
@@ -72,7 +44,7 @@
     "aws:cdk:path": "SharedCdkStack/alb/Resource"
    }
   },
-  "albArn4BA0EFFA": {
+  "AlbArnD4E8B909": {
    "Type": "AWS::SSM::Parameter",
    "Properties": {
     "Type": "String",
@@ -82,18 +54,18 @@
     "Name": "/SharedCdkStack/albArn"
    },
    "Metadata": {
-    "aws:cdk:path": "SharedCdkStack/albArn/Resource"
+    "aws:cdk:path": "SharedCdkStack/AlbArn/Resource"
    }
   },
-  "targetGroupD9C5A146": {
+  "TargetGroup3D7CD9B8": {
    "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
    "Properties": {
     "HealthCheckIntervalSeconds": 30,
     "HealthCheckPath": "/health",
     "HealthyThresholdCount": 5,
-    "Name": "DefaultTargetGroup",
-    "Port": 443,
-    "Protocol": "HTTPS",
+    "Name": "camille-dev-target-group",
+    "Port": 80,
+    "Protocol": "HTTP",
     "ProtocolVersion": "HTTP1",
     "TargetGroupAttributes": [
      {
@@ -106,7 +78,7 @@
     "VpcId": "vpc-0e33f5d05150f5e8a"
    },
    "Metadata": {
-    "aws:cdk:path": "SharedCdkStack/targetGroup/Resource"
+    "aws:cdk:path": "SharedCdkStack/TargetGroup/Resource"
    }
   },
   "ActiveListenerD6C39D0D": {
@@ -115,63 +87,9 @@
     "DefaultActions": [
      {
       "TargetGroupArn": {
-       "Ref": "targetGroupD9C5A146"
+       "Ref": "TargetGroup3D7CD9B8"
       },
       "Type": "forward"
-     }
-    ],
-    "LoadBalancerArn": {
-     "Ref": "alb8A8B13C2"
-    },
-    "Certificates": [
-     {
-      "CertificateArn": "arn:aws:acm:ap-south-1:824709318323:certificate/dcea95f0-055b-41b8-99d4-1d944e8d7ed1"
-     }
-    ],
-    "Port": 443,
-    "Protocol": "HTTPS"
-   },
-   "Metadata": {
-    "aws:cdk:path": "SharedCdkStack/ActiveListener/Resource"
-   }
-  },
-  "PassiveListener6E1EB3B9": {
-   "Type": "AWS::ElasticLoadBalancingV2::Listener",
-   "Properties": {
-    "DefaultActions": [
-     {
-      "TargetGroupArn": {
-       "Ref": "targetGroupD9C5A146"
-      },
-      "Type": "forward"
-     }
-    ],
-    "LoadBalancerArn": {
-     "Ref": "alb8A8B13C2"
-    },
-    "Certificates": [
-     {
-      "CertificateArn": "arn:aws:acm:ap-south-1:824709318323:certificate/dcea95f0-055b-41b8-99d4-1d944e8d7ed1"
-     }
-    ],
-    "Port": 8443,
-    "Protocol": "HTTPS"
-   },
-   "Metadata": {
-    "aws:cdk:path": "SharedCdkStack/PassiveListener/Resource"
-   }
-  },
-  "RedirectListener3D74E4BA": {
-   "Type": "AWS::ElasticLoadBalancingV2::Listener",
-   "Properties": {
-    "DefaultActions": [
-     {
-      "RedirectConfig": {
-       "Port": "443",
-       "Protocol": "HTTPS",
-       "StatusCode": "HTTP_302"
-      },
-      "Type": "redirect"
      }
     ],
     "LoadBalancerArn": {
@@ -181,13 +99,13 @@
     "Protocol": "HTTP"
    },
    "Metadata": {
-    "aws:cdk:path": "SharedCdkStack/RedirectListener/Resource"
+    "aws:cdk:path": "SharedCdkStack/ActiveListener/Resource"
    }
   },
   "AliasRecord851000D2": {
    "Type": "AWS::Route53::RecordSet",
    "Properties": {
-    "Name": "camille-ap-south-1-dev.camille.demo.com.",
+    "Name": "camille-dev-ap-south-1.camille.demo.com.",
     "Type": "A",
     "AliasTarget": {
      "DNSName": {
@@ -220,7 +138,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WQwU7DMAyGn4V7GljHxBk4TEggUMsdeampvKVJ5DhDqMq7k67VVE7Jp//Lb8W13u703Q38xMp0p8rSQY+tgDmp52/3BiGQ61WD0Sc2qIr2NaKpdQlbNIlJfvfsU3hxPWOMCi1EIWM9dAew4Ex5fq71+BiCJQNC3r2W7OmSIU9D/vHK+wTuUS7tk7bGdRtFQbc0LfesYhymb3CZ/gEMA8psXCGrUiS42+qxQeO5a1Em4Qo5T/ieJKQlmFeQlfMd6mO8PW/u9eah7O4YiSpOTmhA3cznH8pDFEZXAQAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WQwU7DMAyGn4V7GljHxBk4TEhIoJY78lJTeUuTynaGUJV3J10nVE7xr+/XF8u13e7s3Q18S+W6U+XpYKdWwZ1MgxITOzSFfU7oavv8FVp0iUl/9hzT+BJ6RhGDHkTJ+QjdATwER6E/13Z6HEdPDpRieC3s6cKQTfH8y6veB3CPerHPtXVc20gUw9V0nbMRGebdufz+DgwD6tL4C9kUkeJuW1Zr0EXuZrxMLWrOc3xLOiZdwHKAbELs0B7l9ry5t5uHcq6jEFWcgtKAtlneX2Ac2BFKAQAA"
    },
    "Metadata": {
     "aws:cdk:path": "SharedCdkStack/CDKMetadata/Default"
@@ -228,28 +146,23 @@
   }
  },
  "Outputs": {
-  "albDNS": {
+  "AlbDNSName": {
    "Value": {
     "Fn::GetAtt": [
      "alb8A8B13C2",
      "DNSName"
     ]
+   },
+   "Export": {
+    "Name": "AlbDNSName"
    }
   },
-  "ActiveListenerArn": {
+  "AlbListenerArn": {
    "Value": {
     "Ref": "ActiveListenerD6C39D0D"
    },
    "Export": {
-    "Name": "camille-dev-ActiveListener"
-   }
-  },
-  "PassiveListenerArn": {
-   "Value": {
-    "Ref": "PassiveListener6E1EB3B9"
-   },
-   "Export": {
-    "Name": "camille-dev-PassiveListener"
+    "Name": "AlbListenerArn"
    }
   }
  },

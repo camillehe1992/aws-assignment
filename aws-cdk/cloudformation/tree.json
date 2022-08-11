@@ -1153,9 +1153,9 @@
               "version": "2.35.0"
             }
           },
-          "domainName": {
-            "id": "domainName",
-            "path": "HostedZoneCdkStack/domainName",
+          "PrivateHostedZoneName": {
+            "id": "PrivateHostedZoneName",
+            "path": "HostedZoneCdkStack/PrivateHostedZoneName",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.35.0"
@@ -1457,25 +1457,25 @@
               "version": "2.35.0"
             }
           },
-          "dbReaderEndpoint": {
-            "id": "dbReaderEndpoint",
-            "path": "RdsCdkStack/dbReaderEndpoint",
+          "DbReaderEndpoint": {
+            "id": "DbReaderEndpoint",
+            "path": "RdsCdkStack/DbReaderEndpoint",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.35.0"
             }
           },
-          "dbWriterEndpoint": {
-            "id": "dbWriterEndpoint",
-            "path": "RdsCdkStack/dbWriterEndpoint",
+          "DbWriterEndpoint": {
+            "id": "DbWriterEndpoint",
+            "path": "RdsCdkStack/DbWriterEndpoint",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.35.0"
             }
           },
-          "secretName": {
-            "id": "secretName",
-            "path": "RdsCdkStack/secretName",
+          "SecretName": {
+            "id": "SecretName",
+            "path": "RdsCdkStack/SecretName",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.35.0"
@@ -1959,14 +1959,6 @@
         "id": "SharedCdkStack",
         "path": "SharedCdkStack",
         "children": {
-          "deploymentMapping": {
-            "id": "deploymentMapping",
-            "path": "SharedCdkStack/deploymentMapping",
-            "constructInfo": {
-              "fqn": "aws-cdk-lib.CfnMapping",
-              "version": "2.35.0"
-            }
-          },
           "MainVpc": {
             "id": "MainVpc",
             "path": "SharedCdkStack/MainVpc",
@@ -2029,44 +2021,6 @@
             "id": "SG",
             "path": "SharedCdkStack/SG",
             "children": {
-              "from 0.0.0.0_0:443": {
-                "id": "from 0.0.0.0_0:443",
-                "path": "SharedCdkStack/SG/from 0.0.0.0_0:443",
-                "attributes": {
-                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupIngress",
-                  "aws:cdk:cloudformation:props": {
-                    "ipProtocol": "tcp",
-                    "cidrIp": "0.0.0.0/0",
-                    "description": "Allow from anyone on port 443",
-                    "fromPort": 443,
-                    "groupId": "sg-03ad584c72ecd6ba0",
-                    "toPort": 443
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupIngress",
-                  "version": "2.35.0"
-                }
-              },
-              "from 0.0.0.0_0:8443": {
-                "id": "from 0.0.0.0_0:8443",
-                "path": "SharedCdkStack/SG/from 0.0.0.0_0:8443",
-                "attributes": {
-                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupIngress",
-                  "aws:cdk:cloudformation:props": {
-                    "ipProtocol": "tcp",
-                    "cidrIp": "0.0.0.0/0",
-                    "description": "Allow from anyone on port 8443",
-                    "fromPort": 8443,
-                    "groupId": "sg-03ad584c72ecd6ba0",
-                    "toPort": 8443
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupIngress",
-                  "version": "2.35.0"
-                }
-              },
               "from 0.0.0.0_0:80": {
                 "id": "from 0.0.0.0_0:80",
                 "path": "SharedCdkStack/SG/from 0.0.0.0_0:80",
@@ -2137,13 +2091,13 @@
               "version": "2.35.0"
             }
           },
-          "albArn": {
-            "id": "albArn",
-            "path": "SharedCdkStack/albArn",
+          "AlbArn": {
+            "id": "AlbArn",
+            "path": "SharedCdkStack/AlbArn",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "SharedCdkStack/albArn/Resource",
+                "path": "SharedCdkStack/AlbArn/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::SSM::Parameter",
                   "aws:cdk:cloudformation:props": {
@@ -2165,22 +2119,22 @@
               "version": "2.35.0"
             }
           },
-          "targetGroup": {
-            "id": "targetGroup",
-            "path": "SharedCdkStack/targetGroup",
+          "TargetGroup": {
+            "id": "TargetGroup",
+            "path": "SharedCdkStack/TargetGroup",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "SharedCdkStack/targetGroup/Resource",
+                "path": "SharedCdkStack/TargetGroup/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::TargetGroup",
                   "aws:cdk:cloudformation:props": {
                     "healthCheckIntervalSeconds": 30,
                     "healthCheckPath": "/health",
                     "healthyThresholdCount": 5,
-                    "name": "DefaultTargetGroup",
-                    "port": 443,
-                    "protocol": "HTTPS",
+                    "name": "camille-dev-target-group",
+                    "port": 80,
+                    "protocol": "HTTP",
                     "protocolVersion": "HTTP1",
                     "targetGroupAttributes": [
                       {
@@ -2218,91 +2172,7 @@
                       {
                         "type": "forward",
                         "targetGroupArn": {
-                          "Ref": "targetGroupD9C5A146"
-                        }
-                      }
-                    ],
-                    "loadBalancerArn": {
-                      "Ref": "alb8A8B13C2"
-                    },
-                    "certificates": [
-                      {
-                        "certificateArn": "arn:aws:acm:ap-south-1:824709318323:certificate/dcea95f0-055b-41b8-99d4-1d944e8d7ed1"
-                      }
-                    ],
-                    "port": 443,
-                    "protocol": "HTTPS"
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnListener",
-                  "version": "2.35.0"
-                }
-              }
-            },
-            "constructInfo": {
-              "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListener",
-              "version": "2.35.0"
-            }
-          },
-          "PassiveListener": {
-            "id": "PassiveListener",
-            "path": "SharedCdkStack/PassiveListener",
-            "children": {
-              "Resource": {
-                "id": "Resource",
-                "path": "SharedCdkStack/PassiveListener/Resource",
-                "attributes": {
-                  "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::Listener",
-                  "aws:cdk:cloudformation:props": {
-                    "defaultActions": [
-                      {
-                        "type": "forward",
-                        "targetGroupArn": {
-                          "Ref": "targetGroupD9C5A146"
-                        }
-                      }
-                    ],
-                    "loadBalancerArn": {
-                      "Ref": "alb8A8B13C2"
-                    },
-                    "certificates": [
-                      {
-                        "certificateArn": "arn:aws:acm:ap-south-1:824709318323:certificate/dcea95f0-055b-41b8-99d4-1d944e8d7ed1"
-                      }
-                    ],
-                    "port": 8443,
-                    "protocol": "HTTPS"
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnListener",
-                  "version": "2.35.0"
-                }
-              }
-            },
-            "constructInfo": {
-              "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListener",
-              "version": "2.35.0"
-            }
-          },
-          "RedirectListener": {
-            "id": "RedirectListener",
-            "path": "SharedCdkStack/RedirectListener",
-            "children": {
-              "Resource": {
-                "id": "Resource",
-                "path": "SharedCdkStack/RedirectListener/Resource",
-                "attributes": {
-                  "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::Listener",
-                  "aws:cdk:cloudformation:props": {
-                    "defaultActions": [
-                      {
-                        "type": "redirect",
-                        "redirectConfig": {
-                          "statusCode": "HTTP_302",
-                          "port": "443",
-                          "protocol": "HTTPS"
+                          "Ref": "TargetGroup3D7CD9B8"
                         }
                       }
                     ],
@@ -2342,7 +2212,7 @@
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::Route53::RecordSet",
                   "aws:cdk:cloudformation:props": {
-                    "name": "camille-ap-south-1-dev.camille.demo.com.",
+                    "name": "camille-dev-ap-south-1.camille.demo.com.",
                     "type": "A",
                     "aliasTarget": {
                       "hostedZoneId": {
@@ -2376,29 +2246,21 @@
               }
             },
             "constructInfo": {
-              "fqn": "aws-cdk-lib.aws_route53.RecordSet",
+              "fqn": "aws-cdk-lib.aws_route53.ARecord",
               "version": "2.35.0"
             }
           },
-          "albDNS": {
-            "id": "albDNS",
-            "path": "SharedCdkStack/albDNS",
+          "AlbDNSName": {
+            "id": "AlbDNSName",
+            "path": "SharedCdkStack/AlbDNSName",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.35.0"
             }
           },
-          "ActiveListenerArn": {
-            "id": "ActiveListenerArn",
-            "path": "SharedCdkStack/ActiveListenerArn",
-            "constructInfo": {
-              "fqn": "aws-cdk-lib.CfnOutput",
-              "version": "2.35.0"
-            }
-          },
-          "PassiveListenerArn": {
-            "id": "PassiveListenerArn",
-            "path": "SharedCdkStack/PassiveListenerArn",
+          "AlbListenerArn": {
+            "id": "AlbListenerArn",
+            "path": "SharedCdkStack/AlbListenerArn",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.35.0"

@@ -48,7 +48,7 @@
   }
  },
  "Outputs": {
-  "domainName": {
+  "PrivateHostedZoneName": {
    "Description": "The name of private hosted zone",
    "Value": {
     "Ref": "HostedZoneName"

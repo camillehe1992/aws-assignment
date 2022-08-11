@@ -327,7 +327,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-deploy-role-824709318323-ap-south-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-cfn-exec-role-824709318323-ap-south-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-824709318323-ap-south-1/61aed91cb885ea2c771fc29488d400cece2870d31ac596c1d52dd62d6c5b751e.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-824709318323-ap-south-1/912cf5d01ceb6bb51437fdf8e44ef53f96bbafc52cb60f88a6579cd4552cf551.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -355,10 +355,10 @@
             "data": "HostedZoneDB99F866"
           }
         ],
-        "/HostedZoneCdkStack/domainName": [
+        "/HostedZoneCdkStack/PrivateHostedZoneName": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "domainName"
+            "data": "PrivateHostedZoneName"
           }
         ],
         "/HostedZoneCdkStack/CDKMetadata/Default": [
@@ -398,7 +398,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-deploy-role-824709318323-ap-south-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-cfn-exec-role-824709318323-ap-south-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-824709318323-ap-south-1/77edac5443b5a503ea40bbc4c753797800c603d4c33b0dfeee52dbcfea7e3793.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-824709318323-ap-south-1/3d7955faf075397bc19b0f4327e193fc0696e298ca9063c4c026797e5f007ab9.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -450,22 +450,22 @@
             "data": "DatabaseInstance2AA380DEE"
           }
         ],
-        "/RdsCdkStack/dbReaderEndpoint": [
+        "/RdsCdkStack/DbReaderEndpoint": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "dbReaderEndpoint"
+            "data": "DbReaderEndpoint"
           }
         ],
-        "/RdsCdkStack/dbWriterEndpoint": [
+        "/RdsCdkStack/DbWriterEndpoint": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "dbWriterEndpoint"
+            "data": "DbWriterEndpoint"
           }
         ],
-        "/RdsCdkStack/secretName": [
+        "/RdsCdkStack/SecretName": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "secretName"
+            "data": "SecretName"
           }
         ],
         "/RdsCdkStack/CDKMetadata/Default": [
@@ -624,7 +624,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-deploy-role-824709318323-ap-south-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-cfn-exec-role-824709318323-ap-south-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-824709318323-ap-south-1/0f360c89bc078a30db441a4cd6b30d3f6cffb30ada600a1c40e3e2933fdf7000.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-824709318323-ap-south-1/c1402653f06eb82b806ccc38f1833c2615cf57c3f9b9ac40cc361fbf7a901c0b.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -640,24 +640,6 @@
         "SharedCdkStack.assets"
       ],
       "metadata": {
-        "/SharedCdkStack/deploymentMapping": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "deploymentMapping"
-          }
-        ],
-        "/SharedCdkStack/SG/from 0.0.0.0_0:443": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SGfrom00000443CBF757BB"
-          }
-        ],
-        "/SharedCdkStack/SG/from 0.0.0.0_0:8443": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SGfrom00000844349AC9CF2"
-          }
-        ],
         "/SharedCdkStack/SG/from 0.0.0.0_0:80": [
           {
             "type": "aws:cdk:logicalId",
@@ -670,16 +652,16 @@
             "data": "alb8A8B13C2"
           }
         ],
-        "/SharedCdkStack/albArn/Resource": [
+        "/SharedCdkStack/AlbArn/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "albArn4BA0EFFA"
+            "data": "AlbArnD4E8B909"
           }
         ],
-        "/SharedCdkStack/targetGroup/Resource": [
+        "/SharedCdkStack/TargetGroup/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "targetGroupD9C5A146"
+            "data": "TargetGroup3D7CD9B8"
           }
         ],
         "/SharedCdkStack/ActiveListener/Resource": [
@@ -688,40 +670,22 @@
             "data": "ActiveListenerD6C39D0D"
           }
         ],
-        "/SharedCdkStack/PassiveListener/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "PassiveListener6E1EB3B9"
-          }
-        ],
-        "/SharedCdkStack/RedirectListener/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "RedirectListener3D74E4BA"
-          }
-        ],
         "/SharedCdkStack/AliasRecord/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "AliasRecord851000D2"
           }
         ],
-        "/SharedCdkStack/albDNS": [
+        "/SharedCdkStack/AlbDNSName": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "albDNS"
+            "data": "AlbDNSName"
           }
         ],
-        "/SharedCdkStack/ActiveListenerArn": [
+        "/SharedCdkStack/AlbListenerArn": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ActiveListenerArn"
-          }
-        ],
-        "/SharedCdkStack/PassiveListenerArn": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "PassiveListenerArn"
+            "data": "AlbListenerArn"
           }
         ],
         "/SharedCdkStack/CDKMetadata/Default": [
