@@ -74,5 +74,17 @@
   "hosted-zone:account=824709318323:domainName=camille.demo.com:privateZone=true:region=ap-south-1:vpcId=vpc-0e33f5d05150f5e8a": {
     "Id": "/hostedzone/Z06405621KCPSS0STMJTY",
     "Name": "camille.demo.com."
+  },
+  "ssm:account=824709318323:parameterName=/SharedCdkStack/albArn:region=ap-south-1": "arn:aws:elasticloadbalancing:ap-south-1:824709318323:loadbalancer/app/camille-dev/55af9341e977fdc5",
+  "load-balancer-listener:account=824709318323:listenerPort=443:listenerProtocol=HTTPS:loadBalancerArn=arn$:aws:elasticloadbalancing:ap-south-1:824709318323:loadbalancer/app/camille-dev/55af9341e977fdc5:loadBalancerType=application:region=ap-south-1": {
+    "listenerArn": "arn:aws:elasticloadbalancing:ap-south-1:824709318323:listener/app/camille-dev/55af9341e977fdc5/0eec4fc678799f65",
+    "listenerPort": 443,
+    "securityGroupIds": [
+      "sg-03ad584c72ecd6ba0"
+    ]
+  },
+  "security-group:account=824709318323:region=ap-south-1:securityGroupId=sg-03ad584c72ecd6ba0": {
+    "securityGroupId": "sg-03ad584c72ecd6ba0",
+    "allowAllOutbound": false
   }
 }

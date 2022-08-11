@@ -3,6 +3,8 @@ import { Construct } from 'constructs';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as elbv2 from 'aws-cdk-lib/aws-elasticloadbalancingv2';
+import * as ssm from 'aws-cdk-lib/aws-ssm';
+import * as autoscaling from 'aws-cdk-lib/aws-autoscaling';
 
 import conf from '../config/app.conf';
 
@@ -67,33 +69,21 @@ export class GroupCdkStack extends cdk.Stack {
     });
 
     // Resources
-    const taskDefinition = new ecs.TaskDefinition(this, 'TaskDefinition', {
-      compatibility: ecs.Compatibility.EC2,
-      cpu: conf.taskCpu,
-      memoryMiB: conf.taskMemoryMiB,
-      family: `${conf.appName}-${conf.environment}-${conf.groupId}`,
-      networkMode: ecs.NetworkMode.BRIDGE
-    });
-
-    const containerDefinition = new ecs.ContainerDefinition(this, 'ContainerDefinition', {
+    const taskDefinition = new ecs.Ec2TaskDefinition(this, 'TaskDefinition');
+    
+    taskDefinition.addContainer('TheContainer', {
       image: ecs.ContainerImage.fromRegistry('nginx'),
-      taskDefinition,
-      cpu: parseInt(conf.taskCpu ?? '0'),
       memoryLimitMiB: parseInt(conf.taskMemoryMiB ?? '0'),
       portMappings: [
         {
-          containerPort: 0,
+          containerPort: 80,
+          hostPort: 0,
           protocol: ecs.Protocol.TCP
         }
       ],
-      environment: {
-        ['AWS_SECRET_ID']: cdk.Fn.importValue('dbSecretName')
-      }
-    });
-
-    containerDefinition.addVolumesFrom({
-      readOnly: false,
-      sourceContainer: 'container-volume'
+      // environment: {
+      //   ['AWS_SECRET_ID']: cdk.Fn.importValue('dbSecretName')
+      // }
     });
 
     const targetGroup = new elbv2.ApplicationTargetGroup (this, 'ApplicationTargetGroup', {
@@ -122,28 +112,42 @@ export class GroupCdkStack extends cdk.Stack {
         type: ecs.DeploymentControllerType.ECS,
       },
       desiredCount: parseInt(conf.containerCount ?? '1'),
-      serviceName: `${conf.appName}-${conf.environment}-${conf.groupId}`
+      serviceName: `${conf.appName}-${conf.environment}-${conf.groupId}`,
     });
 
     ecsService.attachToApplicationTargetGroup(targetGroup);
 
-    const listenerArn = cdk.Fn.importValue(`${conf.appName}-${conf.environment}-ActiveListener`)
+    const listener = elbv2.ApplicationListener.fromLookup(
+      this,
+      'Listener',
+      {
+        loadBalancerArn: ssm.StringParameter.valueFromLookup(this, '/SharedCdkStack/albArn'),
+        listenerPort: 443,
+        listenerProtocol: elbv2.ApplicationProtocol.HTTPS
+      }
+    )
+    const listenerRule = new elbv2.ApplicationListenerRule(
+      this,
+      'ListenerRule',
+      {
+        listener,
+        priority: 30,
+        action: elbv2.ListenerAction.forward([targetGroup]),
+        conditions: [
+          elbv2.ListenerCondition.pathPatterns(['*']),
+        ]
+      }
+    );
 
-    const listenerRule = new elbv2.CfnListenerRule(this, 'ListenerRule', {
-      listenerArn,
-      priority: 30,
-      actions: [
-        {
-          type: 'forword',
-          targetGroupArn: targetGroup.targetGroupArn
-        }
-      ],
-      conditions: [
-        {
-          field: 'path-pattern',
-          values: ['*']
-        }
-      ]
+    // setup autoscaling policy
+    const scaleTarget = ecsService.autoScaleTaskCount({
+      minCapacity: 1,
+      maxCapacity: 2
+    });
+    scaleTarget.scaleOnCpuUtilization('CpuScaling', {
+      targetUtilizationPercent: 60,
+      scaleInCooldown: cdk.Duration.seconds(60),
+      scaleOutCooldown: cdk.Duration.seconds(60)
     });
   }
 }

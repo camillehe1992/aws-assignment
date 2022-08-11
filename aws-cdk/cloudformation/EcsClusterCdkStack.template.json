@@ -1,10 +1,5 @@
 {
  "Parameters": {
-  "EC2InstanceRoleName": {
-   "Type": "String",
-   "Default": "EC2_Instance_Role",
-   "Description": "The role is assumed by EC2 instances running in ECS Cluster"
-  },
   "ECSClusterName": {
    "Type": "String",
    "Default": "MY-FIRST-ECS-CLUSTER",
@@ -12,12 +7,12 @@
   },
   "InstanceType": {
    "Type": "String",
-   "Default": "t3.small",
+   "Default": "t3.medium",
    "Description": "The EC2 instance type"
   },
-  "SsmParameterValueawsserviceecsoptimizedamiamazonlinux2recommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter": {
+  "SsmParameterValueawsserviceecsoptimizedamiamazonlinuxrecommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter": {
    "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
-   "Default": "/aws/service/ecs/optimized-ami/amazon-linux-2/recommended/image_id"
+   "Default": "/aws/service/ecs/optimized-ami/amazon-linux/recommended/image_id"
   },
   "BootstrapVersion": {
    "Type": "AWS::SSM::Parameter::Value<String>",
@@ -26,31 +21,35 @@
   }
  },
  "Resources": {
-  "EC2InstanceRole0BAA8CDD": {
-   "Type": "AWS::IAM::Role",
+  "ClusterEB0386A7": {
+   "Type": "AWS::ECS::Cluster",
    "Properties": {
-    "AssumeRolePolicyDocument": {
-     "Statement": [
-      {
-       "Action": "sts:AssumeRole",
-       "Effect": "Allow",
-       "Principal": {
-        "Service": "ec2.amazonaws.com"
-       }
-      }
-     ],
-     "Version": "2012-10-17"
-    },
-    "Description": "The role is assumed by EC2 instances running in ECS Cluster",
-    "RoleName": {
-     "Ref": "EC2InstanceRoleName"
+    "ClusterName": {
+     "Ref": "ECSClusterName"
     }
    },
    "Metadata": {
-    "aws:cdk:path": "EcsClusterCdkStack/EC2InstanceRole/Resource"
+    "aws:cdk:path": "EcsClusterCdkStack/Cluster/Resource"
    }
   },
-  "EC2InstanceRoleDefaultPolicy6E0BF0D9": {
+  "Cluster3DA9CCBA": {
+   "Type": "AWS::ECS::ClusterCapacityProviderAssociations",
+   "Properties": {
+    "CapacityProviders": [
+     {
+      "Ref": "AsgCapacityProvider760D11D9"
+     }
+    ],
+    "Cluster": {
+     "Ref": "ClusterEB0386A7"
+    },
+    "DefaultCapacityProviderStrategy": []
+   },
+   "Metadata": {
+    "aws:cdk:path": "EcsClusterCdkStack/Cluster/Cluster"
+   }
+  },
+  "Ec2InstanceRolePolicy0ED2723A": {
    "Type": "AWS::IAM::Policy",
    "Properties": {
     "PolicyDocument": {
@@ -100,43 +99,15 @@
      ],
      "Version": "2012-10-17"
     },
-    "PolicyName": "EC2InstanceRoleDefaultPolicy6E0BF0D9",
+    "PolicyName": "Ec2InstanceRolePolicy0ED2723A",
     "Roles": [
      {
-      "Ref": "EC2InstanceRole0BAA8CDD"
+      "Fn::ImportValue": "Ec2InstanceRoleName"
      }
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "EcsClusterCdkStack/EC2InstanceRole/DefaultPolicy/Resource"
-   }
-  },
-  "ClusterEB0386A7": {
-   "Type": "AWS::ECS::Cluster",
-   "Properties": {
-    "ClusterName": {
-     "Ref": "ECSClusterName"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "EcsClusterCdkStack/Cluster/Resource"
-   }
-  },
-  "Cluster3DA9CCBA": {
-   "Type": "AWS::ECS::ClusterCapacityProviderAssociations",
-   "Properties": {
-    "CapacityProviders": [
-     {
-      "Ref": "AsgCapacityProvider760D11D9"
-     }
-    ],
-    "Cluster": {
-     "Ref": "ClusterEB0386A7"
-    },
-    "DefaultCapacityProviderStrategy": []
-   },
-   "Metadata": {
-    "aws:cdk:path": "EcsClusterCdkStack/Cluster/Cluster"
+    "aws:cdk:path": "EcsClusterCdkStack/Ec2InstanceRole/Policy/Resource"
    }
   },
   "ASGLaunchTemplateProfile367835EA": {
@@ -144,7 +115,7 @@
    "Properties": {
     "Roles": [
      {
-      "Ref": "EC2InstanceRole0BAA8CDD"
+      "Fn::ImportValue": "Ec2InstanceRoleName"
      }
     ]
    },
@@ -175,11 +146,12 @@
       }
      },
      "ImageId": {
-      "Ref": "SsmParameterValueawsserviceecsoptimizedamiamazonlinux2recommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter"
+      "Ref": "SsmParameterValueawsserviceecsoptimizedamiamazonlinuxrecommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter"
      },
      "InstanceType": {
       "Ref": "InstanceType"
      },
+     "KeyName": "ec2-private-key",
      "SecurityGroupIds": [
       "sg-0f4ac3813d0959eb3"
      ],
@@ -229,22 +201,15 @@
    "Properties": {
     "MaxSize": "1",
     "MinSize": "1",
-    "MixedInstancesPolicy": {
-     "InstancesDistribution": {
-      "OnDemandPercentageAboveBaseCapacity": 50
+    "LaunchTemplate": {
+     "LaunchTemplateId": {
+      "Ref": "ASGLaunchTemplate2E225363"
      },
-     "LaunchTemplate": {
-      "LaunchTemplateSpecification": {
-       "LaunchTemplateId": {
-        "Ref": "ASGLaunchTemplate2E225363"
-       },
-       "Version": {
-        "Fn::GetAtt": [
-         "ASGLaunchTemplate2E225363",
-         "LatestVersionNumber"
-        ]
-       }
-      }
+     "Version": {
+      "Fn::GetAtt": [
+       "ASGLaunchTemplate2E225363",
+       "LatestVersionNumber"
+      ]
      }
     },
     "NewInstancesProtectedFromScaleIn": true,
@@ -294,7 +259,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/2VQy07DMBD8Fu6OoQ/EOcoBVUIiSrmjxdmWbR078tpFleV/x3YREuE0u7Mz+1rLzaN8uIMvbtR4bjR9yLj3oM6iO5geHEzo0YkB2QanUGTheySYZBysxiKq2FtN6lo9v9HOsAejsHf2QBqTQMUydjpw6ZgF/8MOZlDkr9lyoRFdy2wVgSdrWLR8XNardcGVOWsZXyAY9fmG06zB10X/MklA8JYVaDJHGduc7G/Js7NhLoYll1JhX4Ofg6+X/zwlCWNHlCe+v6y2cvWU/3liosYF42lCOdzwG3322DVrAQAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/2VQS0sDMRD+Ld6z0T7E87IHKQgurXcZZ6d12myyZJJKCfnvJi0Krqf5njB8S7161A938CUNDqfG8IdOuwB4Ut3e9uBhpEBebUlc9EiqBN8ToejUmSjVKrn/sIMJkMOl9+7MA/lWxCFDYGdFtXKY+9fqTMuKYdSpd4bxcn3nF22sBLBIJbpnQ1kRLnV6gWjx843GyUCgmvurZAUxOEEwbA86tYXsbuTZuzjVwlzLuaqvMUwxVPSzQ1bWDaSPcn9erPXiqUx4FObGRxt4JL293W+ZL6ewXgEAAA=="
    },
    "Metadata": {
     "aws:cdk:path": "EcsClusterCdkStack/CDKMetadata/Default"
@@ -302,7 +267,7 @@
   }
  },
  "Outputs": {
-  "cluster": {
+  "ClusterName": {
    "Value": {
     "Ref": "ClusterEB0386A7"
    },

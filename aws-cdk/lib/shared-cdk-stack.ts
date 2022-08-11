@@ -4,6 +4,7 @@ import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as elbv2 from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import * as route53 from 'aws-cdk-lib/aws-route53';
 import * as targets from 'aws-cdk-lib/aws-route53-targets';
+import * as ssm from 'aws-cdk-lib/aws-ssm';
 
 import conf from '../config/app.conf';
 
@@ -43,6 +44,11 @@ export class SharedCdkStack extends cdk.Stack {
         subnetType: ec2.SubnetType.PUBLIC
       }
     });
+
+    new ssm.StringParameter(this, 'albArn', {
+      parameterName: '/SharedCdkStack/albArn',
+      stringValue: alb.loadBalancerArn
+    })
     
     const targetGroup = new elbv2.ApplicationTargetGroup(this, 'targetGroup', {
       healthCheck: {

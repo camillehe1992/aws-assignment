@@ -72,6 +72,19 @@
     "aws:cdk:path": "SharedCdkStack/alb/Resource"
    }
   },
+  "albArn4BA0EFFA": {
+   "Type": "AWS::SSM::Parameter",
+   "Properties": {
+    "Type": "String",
+    "Value": {
+     "Ref": "alb8A8B13C2"
+    },
+    "Name": "/SharedCdkStack/albArn"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SharedCdkStack/albArn/Resource"
+   }
+  },
   "targetGroupD9C5A146": {
    "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
    "Properties": {
@@ -207,7 +220,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WQQU/DMAyFfwv31Ns6Js7AASGBkFruyHNN5S0kUeIMoar/felWoe5kP33Pz7Jr2O5gfYe/qaLuWFnZw9Aq0tE8f7t3DEFcbxpOPkdiU2xfA1MNBbZMOYr+vUSfw6vrI6dk2GJSIeux26NFR2X8VMPwGIIVQhXv3gp7ujCO05IbvfB9YuxZL+mTbSmXaZKU3Zw096MpLuXdFoaGyceuZZ34vxjHSX5kDXkG1/tG43zHcEir0+YeNg/lMYckUsXsVH4Ymms9AwMr64U0AQAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WQwU7DMAyGn4V7GljHxBk4TEggUMsdeampvKVJ5DhDqMq7k67VVE7Jp//Lb8W13u703Q38xMp0p8rSQY+tgDmp52/3BiGQ61WD0Sc2qIr2NaKpdQlbNIlJfvfsU3hxPWOMCi1EIWM9dAew4Ex5fq71+BiCJQNC3r2W7OmSIU9D/vHK+wTuUS7tk7bGdRtFQbc0LfesYhymb3CZ/gEMA8psXCGrUiS42+qxQeO5a1Em4Qo5T/ieJKQlmFeQlfMd6mO8PW/u9eah7O4YiSpOTmhA3cznH8pDFEZXAQAA"
    },
    "Metadata": {
     "aws:cdk:path": "SharedCdkStack/CDKMetadata/Default"
