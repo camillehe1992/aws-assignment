@@ -40,7 +40,7 @@
     "ContainerDefinitions": [
      {
       "Essential": true,
-      "Image": "nginx",
+      "Image": "camillehe1992/webapp",
       "Memory": 512,
       "Name": "TheContainer",
       "PortMappings": [

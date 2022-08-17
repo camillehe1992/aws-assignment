@@ -43,7 +43,7 @@ export class GroupCdkStack extends cdk.Stack {
     const taskDefinition = new ecs.Ec2TaskDefinition(this, 'TaskDefinition');
     
     taskDefinition.addContainer('TheContainer', {
-      image: ecs.ContainerImage.fromRegistry('nginx'),
+      image: ecs.ContainerImage.fromRegistry('camillehe1992/webapp'),
       memoryLimitMiB: parseInt(conf.taskMemoryMiB ?? '0'),
       portMappings: [
         {

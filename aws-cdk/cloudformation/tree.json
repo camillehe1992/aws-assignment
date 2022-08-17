@@ -2455,7 +2455,7 @@
                     "containerDefinitions": [
                       {
                         "essential": true,
-                        "image": "nginx",
+                        "image": "camillehe1992/webapp",
                         "memory": 512,
                         "name": "TheContainer",
                         "portMappings": [
