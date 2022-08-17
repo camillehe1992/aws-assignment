@@ -1,17 +1,17 @@
 {
  "Resources": {
-  "SGfromGroupCdkStackListenerSecurityGroupsg03ad584c72ecd6ba0B1DE866E3276865535E1B9B972": {
+  "SGfromGroupCdkStackALBSecurityGroupsg0d928f9a2e983d46bE48EF5583276865535913C5363": {
    "Type": "AWS::EC2::SecurityGroupIngress",
    "Properties": {
     "IpProtocol": "tcp",
     "Description": "Load balancer to target",
     "FromPort": 32768,
-    "GroupId": "sg-0f4ac3813d0959eb3",
-    "SourceSecurityGroupId": "sg-03ad584c72ecd6ba0",
+    "GroupId": "sg-034a4efbb9dd087d4",
+    "SourceSecurityGroupId": "sg-0d928f9a2e983d46b",
     "ToPort": 65535
    },
    "Metadata": {
-    "aws:cdk:path": "GroupCdkStack/SG/from GroupCdkStackListenerSecurityGroupsg03ad584c72ecd6ba0B1DE866E:32768-65535"
+    "aws:cdk:path": "GroupCdkStack/SG/from GroupCdkStackALBSecurityGroupsg0d928f9a2e983d46bE48EF558:32768-65535"
    }
   },
   "TaskDefinitionTaskRoleFD40A61D": {
@@ -68,38 +68,71 @@
     "aws:cdk:path": "GroupCdkStack/TaskDefinition/Resource"
    }
   },
-  "ApplicationTargetGroup39BF8D27": {
+  "TargetGroup3D7CD9B8": {
    "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
    "Properties": {
-    "HealthCheckEnabled": true,
-    "HealthCheckIntervalSeconds": 5,
-    "HealthCheckPath": "/health",
-    "HealthCheckPort": "traffic-port",
-    "HealthCheckProtocol": "HTTP",
-    "HealthCheckTimeoutSeconds": 3,
-    "HealthyThresholdCount": 10,
-    "Matcher": {
-     "HttpCode": "200"
-    },
-    "Name": "camille-dev-g1",
-    "Port": 443,
-    "Protocol": "HTTPS",
+    "Name": "playground-dev-default",
+    "Port": 80,
+    "Protocol": "HTTP",
+    "ProtocolVersion": "HTTP1",
     "TargetGroupAttributes": [
-     {
-      "Key": "deregistration_delay.timeout_seconds",
-      "Value": "300"
-     },
      {
       "Key": "stickiness.enabled",
       "Value": "false"
      }
     ],
     "TargetType": "instance",
-    "UnhealthyThresholdCount": 3,
-    "VpcId": "vpc-0e33f5d05150f5e8a"
+    "VpcId": "vpc-0df3a849a84b91be5"
    },
    "Metadata": {
-    "aws:cdk:path": "GroupCdkStack/ApplicationTargetGroup/Resource"
+    "aws:cdk:path": "GroupCdkStack/TargetGroup/Resource"
+   }
+  },
+  "ALBSecurityGroupsg0d928f9a2e983d46bfrom0000080F45DF8B4": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "IpProtocol": "tcp",
+    "CidrIp": "0.0.0.0/0",
+    "Description": "Allow from anyone on port 80",
+    "FromPort": 80,
+    "GroupId": "sg-0d928f9a2e983d46b",
+    "ToPort": 80
+   },
+   "Metadata": {
+    "aws:cdk:path": "GroupCdkStack/ALB/SecurityGroup-sg-0d928f9a2e983d46b/from 0.0.0.0_0:80"
+   }
+  },
+  "ALBSecurityGroupsg0d928f9a2e983d46btoGroupCdkStackSG5C449E253276865535D6D03F49": {
+   "Type": "AWS::EC2::SecurityGroupEgress",
+   "Properties": {
+    "GroupId": "sg-0d928f9a2e983d46b",
+    "IpProtocol": "tcp",
+    "Description": "Load balancer to target",
+    "DestinationSecurityGroupId": "sg-034a4efbb9dd087d4",
+    "FromPort": 32768,
+    "ToPort": 65535
+   },
+   "Metadata": {
+    "aws:cdk:path": "GroupCdkStack/ALB/SecurityGroup-sg-0d928f9a2e983d46b/to GroupCdkStackSG5C449E25:32768-65535"
+   }
+  },
+  "AlbListenerDFCDF14C": {
+   "Type": "AWS::ElasticLoadBalancingV2::Listener",
+   "Properties": {
+    "DefaultActions": [
+     {
+      "TargetGroupArn": {
+       "Ref": "TargetGroup3D7CD9B8"
+      },
+      "Type": "forward"
+     }
+    ],
+    "LoadBalancerArn": "arn:aws:elasticloadbalancing:ap-south-1:824709318323:loadbalancer/app/playground-dev/98e2f088837a2484",
+    "Port": 80,
+    "Protocol": "HTTP"
+   },
+   "Metadata": {
+    "aws:cdk:path": "GroupCdkStack/AlbListener/Resource"
    }
   },
   "Ec2Service04A33183": {
@@ -124,18 +157,18 @@
       "ContainerName": "TheContainer",
       "ContainerPort": 80,
       "TargetGroupArn": {
-       "Ref": "ApplicationTargetGroup39BF8D27"
+       "Ref": "TargetGroup3D7CD9B8"
       }
      }
     ],
     "SchedulingStrategy": "REPLICA",
-    "ServiceName": "camille-dev-g1",
+    "ServiceName": "playground-dev-g1",
     "TaskDefinition": {
      "Ref": "TaskDefinitionB36D86D9"
     }
    },
    "DependsOn": [
-    "ListenerRule73F9AC5E"
+    "AlbListenerDFCDF14C"
    ],
    "Metadata": {
     "aws:cdk:path": "GroupCdkStack/Ec2Service/Service"
@@ -204,52 +237,10 @@
     "aws:cdk:path": "GroupCdkStack/Ec2Service/TaskCount/Target/CpuScaling/Resource"
    }
   },
-  "ListenerSecurityGroupsg03ad584c72ecd6ba0toGroupCdkStackSG5C449E2532768655355FE5A023": {
-   "Type": "AWS::EC2::SecurityGroupEgress",
-   "Properties": {
-    "GroupId": "sg-03ad584c72ecd6ba0",
-    "IpProtocol": "tcp",
-    "Description": "Load balancer to target",
-    "DestinationSecurityGroupId": "sg-0f4ac3813d0959eb3",
-    "FromPort": 32768,
-    "ToPort": 65535
-   },
-   "Metadata": {
-    "aws:cdk:path": "GroupCdkStack/Listener/SecurityGroup-sg-03ad584c72ecd6ba0/to GroupCdkStackSG5C449E25:32768-65535"
-   }
-  },
-  "ListenerRule73F9AC5E": {
-   "Type": "AWS::ElasticLoadBalancingV2::ListenerRule",
-   "Properties": {
-    "Actions": [
-     {
-      "TargetGroupArn": {
-       "Ref": "ApplicationTargetGroup39BF8D27"
-      },
-      "Type": "forward"
-     }
-    ],
-    "Conditions": [
-     {
-      "Field": "path-pattern",
-      "PathPatternConfig": {
-       "Values": [
-        "*"
-       ]
-      }
-     }
-    ],
-    "ListenerArn": "arn:aws:elasticloadbalancing:ap-south-1:824709318323:listener/app/camille-dev/55af9341e977fdc5/0eec4fc678799f65",
-    "Priority": 30
-   },
-   "Metadata": {
-    "aws:cdk:path": "GroupCdkStack/ListenerRule/Resource"
-   }
-  },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/11RTU/DMAz9LdzTwAqIMxoTQgIJtb0jN/Uqr1lS5aNoqvLfcVvYyk6OX56fn+1c3j/Kuxv49plqukxTLccygOrEdm8+oO/JtKJAb6NTKJj2NaLK5ci/JaroKJxenY39m2kdei+u8d0MJ4HKy3Gn8gp894J7MhTImol+jVgTgAy6FcZ1JbqB2MGsvzxLBRpqjZPA1kYTkiA4yrGweuZNkRtr8IGUttDUzDeKBxp4gOe+16Rg0q/AtRhmu4uhS7pivZMPyL6KuMiv8yTgQoQYrGdv3Ih3eTY5ic72/yNLqByvnAvKpe7Tstjpj30GUprn+r1GEsY2KA/+dtg8yM0Tn/HgiTLHq6AjymKJP395RfbiAQAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/11RTU/DMAz9LdzTwAqIMxoTQuKA2t6Rm3qT1yypkrRoqvLfcVL2wU52Xp6fn+1SPj7Lhzv48YXq+kJTK+c6gOpFhd6OTqHgv+8ZVSnn9dbUqEZH4fju7Dh8mJ1D78UtvslwFKi8nDeqbMD3b7glQ4GsSfRbxJoAZNBdYVxXo5uIHWT9Ja0VaGg1JoG1HU2IguAg58rqzEuRG2vwgZS20LXMN4rMbuIBXodBk4Kk34DbYch2F0OX5xXrk3xA9pUopzwKuBBgDNazJ27AizubS2LZ9n9kCY3j/XJBvdR9WRY7nthnIMY8z98VojC2Q7n399PqSa5e+GZ7T1Q4XgEdUFZL/AUDeOtkzwEAAA=="
    },
    "Metadata": {
     "aws:cdk:path": "GroupCdkStack/CDKMetadata/Default"

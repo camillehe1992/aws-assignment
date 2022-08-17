@@ -7,12 +7,12 @@
   },
   "InstanceType": {
    "Type": "String",
-   "Default": "t3.medium",
+   "Default": "t2.micro",
    "Description": "The EC2 instance type"
   },
-  "SsmParameterValueawsserviceecsoptimizedamiamazonlinuxrecommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter": {
+  "SsmParameterValueawsserviceecsoptimizedamiamazonlinux2recommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter": {
    "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
-   "Default": "/aws/service/ecs/optimized-ami/amazon-linux/recommended/image_id"
+   "Default": "/aws/service/ecs/optimized-ami/amazon-linux-2/recommended/image_id"
   },
   "BootstrapVersion": {
    "Type": "AWS::SSM::Parameter::Value<String>",
@@ -21,34 +21,6 @@
   }
  },
  "Resources": {
-  "ClusterEB0386A7": {
-   "Type": "AWS::ECS::Cluster",
-   "Properties": {
-    "ClusterName": {
-     "Ref": "ECSClusterName"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "EcsClusterCdkStack/Cluster/Resource"
-   }
-  },
-  "Cluster3DA9CCBA": {
-   "Type": "AWS::ECS::ClusterCapacityProviderAssociations",
-   "Properties": {
-    "CapacityProviders": [
-     {
-      "Ref": "AsgCapacityProvider760D11D9"
-     }
-    ],
-    "Cluster": {
-     "Ref": "ClusterEB0386A7"
-    },
-    "DefaultCapacityProviderStrategy": []
-   },
-   "Metadata": {
-    "aws:cdk:path": "EcsClusterCdkStack/Cluster/Cluster"
-   }
-  },
   "Ec2InstanceRolePolicy0ED2723A": {
    "Type": "AWS::IAM::Policy",
    "Properties": {
@@ -127,16 +99,6 @@
    "Type": "AWS::EC2::LaunchTemplate",
    "Properties": {
     "LaunchTemplateData": {
-     "BlockDeviceMappings": [
-      {
-       "DeviceName": "/dev/xvda",
-       "Ebs": {
-        "Encrypted": true,
-        "VolumeSize": 30,
-        "VolumeType": "standard"
-       }
-      }
-     ],
      "IamInstanceProfile": {
       "Arn": {
        "Fn::GetAtt": [
@@ -146,14 +108,14 @@
       }
      },
      "ImageId": {
-      "Ref": "SsmParameterValueawsserviceecsoptimizedamiamazonlinuxrecommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter"
+      "Ref": "SsmParameterValueawsserviceecsoptimizedamiamazonlinux2recommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter"
      },
      "InstanceType": {
       "Ref": "InstanceType"
      },
      "KeyName": "ec2-private-key",
      "SecurityGroupIds": [
-      "sg-0f4ac3813d0959eb3"
+      "sg-034a4efbb9dd087d4"
      ],
      "TagSpecifications": [
       {
@@ -214,9 +176,9 @@
     },
     "NewInstancesProtectedFromScaleIn": true,
     "VPCZoneIdentifier": [
-     "subnet-0106f148d0098a118",
-     "subnet-0ee4456347024d1eb",
-     "subnet-05b40aa256fe20aa7"
+     "subnet-001274da75b9662d0",
+     "subnet-07b1599e4316c7c21",
+     "subnet-0db7a60eb2cce1186"
     ]
    },
    "UpdatePolicy": {
@@ -235,6 +197,34 @@
    },
    "Metadata": {
     "aws:cdk:path": "EcsClusterCdkStack/ASG/ASG"
+   }
+  },
+  "ClusterEB0386A7": {
+   "Type": "AWS::ECS::Cluster",
+   "Properties": {
+    "ClusterName": {
+     "Ref": "ECSClusterName"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "EcsClusterCdkStack/Cluster/Resource"
+   }
+  },
+  "Cluster3DA9CCBA": {
+   "Type": "AWS::ECS::ClusterCapacityProviderAssociations",
+   "Properties": {
+    "CapacityProviders": [
+     {
+      "Ref": "AsgCapacityProvider760D11D9"
+     }
+    ],
+    "Cluster": {
+     "Ref": "ClusterEB0386A7"
+    },
+    "DefaultCapacityProviderStrategy": []
+   },
+   "Metadata": {
+    "aws:cdk:path": "EcsClusterCdkStack/Cluster/Cluster"
    }
   },
   "AsgCapacityProvider760D11D9": {
@@ -259,7 +249,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/2VQS0sDMRD+Ld6z0T7E87IHKQgurXcZZ6d12myyZJJKCfnvJi0Krqf5njB8S7161A938CUNDqfG8IdOuwB4Ut3e9uBhpEBebUlc9EiqBN8ToejUmSjVKrn/sIMJkMOl9+7MA/lWxCFDYGdFtXKY+9fqTMuKYdSpd4bxcn3nF22sBLBIJbpnQ1kRLnV6gWjx843GyUCgmvurZAUxOEEwbA86tYXsbuTZuzjVwlzLuaqvMUwxVPSzQ1bWDaSPcn9erPXiqUx4FObGRxt4JL293W+ZL6ewXgEAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/2VQXUsDMRD8Lb7nov0Qn497kILg0fou6962bptLjmxSKSH/3aRFwfNpZ2dnlmGWevWoH+7gSxocTo3hD512AfCkur3twcNIgbzakrjokVQRvieGUafeGcbLVfaLNlYCWKTeuz0byopwqdMLRIufbzROBgJV3V8mK4jBCYJhe9CpLcvutjx7F6dqmHP1s+jUmSg1XlH8hx1MgBwuJcyZB/KtiEOGwM6KauUwv1+tMy7nyr7GMMVQ0U8PWVk3kD7K/Xmx1ounUuFRmBsfbeCR9PY2vwFNjkxzXgEAAA=="
    },
    "Metadata": {
     "aws:cdk:path": "EcsClusterCdkStack/CDKMetadata/Default"

@@ -8,60 +8,31 @@ import * as autoscaling from 'aws-cdk-lib/aws-autoscaling';
 
 import conf from '../config/app.conf';
 
+// import { VpcCdkStack } from './vpc-cdk-stack';
+// import { EcsClusterCdkStack } from './ecs-cluster-cdk-stack';
+// import { SharedCdkStack } from './shared-cdk-stack';
+
 export class GroupCdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: cdk.StackProps) {
     super(scope, id, props);
 
-    // // Conditions
-    // const IsActive = new cdk.CfnCondition(
-    //   this,
-    //   'IsActive',
-    //   {
-    //     expression: cdk.Fn.conditionEquals(this, 'true')
-    //   }
-    // );
-    
-    // const IsNotActive = new cdk.CfnCondition(
-    //   this,
-    //   'IsNotActive',
-    //   {
-    //     expression: cdk.Fn.conditionNot(cdk.Fn.conditionEquals(IsActive, 'true'))
-    //   }
-    // );
+    // Dependency stacks
+    // const vpcCdkStack = new VpcCdkStack(scope, 'VpcCdkStack') 
+    // this.addDependency(vpcCdkStack);
+    // const ecsClusterCdkStack = new EcsClusterCdkStack(scope, 'EcsClusterCdkStack') 
+    // this.addDependency(ecsClusterCdkStack);
+    // const sharedCdkStack = new SharedCdkStack(scope, 'SharedCdkStack') 
+    // this.addDependency(sharedCdkStack);
 
-    // Mappings
-    const deploymentMapping = new cdk.CfnMapping(this, 'deploymentMapping', {
-      mapping: {
-        'g1': {
-          RulePriority: 30,
-        },
-        'g2': {
-          RulePriority: 40,
-        }
-      },
-      lazy: true
-    });
-
-    // const validationMapping = new cdk.CfnMapping(this, 'validationMapping', {
-    //   mapping: {
-    //     'g1': {
-    //       RulePriority: 20,
-    //     },
-    //     'g2': {
-    //       RulePriority: 10,
-    //     }
-    //   },
-    //   lazy: true
-    // });
-
-    // 👇 import VPC by Name
+    // import VPC by Name
     const vpc = ec2.Vpc.fromLookup(this, 'MainVpc', {
-      vpcName: 'main-vpc',
+      vpcName: 'MainVpc',
     });
 
-    // 👇 import Database Security Group by Name
+    // import backend security group by name
     const securityGroup = ec2.SecurityGroup.fromLookupByName(this, 'SG', 'backend-server-sg', vpc);
     
+    // import ECS cluster by attributes
     const cluster = ecs.Cluster.fromClusterAttributes(this, 'Cluster', {
       vpc,
       securityGroups: [securityGroup],
@@ -77,7 +48,6 @@ export class GroupCdkStack extends cdk.Stack {
       portMappings: [
         {
           containerPort: 80,
-          hostPort: 0,
           protocol: ecs.Protocol.TCP
         }
       ],
@@ -86,24 +56,24 @@ export class GroupCdkStack extends cdk.Stack {
       // }
     });
 
-    const targetGroup = new elbv2.ApplicationTargetGroup (this, 'ApplicationTargetGroup', {
-      deregistrationDelay: cdk.Duration.minutes(5),
-      healthCheck: {
-        enabled: true,
-        healthyHttpCodes: '200',
-        healthyThresholdCount: 10,
-        interval: cdk.Duration.seconds(5),
-        path: '/health',
-        port: 'traffic-port',
-        protocol: elbv2.Protocol.HTTP,
-        timeout: cdk.Duration.seconds(3),
-        unhealthyThresholdCount: 3,
-      },
-      protocol: elbv2.ApplicationProtocol.HTTPS,
-      targetGroupName: `${conf.appName}-${conf.environment}-${conf.groupId}`,
+    const targetGroup = new elbv2.ApplicationTargetGroup(this, 'TargetGroup', {
+      port: 80,
+      protocol: elbv2.ApplicationProtocol.HTTP,
+      protocolVersion: elbv2.ApplicationProtocolVersion.HTTP1,
+      targetGroupName: `${conf.appName}-${conf.environment}-default`,
       targetType: elbv2.TargetType.INSTANCE,
-      vpc: vpc,
-    })
+      vpc
+    });
+
+    const alb = elbv2.ApplicationLoadBalancer.fromLookup(this, 'ALB', {
+      loadBalancerArn: ssm.StringParameter.valueFromLookup(this, '/SharedCdkStack/albArn')
+    });
+
+    const albListener = new elbv2.ApplicationListener(this, 'AlbListener', {
+      loadBalancer: alb,
+      port: 80,
+      defaultAction: elbv2.ListenerAction.forward([targetGroup])
+    });
 
     const ecsService = new ecs.Ec2Service(this, 'Ec2Service', {
       cluster,
@@ -116,28 +86,6 @@ export class GroupCdkStack extends cdk.Stack {
     });
 
     ecsService.attachToApplicationTargetGroup(targetGroup);
-
-    const listener = elbv2.ApplicationListener.fromLookup(
-      this,
-      'Listener',
-      {
-        loadBalancerArn: ssm.StringParameter.valueFromLookup(this, '/SharedCdkStack/albArn'),
-        listenerPort: 443,
-        listenerProtocol: elbv2.ApplicationProtocol.HTTPS
-      }
-    )
-    const listenerRule = new elbv2.ApplicationListenerRule(
-      this,
-      'ListenerRule',
-      {
-        listener,
-        priority: 30,
-        action: elbv2.ListenerAction.forward([targetGroup]),
-        conditions: [
-          elbv2.ListenerCondition.pathPatterns(['*']),
-        ]
-      }
-    );
 
     // setup autoscaling policy
     const scaleTarget = ecsService.autoScaleTaskCount({

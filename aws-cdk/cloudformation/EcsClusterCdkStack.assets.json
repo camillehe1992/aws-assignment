@@ -1,7 +1,7 @@
 {
   "version": "20.0.0",
   "files": {
-    "93575d83ab015d6a9602b4d96444711027786dc1e652cf74aa41fb476c3a2894": {
+    "78e43f4585a80aab879771ecc68131dcb9028d09c6a5ac1d1ce4584fcc12cb16": {
       "source": {
         "path": "EcsClusterCdkStack.template.json",
         "packaging": "file"
@@ -9,7 +9,7 @@
       "destinations": {
         "824709318323-ap-south-1": {
           "bucketName": "cdk-hnb659fds-assets-824709318323-ap-south-1",
-          "objectKey": "93575d83ab015d6a9602b4d96444711027786dc1e652cf74aa41fb476c3a2894.json",
+          "objectKey": "78e43f4585a80aab879771ecc68131dcb9028d09c6a5ac1d1ce4584fcc12cb16.json",
           "region": "ap-south-1",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::824709318323:role/cdk-hnb659fds-file-publishing-role-824709318323-ap-south-1"
         }

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-import { AwsCdkStack } from '../lib/aws-cdk-stack';
+import { VpcCdkStack } from '../lib/vpc-cdk-stack';
 import { IamCdkStack } from '../lib//iam-cdk-stacks';
 import { HostedZoneCdkStack } from '../lib/hostzone-cdk-stack';
 import { RdsCdkStack } from '../lib/rds-cdk-stack';
@@ -18,7 +18,7 @@ const env = {
 
 const app = new cdk.App();
 
-new AwsCdkStack(app, 'AwsCdkStack', { env });
+new VpcCdkStack(app, 'VpcCdkStack', { env });
 new IamCdkStack(app, 'IamCdkStack', { env });
 new HostedZoneCdkStack(app, 'HostedZoneCdkStack', { env });
 new RdsCdkStack(app, 'RdsCdkStack', { env });

@@ -5,9 +5,8 @@
    "Properties": {
     "DBSubnetGroupDescription": "Subnets for Database database",
     "SubnetIds": [
-     "subnet-0106f148d0098a118",
-     "subnet-0ee4456347024d1eb",
-     "subnet-05b40aa256fe20aa7"
+     "p-12345",
+     "p-67890"
     ]
    },
    "Metadata": {
@@ -81,7 +80,7 @@
      ]
     },
     "VpcSecurityGroupIds": [
-     "sg-03fbdf669896580d0"
+     "sg-12345"
     ]
    },
    "UpdateReplacePolicy": "Snapshot",

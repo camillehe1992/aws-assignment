@@ -4,8 +4,8 @@
     "ap-south-1b",
     "ap-south-1c"
   ],
-  "vpc-provider:account=824709318323:filter.tag:Name=main-vpc:region=ap-south-1:returnAsymmetricSubnets=true": {
-    "vpcId": "vpc-0e33f5d05150f5e8a",
+  "vpc-provider:account=824709318323:filter.tag:Name=MainVpc:region=ap-south-1:returnAsymmetricSubnets=true": {
+    "vpcId": "vpc-0df3a849a84b91be5",
     "vpcCidrBlock": "10.0.0.0/16",
     "availabilityZones": [],
     "subnetGroups": [
@@ -14,77 +14,127 @@
         "type": "Public",
         "subnets": [
           {
-            "subnetId": "subnet-0f0f03929516b958f",
+            "subnetId": "subnet-0f06566b300f381bd",
             "cidr": "10.0.0.0/24",
             "availabilityZone": "ap-south-1a",
-            "routeTableId": "rtb-05a75e29007b6494d"
+            "routeTableId": "rtb-01e7528cedbe4016c"
           },
           {
-            "subnetId": "subnet-0813ebb39bd94600c",
+            "subnetId": "subnet-0856b6adad8d63ce5",
             "cidr": "10.0.1.0/24",
             "availabilityZone": "ap-south-1b",
-            "routeTableId": "rtb-06f78569a9a836ff3"
+            "routeTableId": "rtb-0b0d46da5c49c4691"
           },
           {
-            "subnetId": "subnet-04ec8fb3a1cc4fd2d",
+            "subnetId": "subnet-0ff03b1e5ce7b8a28",
             "cidr": "10.0.2.0/24",
             "availabilityZone": "ap-south-1c",
-            "routeTableId": "rtb-0ecba08788b0a9eac"
+            "routeTableId": "rtb-0d5cd8cd9a8c2e928"
           }
         ]
       },
       {
         "name": "Private",
-        "type": "Isolated",
+        "type": "Private",
         "subnets": [
           {
-            "subnetId": "subnet-0106f148d0098a118",
+            "subnetId": "subnet-001274da75b9662d0",
             "cidr": "10.0.3.0/28",
             "availabilityZone": "ap-south-1a",
-            "routeTableId": "rtb-04c11230121bf2d1e"
+            "routeTableId": "rtb-067c2b2839fe6dd06"
           },
           {
-            "subnetId": "subnet-0ee4456347024d1eb",
+            "subnetId": "subnet-07b1599e4316c7c21",
             "cidr": "10.0.3.16/28",
             "availabilityZone": "ap-south-1b",
-            "routeTableId": "rtb-0eb7bf2885e63ccd9"
+            "routeTableId": "rtb-050b8d38b74d1164e"
           },
           {
-            "subnetId": "subnet-05b40aa256fe20aa7",
+            "subnetId": "subnet-0db7a60eb2cce1186",
             "cidr": "10.0.3.32/28",
             "availabilityZone": "ap-south-1c",
-            "routeTableId": "rtb-0202e8b383e4431fa"
+            "routeTableId": "rtb-09618904c3479f062"
           }
         ]
       }
     ]
   },
-  "security-group:account=824709318323:region=ap-south-1:securityGroupName=database-server-sg:vpcId=vpc-0e33f5d05150f5e8a": {
-    "securityGroupId": "sg-03fbdf669896580d0",
+  "ssm:account=824709318323:parameterName=/SharedCdkStack/albArn:region=ap-south-1": "arn:aws:elasticloadbalancing:ap-south-1:824709318323:loadbalancer/app/playground-dev/98e2f088837a2484",
+  "security-group:account=824709318323:region=ap-south-1:securityGroupName=backend-server-sg:vpcId=vpc-0df3a849a84b91be5": {
+    "securityGroupId": "sg-034a4efbb9dd087d4",
     "allowAllOutbound": false
   },
-  "security-group:account=824709318323:region=ap-south-1:securityGroupName=backend-server-sg:vpcId=vpc-0e33f5d05150f5e8a": {
-    "securityGroupId": "sg-0f4ac3813d0959eb3",
+  "security-group:account=824709318323:region=ap-south-1:securityGroupName=web-server-sg:vpcId=vpc-0df3a849a84b91be5": {
+    "securityGroupId": "sg-0d928f9a2e983d46b",
     "allowAllOutbound": false
   },
-  "security-group:account=824709318323:region=ap-south-1:securityGroupName=web-server-sg:vpcId=vpc-0e33f5d05150f5e8a": {
-    "securityGroupId": "sg-03ad584c72ecd6ba0",
-    "allowAllOutbound": false
-  },
-  "hosted-zone:account=824709318323:domainName=camille.demo.com:privateZone=true:region=ap-south-1:vpcId=vpc-0e33f5d05150f5e8a": {
-    "Id": "/hostedzone/Z06405621KCPSS0STMJTY",
-    "Name": "camille.demo.com."
-  },
-  "ssm:account=824709318323:parameterName=/SharedCdkStack/albArn:region=ap-south-1": "arn:aws:elasticloadbalancing:ap-south-1:824709318323:loadbalancer/app/camille-dev/55af9341e977fdc5",
-  "load-balancer-listener:account=824709318323:listenerPort=443:listenerProtocol=HTTPS:loadBalancerArn=arn$:aws:elasticloadbalancing:ap-south-1:824709318323:loadbalancer/app/camille-dev/55af9341e977fdc5:loadBalancerType=application:region=ap-south-1": {
-    "listenerArn": "arn:aws:elasticloadbalancing:ap-south-1:824709318323:listener/app/camille-dev/55af9341e977fdc5/0eec4fc678799f65",
-    "listenerPort": 443,
+  "load-balancer:account=824709318323:loadBalancerArn=arn$:aws:elasticloadbalancing:ap-south-1:824709318323:loadbalancer/app/playground-dev/98e2f088837a2484:loadBalancerType=application:region=ap-south-1": {
+    "loadBalancerArn": "arn:aws:elasticloadbalancing:ap-south-1:824709318323:loadbalancer/app/playground-dev/98e2f088837a2484",
+    "loadBalancerCanonicalHostedZoneId": "ZP97RAFLXTNZK",
+    "loadBalancerDnsName": "internal-playground-dev-664654517.ap-south-1.elb.amazonaws.com",
+    "vpcId": "vpc-0df3a849a84b91be5",
     "securityGroupIds": [
-      "sg-03ad584c72ecd6ba0"
+      "sg-0d928f9a2e983d46b"
+    ],
+    "ipAddressType": "ipv4"
+  },
+  "vpc-provider:account=824709318323:filter.vpc-id=vpc-0df3a849a84b91be5:region=ap-south-1:returnAsymmetricSubnets=true": {
+    "vpcId": "vpc-0df3a849a84b91be5",
+    "vpcCidrBlock": "10.0.0.0/16",
+    "availabilityZones": [],
+    "subnetGroups": [
+      {
+        "name": "Public",
+        "type": "Public",
+        "subnets": [
+          {
+            "subnetId": "subnet-0f06566b300f381bd",
+            "cidr": "10.0.0.0/24",
+            "availabilityZone": "ap-south-1a",
+            "routeTableId": "rtb-01e7528cedbe4016c"
+          },
+          {
+            "subnetId": "subnet-0856b6adad8d63ce5",
+            "cidr": "10.0.1.0/24",
+            "availabilityZone": "ap-south-1b",
+            "routeTableId": "rtb-0b0d46da5c49c4691"
+          },
+          {
+            "subnetId": "subnet-0ff03b1e5ce7b8a28",
+            "cidr": "10.0.2.0/24",
+            "availabilityZone": "ap-south-1c",
+            "routeTableId": "rtb-0d5cd8cd9a8c2e928"
+          }
+        ]
+      },
+      {
+        "name": "Private",
+        "type": "Private",
+        "subnets": [
+          {
+            "subnetId": "subnet-001274da75b9662d0",
+            "cidr": "10.0.3.0/28",
+            "availabilityZone": "ap-south-1a",
+            "routeTableId": "rtb-067c2b2839fe6dd06"
+          },
+          {
+            "subnetId": "subnet-07b1599e4316c7c21",
+            "cidr": "10.0.3.16/28",
+            "availabilityZone": "ap-south-1b",
+            "routeTableId": "rtb-050b8d38b74d1164e"
+          },
+          {
+            "subnetId": "subnet-0db7a60eb2cce1186",
+            "cidr": "10.0.3.32/28",
+            "availabilityZone": "ap-south-1c",
+            "routeTableId": "rtb-09618904c3479f062"
+          }
+        ]
+      }
     ]
   },
-  "security-group:account=824709318323:region=ap-south-1:securityGroupId=sg-03ad584c72ecd6ba0": {
-    "securityGroupId": "sg-03ad584c72ecd6ba0",
+  "security-group:account=824709318323:region=ap-south-1:securityGroupId=sg-0d928f9a2e983d46b": {
+    "securityGroupId": "sg-0d928f9a2e983d46b",
     "allowAllOutbound": false
   }
 }

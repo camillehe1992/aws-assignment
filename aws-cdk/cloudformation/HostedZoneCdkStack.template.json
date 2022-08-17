@@ -2,7 +2,7 @@
  "Parameters": {
   "HostedZoneName": {
    "Type": "String",
-   "Default": "camille.demo.com",
+   "Default": "playground.demo.com",
    "Description": "The name of priviate hosted zone"
   },
   "BootstrapVersion": {
@@ -28,7 +28,7 @@
     },
     "VPCs": [
      {
-      "VPCId": "vpc-0e33f5d05150f5e8a",
+      "VPCId": "vpc-12345",
       "VPCRegion": "ap-south-1"
      }
     ]

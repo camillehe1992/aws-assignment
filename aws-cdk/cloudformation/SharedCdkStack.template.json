@@ -1,20 +1,6 @@
 {
  "Resources": {
-  "SGfrom00000804D95EC57": {
-   "Type": "AWS::EC2::SecurityGroupIngress",
-   "Properties": {
-    "IpProtocol": "tcp",
-    "CidrIp": "0.0.0.0/0",
-    "Description": "Allow from anyone on port 80",
-    "FromPort": 80,
-    "GroupId": "sg-03ad584c72ecd6ba0",
-    "ToPort": 80
-   },
-   "Metadata": {
-    "aws:cdk:path": "SharedCdkStack/SG/from 0.0.0.0_0:80"
-   }
-  },
-  "alb8A8B13C2": {
+  "LoadBalancerBE9EEC3A": {
    "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
    "Properties": {
     "IpAddressType": "ipv4",
@@ -28,20 +14,20 @@
       "Value": "60"
      }
     ],
-    "Name": "camille-dev",
+    "Name": "playground-dev",
     "Scheme": "internal",
     "SecurityGroups": [
-     "sg-03ad584c72ecd6ba0"
+     "sg-0d928f9a2e983d46b"
     ],
     "Subnets": [
-     "subnet-0f0f03929516b958f",
-     "subnet-0813ebb39bd94600c",
-     "subnet-04ec8fb3a1cc4fd2d"
+     "subnet-0f06566b300f381bd",
+     "subnet-0856b6adad8d63ce5",
+     "subnet-0ff03b1e5ce7b8a28"
     ],
     "Type": "application"
    },
    "Metadata": {
-    "aws:cdk:path": "SharedCdkStack/alb/Resource"
+    "aws:cdk:path": "SharedCdkStack/LoadBalancer/Resource"
    }
   },
   "AlbArnD4E8B909": {
@@ -49,7 +35,7 @@
    "Properties": {
     "Type": "String",
     "Value": {
-     "Ref": "alb8A8B13C2"
+     "Ref": "LoadBalancerBE9EEC3A"
     },
     "Name": "/SharedCdkStack/albArn"
    },
@@ -57,88 +43,10 @@
     "aws:cdk:path": "SharedCdkStack/AlbArn/Resource"
    }
   },
-  "TargetGroup3D7CD9B8": {
-   "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
-   "Properties": {
-    "HealthCheckIntervalSeconds": 30,
-    "HealthCheckPath": "/health",
-    "HealthyThresholdCount": 5,
-    "Name": "camille-dev-target-group",
-    "Port": 80,
-    "Protocol": "HTTP",
-    "ProtocolVersion": "HTTP1",
-    "TargetGroupAttributes": [
-     {
-      "Key": "stickiness.enabled",
-      "Value": "false"
-     }
-    ],
-    "TargetType": "instance",
-    "UnhealthyThresholdCount": 2,
-    "VpcId": "vpc-0e33f5d05150f5e8a"
-   },
-   "Metadata": {
-    "aws:cdk:path": "SharedCdkStack/TargetGroup/Resource"
-   }
-  },
-  "ActiveListenerD6C39D0D": {
-   "Type": "AWS::ElasticLoadBalancingV2::Listener",
-   "Properties": {
-    "DefaultActions": [
-     {
-      "TargetGroupArn": {
-       "Ref": "TargetGroup3D7CD9B8"
-      },
-      "Type": "forward"
-     }
-    ],
-    "LoadBalancerArn": {
-     "Ref": "alb8A8B13C2"
-    },
-    "Port": 80,
-    "Protocol": "HTTP"
-   },
-   "Metadata": {
-    "aws:cdk:path": "SharedCdkStack/ActiveListener/Resource"
-   }
-  },
-  "AliasRecord851000D2": {
-   "Type": "AWS::Route53::RecordSet",
-   "Properties": {
-    "Name": "camille-dev-ap-south-1.camille.demo.com.",
-    "Type": "A",
-    "AliasTarget": {
-     "DNSName": {
-      "Fn::Join": [
-       "",
-       [
-        "dualstack.",
-        {
-         "Fn::GetAtt": [
-          "alb8A8B13C2",
-          "DNSName"
-         ]
-        }
-       ]
-      ]
-     },
-     "HostedZoneId": {
-      "Fn::GetAtt": [
-       "alb8A8B13C2",
-       "CanonicalHostedZoneID"
-      ]
-     }
-    },
-    "HostedZoneId": "Z06405621KCPSS0STMJTY"
-   },
-   "Metadata": {
-    "aws:cdk:path": "SharedCdkStack/AliasRecord/Resource"
-   }
-  },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WQwU7DMAyGn4V7GljHxBk4TEhIoJY78lJTeUuTynaGUJV3J10nVE7xr+/XF8u13e7s3Q18S+W6U+XpYKdWwZ1MgxITOzSFfU7oavv8FVp0iUl/9hzT+BJ6RhGDHkTJ+QjdATwER6E/13Z6HEdPDpRieC3s6cKQTfH8y6veB3CPerHPtXVc20gUw9V0nbMRGebdufz+DgwD6tL4C9kUkeJuW1Zr0EXuZrxMLWrOc3xLOiZdwHKAbELs0B7l9ry5t5uHcq6jEFWcgtKAtlneX2Ac2BFKAQAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WOyw6CMBBFv8V9GQU1rtUtiQY/wAxlNAOlJX3ggvTfLRJNXM2cnHncArZ72Kzw5TLZdJniGqabR9mJipwJVpJI7j6RQudZKoNNjQq1ZP0cC5iOw6BYomejy+ROH0dWnB9/HIVz/XzZpr0rWuzJL1M/iHHGS/BD8HP3/R+FNg1B69ZjvoP8kNK2jjmzQXvuCaqlvgFy7G3GyQAAAA=="
    },
    "Metadata": {
     "aws:cdk:path": "SharedCdkStack/CDKMetadata/Default"
@@ -149,20 +57,12 @@
   "AlbDNSName": {
    "Value": {
     "Fn::GetAtt": [
-     "alb8A8B13C2",
+     "LoadBalancerBE9EEC3A",
      "DNSName"
     ]
    },
    "Export": {
     "Name": "AlbDNSName"
-   }
-  },
-  "AlbListenerArn": {
-   "Value": {
-    "Ref": "ActiveListenerD6C39D0D"
-   },
-   "Export": {
-    "Name": "AlbListenerArn"
    }
   }
  },
