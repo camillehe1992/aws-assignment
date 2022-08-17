@@ -48,6 +48,15 @@ app.use(bodyParser.json()); // parse form data client
 app.use(express.static(path.join(__dirname, "public"))); // configure express to use public folder
 app.use(fileUpload()); // configure fileupload
 
+// route for health check
+
+app.get("/health", (req, res) => {
+  const data = {
+    message: "SERVER IS UP",
+    date: new Date(),
+  };
+  res.status(200).send(data);
+});
 // routes for the app
 app.get("/", getHomePage);
 app.get("/add", addPlayerPage);
