@@ -33,14 +33,16 @@ export class EcsServiceAlbCdkStack extends cdk.Stack {
     });
 
     // import ECS task execution role
-    // const executionRole = iam.Role.fromRoleName(
-    //   this,
-    //   'EcsTaskExecutionRole',
-    //   cdk.Fn.importValue('EcsTaskExecutionRoleName')
-    // );
+    const executionRole = iam.Role.fromRoleName(
+      this,
+      'EcsTaskExecutionRole',
+      cdk.Fn.importValue('EcsTaskExecutionRoleName')
+    );
 
     // Resources
-    const taskDefinition = new ecs.Ec2TaskDefinition(this, 'TaskDefinition');
+    const taskDefinition = new ecs.Ec2TaskDefinition(this, 'TaskDefinition', {
+      executionRole
+    });
     
     taskDefinition.addContainer('TheContainer', {
       image: ecs.ContainerImage.fromRegistry(conf.image ?? ''),
@@ -115,10 +117,5 @@ export class EcsServiceAlbCdkStack extends cdk.Stack {
       value: alb.loadBalancerDnsName,
       exportName: 'AlbDNSName'
     });
-
-    // new cdk.CfnOutput(this, 'AlbListenerArn', {
-    //   value: albListener.listenerArn,
-    //   exportName: 'AlbListenerArn'
-    // });
   }
 }
