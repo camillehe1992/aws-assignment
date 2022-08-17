@@ -15,7 +15,7 @@ export class IamCdkStack extends cdk.Stack {
       default: conf.ec2InstanceRoleName
     });
 
-    // 👇 create a IAM role to associate with the instance profile that is used by ECS container instances    
+    // create an IAM role to associate with the instance profile that is used by ECS container instances    
     const ec2InstanceRole = new iam.Role(this, 'EC2InstanceRole', {
       description: roleName.description,
       roleName: roleName.valueAsString,
@@ -40,6 +40,38 @@ export class IamCdkStack extends cdk.Stack {
         })
       }
     });
+
+    // create an ECS task definition execution IAM role   
+    const ecsTaskExecutionRole = new iam.Role(this, 'EcsTaskExecutionRole', {
+      description: 'The role is used for task that running in ECS container instances',
+      roleName: conf.ecsTaskExecutionRoleName,
+      assumedBy: new iam.CompositePrincipal(
+        new iam.ServicePrincipal('ecs-tasks.amazonaws.com')
+      ),
+      inlinePolicies: {
+        ['allow-cloudwatch-policy']: new iam.PolicyDocument({
+          statements: [ new iam.PolicyStatement({
+            actions: [
+              'logs:CreateLogStream',
+              'logs:PutLogEvents'
+            ],
+            resources: ['*'],
+            effect: iam.Effect.ALLOW
+          })]
+        }),
+        ['allow-ssm-readonly-policy']: new iam.PolicyDocument({
+          statements: [ new iam.PolicyStatement({
+            actions: [
+              'ssm:Describe*',
+              'ssm:Get*',
+              'ssm:List'
+            ],
+            resources: ['*'],
+            effect: iam.Effect.ALLOW
+          })]
+        })
+      }
+    });
     
     // Outputs
     new cdk.CfnOutput(this, 'Ec2InstanceRoleName', {
@@ -50,6 +82,16 @@ export class IamCdkStack extends cdk.Stack {
     new cdk.CfnOutput(this, 'Ec2InstanceRoleArn', {
       value: ec2InstanceRole.roleArn,
       exportName: 'Ec2InstanceRoleArn'
+    });
+
+    new cdk.CfnOutput(this, 'EcsTaskExecutionRoleName', {
+      value: ecsTaskExecutionRole.roleName,
+      exportName: 'EcsTaskExecutionRoleName'
+    });
+
+    new cdk.CfnOutput(this, 'EcsTaskExecutionRoleArn', {
+      value: ecsTaskExecutionRole.roleArn,
+      exportName: 'EcsTaskExecutionRoleArn'
     });
   }
 }

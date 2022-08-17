@@ -1,17 +1,45 @@
 {
  "Resources": {
-  "SGfromGroupCdkStackALBSecurityGroupsg0d928f9a2e983d46bE48EF5583276865535913C5363": {
+  "SGfrom00000804D95EC57": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "IpProtocol": "tcp",
+    "CidrIp": "0.0.0.0/0",
+    "Description": "Allow from anyone on port 80",
+    "FromPort": 80,
+    "GroupId": "sg-0d928f9a2e983d46b",
+    "ToPort": 80
+   },
+   "Metadata": {
+    "aws:cdk:path": "EcsServiceAlbCdkStack/SG/from 0.0.0.0_0:80"
+   }
+  },
+  "SGfromEcsServiceAlbCdkStackSG0D21DD1732768655356606806E": {
    "Type": "AWS::EC2::SecurityGroupIngress",
    "Properties": {
     "IpProtocol": "tcp",
     "Description": "Load balancer to target",
     "FromPort": 32768,
-    "GroupId": "sg-034a4efbb9dd087d4",
+    "GroupId": "sg-0d928f9a2e983d46b",
     "SourceSecurityGroupId": "sg-0d928f9a2e983d46b",
     "ToPort": 65535
    },
    "Metadata": {
-    "aws:cdk:path": "GroupCdkStack/SG/from GroupCdkStackALBSecurityGroupsg0d928f9a2e983d46bE48EF558:32768-65535"
+    "aws:cdk:path": "EcsServiceAlbCdkStack/SG/from EcsServiceAlbCdkStackSG0D21DD17:32768-65535"
+   }
+  },
+  "SGtoEcsServiceAlbCdkStackSG0D21DD173276865535D1D5E47A": {
+   "Type": "AWS::EC2::SecurityGroupEgress",
+   "Properties": {
+    "GroupId": "sg-0d928f9a2e983d46b",
+    "IpProtocol": "tcp",
+    "Description": "Load balancer to target",
+    "DestinationSecurityGroupId": "sg-0d928f9a2e983d46b",
+    "FromPort": 32768,
+    "ToPort": 65535
+   },
+   "Metadata": {
+    "aws:cdk:path": "EcsServiceAlbCdkStack/SG/to EcsServiceAlbCdkStackSG0D21DD17:32768-65535"
    }
   },
   "EcsTaskExecutionRolePolicyC2A6F15F": {
@@ -43,7 +71,7 @@
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "GroupCdkStack/EcsTaskExecutionRole/Policy/Resource"
+    "aws:cdk:path": "EcsServiceAlbCdkStack/EcsTaskExecutionRole/Policy/Resource"
    }
   },
   "TaskDefinitionTaskRoleFD40A61D": {
@@ -63,7 +91,7 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "GroupCdkStack/TaskDefinition/TaskRole/Resource"
+    "aws:cdk:path": "EcsServiceAlbCdkStack/TaskDefinition/TaskRole/Resource"
    }
   },
   "TaskDefinitionB36D86D9": {
@@ -110,7 +138,7 @@
       ]
      ]
     },
-    "Family": "GroupCdkStackTaskDefinitionFF36FCCE",
+    "Family": "EcsServiceAlbCdkStackTaskDefinition2167AAE7",
     "NetworkMode": "bridge",
     "RequiresCompatibilities": [
      "EC2"
@@ -123,7 +151,7 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "GroupCdkStack/TaskDefinition/Resource"
+    "aws:cdk:path": "EcsServiceAlbCdkStack/TaskDefinition/Resource"
    }
   },
   "TaskDefinitionTheContainerLogGroupE382E623": {
@@ -134,12 +162,14 @@
    "UpdateReplacePolicy": "Retain",
    "DeletionPolicy": "Retain",
    "Metadata": {
-    "aws:cdk:path": "GroupCdkStack/TaskDefinition/TheContainer/LogGroup/Resource"
+    "aws:cdk:path": "EcsServiceAlbCdkStack/TaskDefinition/TheContainer/LogGroup/Resource"
    }
   },
   "TargetGroup3D7CD9B8": {
    "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
    "Properties": {
+    "HealthCheckEnabled": true,
+    "HealthCheckPath": "/health",
     "Name": "playground-dev-default",
     "Port": 80,
     "Protocol": "HTTP",
@@ -154,35 +184,37 @@
     "VpcId": "vpc-0df3a849a84b91be5"
    },
    "Metadata": {
-    "aws:cdk:path": "GroupCdkStack/TargetGroup/Resource"
+    "aws:cdk:path": "EcsServiceAlbCdkStack/TargetGroup/Resource"
    }
   },
-  "ALBSecurityGroupsg0d928f9a2e983d46bfrom0000080F45DF8B4": {
-   "Type": "AWS::EC2::SecurityGroupIngress",
+  "LoadBalancerBE9EEC3A": {
+   "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
    "Properties": {
-    "IpProtocol": "tcp",
-    "CidrIp": "0.0.0.0/0",
-    "Description": "Allow from anyone on port 80",
-    "FromPort": 80,
-    "GroupId": "sg-0d928f9a2e983d46b",
-    "ToPort": 80
+    "IpAddressType": "ipv4",
+    "LoadBalancerAttributes": [
+     {
+      "Key": "deletion_protection.enabled",
+      "Value": "false"
+     },
+     {
+      "Key": "idle_timeout.timeout_seconds",
+      "Value": "60"
+     }
+    ],
+    "Name": "playground-dev",
+    "Scheme": "internal",
+    "SecurityGroups": [
+     "sg-0d928f9a2e983d46b"
+    ],
+    "Subnets": [
+     "subnet-0f06566b300f381bd",
+     "subnet-0856b6adad8d63ce5",
+     "subnet-0ff03b1e5ce7b8a28"
+    ],
+    "Type": "application"
    },
    "Metadata": {
-    "aws:cdk:path": "GroupCdkStack/ALB/SecurityGroup-sg-0d928f9a2e983d46b/from 0.0.0.0_0:80"
-   }
-  },
-  "ALBSecurityGroupsg0d928f9a2e983d46btoGroupCdkStackSG5C449E253276865535D6D03F49": {
-   "Type": "AWS::EC2::SecurityGroupEgress",
-   "Properties": {
-    "GroupId": "sg-0d928f9a2e983d46b",
-    "IpProtocol": "tcp",
-    "Description": "Load balancer to target",
-    "DestinationSecurityGroupId": "sg-034a4efbb9dd087d4",
-    "FromPort": 32768,
-    "ToPort": 65535
-   },
-   "Metadata": {
-    "aws:cdk:path": "GroupCdkStack/ALB/SecurityGroup-sg-0d928f9a2e983d46b/to GroupCdkStackSG5C449E25:32768-65535"
+    "aws:cdk:path": "EcsServiceAlbCdkStack/LoadBalancer/Resource"
    }
   },
   "AlbListenerDFCDF14C": {
@@ -196,12 +228,14 @@
       "Type": "forward"
      }
     ],
-    "LoadBalancerArn": "arn:aws:elasticloadbalancing:ap-south-1:824709318323:loadbalancer/app/playground-dev/98e2f088837a2484",
+    "LoadBalancerArn": {
+     "Ref": "LoadBalancerBE9EEC3A"
+    },
     "Port": 80,
     "Protocol": "HTTP"
    },
    "Metadata": {
-    "aws:cdk:path": "GroupCdkStack/AlbListener/Resource"
+    "aws:cdk:path": "EcsServiceAlbCdkStack/AlbListener/Resource"
    }
   },
   "Ec2Service04A33183": {
@@ -240,7 +274,7 @@
     "AlbListenerDFCDF14C"
    ],
    "Metadata": {
-    "aws:cdk:path": "GroupCdkStack/Ec2Service/Service"
+    "aws:cdk:path": "EcsServiceAlbCdkStack/Ec2Service/Service"
    }
   },
   "Ec2ServiceTaskCountTargetD03D7D86": {
@@ -282,13 +316,13 @@
     "ServiceNamespace": "ecs"
    },
    "Metadata": {
-    "aws:cdk:path": "GroupCdkStack/Ec2Service/TaskCount/Target/Resource"
+    "aws:cdk:path": "EcsServiceAlbCdkStack/Ec2Service/TaskCount/Target/Resource"
    }
   },
   "Ec2ServiceTaskCountTargetCpuScalingBEC72530": {
    "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
    "Properties": {
-    "PolicyName": "GroupCdkStackEc2ServiceTaskCountTargetCpuScalingC46E10A9",
+    "PolicyName": "EcsServiceAlbCdkStackEc2ServiceTaskCountTargetCpuScaling4A7ED82A",
     "PolicyType": "TargetTrackingScaling",
     "ScalingTargetId": {
      "Ref": "Ec2ServiceTaskCountTargetD03D7D86"
@@ -303,16 +337,29 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "GroupCdkStack/Ec2Service/TaskCount/Target/CpuScaling/Resource"
+    "aws:cdk:path": "EcsServiceAlbCdkStack/Ec2Service/TaskCount/Target/CpuScaling/Resource"
    }
   },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/11RwU7DMAz9Fu5ZYAXEGY0JIe2A2t6Rm3mV1yypkrRoqvLvOG3Zup388uxnv9iZfH6VTw/w61dq36w0VXIoAqhG5Oht5xQKzv0MqDI5bA6mQNU5CudPZ7v2y9QOvRf3/HakoyA4yeHbalLnVDOj3GpMzxSjQOXlsFVZCb75wAMZCmRNyt8z1gQgg27Bsa5A15PCycMECwUaKo2pwcZ2JkShbc1jdrYe/aXif8wONPhASlvYVyw0ikzd82/f25b9QhpUgqsxXLTL56JqRz4gGxzbzzgKuBZAF6xnczyAt3xxmZqN/m+ZKZSOj8GCYtJdt3lDxDhudD5ZFMbuUR79Y79+kes3PvDRE60c74JOKPMp/gFJEGOy/AEAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/11S227CMAz9lr2HbHSb9rwBmiYhbaK8T24wlSEkVS6dUJV/n9NyKTzZPj62j+MU8vlVPj3An5+ozX6iqZJdGUDtxQq9jU6h4Nxvh6qQ3WxrSlTRUTh+OhubL1M79F7c44seToLgILsfq0kdM+fkrazGHGabBCovu4Uq1uD3c9ySoUDW5Pw9Yk0AMuhGGNeV6FpSOGgY3FKBhkpjbjCz0YQktK15zNLWvb5MPvusQIMPpLSFTcWFRpGpW972vWlYL+RBa3A1hkvtOByxltzho++Abhgxisc88gHNiXPyk4ArAWKwnpdgIXyNyzZ5aL/nLTKYteOjcUE51F1f/QZIKUPfMTSxb3U+chLGblDu/GM7fZHTN/4SO080cfx6dEC5Guw/Mw+T+S4CAAA="
    },
    "Metadata": {
-    "aws:cdk:path": "GroupCdkStack/CDKMetadata/Default"
+    "aws:cdk:path": "EcsServiceAlbCdkStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "AlbDNSName": {
+   "Value": {
+    "Fn::GetAtt": [
+     "LoadBalancerBE9EEC3A",
+     "DNSName"
+    ]
+   },
+   "Export": {
+    "Name": "AlbDNSName"
    }
   }
  },

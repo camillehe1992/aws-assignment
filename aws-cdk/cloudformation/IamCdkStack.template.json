@@ -72,6 +72,63 @@
     "aws:cdk:path": "IamCdkStack/EC2InstanceRole/Resource"
    }
   },
+  "EcsTaskExecutionRoleC0B6A84D": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Description": "The role is used for task that running in ECS container instances",
+    "Policies": [
+     {
+      "PolicyDocument": {
+       "Statement": [
+        {
+         "Action": [
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+         ],
+         "Effect": "Allow",
+         "Resource": "*"
+        }
+       ],
+       "Version": "2012-10-17"
+      },
+      "PolicyName": "allow-cloudwatch-policy"
+     },
+     {
+      "PolicyDocument": {
+       "Statement": [
+        {
+         "Action": [
+          "ssm:Describe*",
+          "ssm:Get*",
+          "ssm:List"
+         ],
+         "Effect": "Allow",
+         "Resource": "*"
+        }
+       ],
+       "Version": "2012-10-17"
+      },
+      "PolicyName": "allow-ssm-readonly-policy"
+     }
+    ],
+    "RoleName": "ECS_Task_Execution_Role"
+   },
+   "Metadata": {
+    "aws:cdk:path": "IamCdkStack/EcsTaskExecutionRole/Resource"
+   }
+  },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
@@ -100,6 +157,25 @@
    },
    "Export": {
     "Name": "Ec2InstanceRoleArn"
+   }
+  },
+  "EcsTaskExecutionRoleName": {
+   "Value": {
+    "Ref": "EcsTaskExecutionRoleC0B6A84D"
+   },
+   "Export": {
+    "Name": "EcsTaskExecutionRoleName"
+   }
+  },
+  "EcsTaskExecutionRoleArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "EcsTaskExecutionRoleC0B6A84D",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "EcsTaskExecutionRoleArn"
    }
   }
  },

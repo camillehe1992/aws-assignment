@@ -7,6 +7,8 @@ export default {
   environment: process.env.ENVIRONEMNT,
   hostedZoneName: process.env.HOSTED_ZONE_NAME,
   ec2InstanceRoleName: process.env.EC2_INSTANCE_ROLE_NAME,
+  ecsTaskExecutionRoleName: process.env.ECS_TASK_EXECUTION_ROLE_NAME,
+  image: process.env.IMAGE,
   ecsClusterName: process.env.ECS_CLUSTER_NAME,
   ec2InstanceType: process.env.ECS_INSTANCE_TYPE,
   certArn: process.env.CERTIFICATE_ARN,

@@ -73,16 +73,8 @@ export class VpcCdkStack extends cdk.Stack {
       new ec2.Connections({
         securityGroups: [webserverSG],
       }),
-      ec2.Port.tcp(8000),
-      'allow traffic on port 8000 from the webserver security group',
-    );
-
-    backendServerSG.connections.allowFrom(
-      new ec2.Connections({
-        securityGroups: [webserverSG],
-      }),
-      ec2.Port.tcp(22),
-      'allow traffic on port 22 from the webserver security group for testing purpose',
+      ec2.Port.allTraffic(),
+      'allow all traffic from the webserver security group',
     );
 
     // create a security group for a database server tier

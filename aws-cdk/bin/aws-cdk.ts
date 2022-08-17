@@ -2,12 +2,11 @@
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
 import { VpcCdkStack } from '../lib/vpc-cdk-stack';
-import { IamCdkStack } from '../lib//iam-cdk-stacks';
+import { IamCdkStack } from '../lib//iam-cdk-stack';
 import { HostedZoneCdkStack } from '../lib/hostzone-cdk-stack';
 import { RdsCdkStack } from '../lib/rds-cdk-stack';
 import { EcsClusterCdkStack } from '../lib/ecs-cluster-cdk-stack';
-import { SharedCdkStack } from '../lib/shared-cdk-stack';
-import { GroupCdkStack } from '../lib/group-cdk-stack';
+import { EcsServiceAlbCdkStack } from '../lib/ecs-service-alb-cdk-stack';
 
 import conf from '../config/app.conf';
 
@@ -23,5 +22,4 @@ new IamCdkStack(app, 'IamCdkStack', { env });
 new HostedZoneCdkStack(app, 'HostedZoneCdkStack', { env });
 new RdsCdkStack(app, 'RdsCdkStack', { env });
 new EcsClusterCdkStack(app, 'EcsClusterCdkStack', { env });
-new SharedCdkStack(app, 'SharedCdkStack', { env });
-new GroupCdkStack(app, 'GroupCdkStack', { env });
+new EcsServiceAlbCdkStack(app, 'EcsServiceAlbCdkStack', { env });

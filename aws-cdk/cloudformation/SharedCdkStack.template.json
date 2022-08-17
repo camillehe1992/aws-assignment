@@ -15,7 +15,7 @@
      }
     ],
     "Name": "playground-dev",
-    "Scheme": "internal",
+    "Scheme": "internet-facing",
     "SecurityGroups": [
      "sg-0d928f9a2e983d46b"
     ],
