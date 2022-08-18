@@ -20,7 +20,7 @@ const {
 
 // create connection to database
 // the mysql.createConnection function takes in a configuration object which contains host, user, password and the database name.
-const { host, username, password } = getSecretValue(conf.database.secretId);
+const { host, username, password } = getSecretValue(conf.secretId);
 console.log(`Get secret for ${host}`);
 
 const db = mysql.createConnection({
