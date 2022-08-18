@@ -1,7 +1,7 @@
-# aws-assignment
+# AWS-assignment
 
-this repo is used for AWS assignment
+THis repo is used for AWS assignment
 
-```sh
-npm run deploy VpcCdkStack
-```
+## Repo Structure
+
+##

@@ -8,9 +8,8 @@
     "build": "tsc && cdk synth -o cloudformation",
     "deploy": "cdk deploy --all --require-approval never",
     "watch": "tsc -w",
-    "destroy": "cdk destroy",
+    "destroy": "cdk destroy --all",
     "test": "jest",
-    "cdk": "cdk",
     "lint": "eslint . --ext .ts"
   },
   "devDependencies": {
