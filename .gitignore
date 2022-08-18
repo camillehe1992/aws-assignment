@@ -109,6 +109,7 @@ cert/*
 **/!jest.config.js
 **/*.d.ts
 **/node_modules
+**/cloudformation
 
 # CDK asset staging directory
 **/.cdk.staging

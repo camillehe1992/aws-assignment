@@ -23,6 +23,12 @@
 npm install
 ```
 
+## Build Stacks
+
+```sh
+npm run build
+```
+
 ## Deploy all above stacks into AWS
 
 ```sh
