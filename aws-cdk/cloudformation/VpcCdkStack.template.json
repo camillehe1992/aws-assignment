@@ -210,83 +210,6 @@
     "aws:cdk:path": "VpcCdkStack/MainVpc/PublicSubnet2/DefaultRoute"
    }
   },
-  "MainVpcPublicSubnet3Subnet7B1D46AE": {
-   "Type": "AWS::EC2::Subnet",
-   "Properties": {
-    "VpcId": {
-     "Ref": "MainVpc919A5E7E"
-    },
-    "AvailabilityZone": "ap-south-1c",
-    "CidrBlock": "10.0.2.0/24",
-    "MapPublicIpOnLaunch": true,
-    "Tags": [
-     {
-      "Key": "aws-cdk:subnet-name",
-      "Value": "Public"
-     },
-     {
-      "Key": "aws-cdk:subnet-type",
-      "Value": "Public"
-     },
-     {
-      "Key": "Name",
-      "Value": "VpcCdkStack/MainVpc/PublicSubnet3"
-     }
-    ]
-   },
-   "Metadata": {
-    "aws:cdk:path": "VpcCdkStack/MainVpc/PublicSubnet3/Subnet"
-   }
-  },
-  "MainVpcPublicSubnet3RouteTable39F2F1C5": {
-   "Type": "AWS::EC2::RouteTable",
-   "Properties": {
-    "VpcId": {
-     "Ref": "MainVpc919A5E7E"
-    },
-    "Tags": [
-     {
-      "Key": "Name",
-      "Value": "VpcCdkStack/MainVpc/PublicSubnet3"
-     }
-    ]
-   },
-   "Metadata": {
-    "aws:cdk:path": "VpcCdkStack/MainVpc/PublicSubnet3/RouteTable"
-   }
-  },
-  "MainVpcPublicSubnet3RouteTableAssociationD981BF2A": {
-   "Type": "AWS::EC2::SubnetRouteTableAssociation",
-   "Properties": {
-    "RouteTableId": {
-     "Ref": "MainVpcPublicSubnet3RouteTable39F2F1C5"
-    },
-    "SubnetId": {
-     "Ref": "MainVpcPublicSubnet3Subnet7B1D46AE"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "VpcCdkStack/MainVpc/PublicSubnet3/RouteTableAssociation"
-   }
-  },
-  "MainVpcPublicSubnet3DefaultRoute22DD842A": {
-   "Type": "AWS::EC2::Route",
-   "Properties": {
-    "RouteTableId": {
-     "Ref": "MainVpcPublicSubnet3RouteTable39F2F1C5"
-    },
-    "DestinationCidrBlock": "0.0.0.0/0",
-    "GatewayId": {
-     "Ref": "MainVpcIGW53625DB6"
-    }
-   },
-   "DependsOn": [
-    "MainVpcVPCGWBA74F963"
-   ],
-   "Metadata": {
-    "aws:cdk:path": "VpcCdkStack/MainVpc/PublicSubnet3/DefaultRoute"
-   }
-  },
   "MainVpcPrivateSubnet1SubnetA8D0757B": {
    "Type": "AWS::EC2::Subnet",
    "Properties": {
@@ -294,7 +217,7 @@
      "Ref": "MainVpc919A5E7E"
     },
     "AvailabilityZone": "ap-south-1a",
-    "CidrBlock": "10.0.3.0/28",
+    "CidrBlock": "10.0.2.0/28",
     "MapPublicIpOnLaunch": false,
     "Tags": [
      {
@@ -368,7 +291,7 @@
      "Ref": "MainVpc919A5E7E"
     },
     "AvailabilityZone": "ap-south-1b",
-    "CidrBlock": "10.0.3.16/28",
+    "CidrBlock": "10.0.2.16/28",
     "MapPublicIpOnLaunch": false,
     "Tags": [
      {
@@ -435,80 +358,6 @@
     "aws:cdk:path": "VpcCdkStack/MainVpc/PrivateSubnet2/DefaultRoute"
    }
   },
-  "MainVpcPrivateSubnet3SubnetE4BF29BE": {
-   "Type": "AWS::EC2::Subnet",
-   "Properties": {
-    "VpcId": {
-     "Ref": "MainVpc919A5E7E"
-    },
-    "AvailabilityZone": "ap-south-1c",
-    "CidrBlock": "10.0.3.32/28",
-    "MapPublicIpOnLaunch": false,
-    "Tags": [
-     {
-      "Key": "aws-cdk:subnet-name",
-      "Value": "Private"
-     },
-     {
-      "Key": "aws-cdk:subnet-type",
-      "Value": "Private"
-     },
-     {
-      "Key": "Name",
-      "Value": "VpcCdkStack/MainVpc/PrivateSubnet3"
-     }
-    ]
-   },
-   "Metadata": {
-    "aws:cdk:path": "VpcCdkStack/MainVpc/PrivateSubnet3/Subnet"
-   }
-  },
-  "MainVpcPrivateSubnet3RouteTable3AFA6443": {
-   "Type": "AWS::EC2::RouteTable",
-   "Properties": {
-    "VpcId": {
-     "Ref": "MainVpc919A5E7E"
-    },
-    "Tags": [
-     {
-      "Key": "Name",
-      "Value": "VpcCdkStack/MainVpc/PrivateSubnet3"
-     }
-    ]
-   },
-   "Metadata": {
-    "aws:cdk:path": "VpcCdkStack/MainVpc/PrivateSubnet3/RouteTable"
-   }
-  },
-  "MainVpcPrivateSubnet3RouteTableAssociation3E57F028": {
-   "Type": "AWS::EC2::SubnetRouteTableAssociation",
-   "Properties": {
-    "RouteTableId": {
-     "Ref": "MainVpcPrivateSubnet3RouteTable3AFA6443"
-    },
-    "SubnetId": {
-     "Ref": "MainVpcPrivateSubnet3SubnetE4BF29BE"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "VpcCdkStack/MainVpc/PrivateSubnet3/RouteTableAssociation"
-   }
-  },
-  "MainVpcPrivateSubnet3DefaultRouteF7084D4D": {
-   "Type": "AWS::EC2::Route",
-   "Properties": {
-    "RouteTableId": {
-     "Ref": "MainVpcPrivateSubnet3RouteTable3AFA6443"
-    },
-    "DestinationCidrBlock": "0.0.0.0/0",
-    "NatGatewayId": {
-     "Ref": "MainVpcPublicSubnet1NATGatewayEEC1F6AE"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "VpcCdkStack/MainVpc/PrivateSubnet3/DefaultRoute"
-   }
-  },
   "MainVpcIGW53625DB6": {
    "Type": "AWS::EC2::InternetGateway",
    "Properties": {
@@ -563,16 +412,10 @@
       "Ref": "MainVpcPrivateSubnet2RouteTable8E0D12CB"
      },
      {
-      "Ref": "MainVpcPrivateSubnet3RouteTable3AFA6443"
-     },
-     {
       "Ref": "MainVpcPublicSubnet1RouteTableB35CB547"
      },
      {
       "Ref": "MainVpcPublicSubnet2RouteTableE69B5772"
-     },
-     {
-      "Ref": "MainVpcPublicSubnet3RouteTable39F2F1C5"
      }
     ],
     "VpcEndpointType": "Gateway"
@@ -581,7 +424,7 @@
     "aws:cdk:path": "VpcCdkStack/MainVpc/S3/Resource"
    }
   },
-  "webserversgD43E599E": {
+  "WebServerSecurityGroupEFBF953E": {
    "Type": "AWS::EC2::SecurityGroup",
    "Properties": {
     "GroupDescription": "security group for a web server",
@@ -607,13 +450,6 @@
       "FromPort": 80,
       "IpProtocol": "tcp",
       "ToPort": 80
-     },
-     {
-      "CidrIp": "0.0.0.0/0",
-      "Description": "allow HTTPS traffic from anywhere on port 443",
-      "FromPort": 443,
-      "IpProtocol": "tcp",
-      "ToPort": 443
      }
     ],
     "VpcId": {
@@ -621,10 +457,10 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "VpcCdkStack/web-server-sg/Resource"
+    "aws:cdk:path": "VpcCdkStack/WebServerSecurityGroup/Resource"
    }
   },
-  "backendserversg3DD86AD0": {
+  "BackendServerSecurityGroupE2FB8B06": {
    "Type": "AWS::EC2::SecurityGroup",
    "Properties": {
     "GroupDescription": "security group for a backend server",
@@ -640,68 +476,33 @@
      "Ref": "MainVpc919A5E7E"
     }
    },
-   "DependsOn": [
-    "webserversgD43E599E"
-   ],
    "Metadata": {
-    "aws:cdk:path": "VpcCdkStack/backend-server-sg/Resource"
+    "aws:cdk:path": "VpcCdkStack/BackendServerSecurityGroup/Resource"
    }
   },
-  "backendserversgfromVpcCdkStackwebserversg2538E5635000983BBF1B": {
+  "BackendServerSecurityGroupfromVpcCdkStackWebServerSecurityGroupF32C35CBALLTRAFFIC62978E0E": {
    "Type": "AWS::EC2::SecurityGroupIngress",
    "Properties": {
-    "IpProtocol": "tcp",
-    "Description": "allow traffic on port 8000 from the webserver security group",
-    "FromPort": 5000,
+    "IpProtocol": "-1",
+    "Description": "allow all traffic from the webserver security group",
     "GroupId": {
      "Fn::GetAtt": [
-      "backendserversg3DD86AD0",
+      "BackendServerSecurityGroupE2FB8B06",
       "GroupId"
      ]
     },
     "SourceSecurityGroupId": {
      "Fn::GetAtt": [
-      "webserversgD43E599E",
+      "WebServerSecurityGroupEFBF953E",
       "GroupId"
      ]
-    },
-    "ToPort": 5000
+    }
    },
-   "DependsOn": [
-    "webserversgD43E599E"
-   ],
    "Metadata": {
-    "aws:cdk:path": "VpcCdkStack/backend-server-sg/from VpcCdkStackwebserversg2538E563:5000"
+    "aws:cdk:path": "VpcCdkStack/BackendServerSecurityGroup/from VpcCdkStackWebServerSecurityGroupF32C35CB:ALL TRAFFIC"
    }
   },
-  "backendserversgfromVpcCdkStackwebserversg2538E56322815EA41A": {
-   "Type": "AWS::EC2::SecurityGroupIngress",
-   "Properties": {
-    "IpProtocol": "tcp",
-    "Description": "allow traffic on port 22 from the webserver security group for testing purpose",
-    "FromPort": 22,
-    "GroupId": {
-     "Fn::GetAtt": [
-      "backendserversg3DD86AD0",
-      "GroupId"
-     ]
-    },
-    "SourceSecurityGroupId": {
-     "Fn::GetAtt": [
-      "webserversgD43E599E",
-      "GroupId"
-     ]
-    },
-    "ToPort": 22
-   },
-   "DependsOn": [
-    "webserversgD43E599E"
-   ],
-   "Metadata": {
-    "aws:cdk:path": "VpcCdkStack/backend-server-sg/from VpcCdkStackwebserversg2538E563:22"
-   }
-  },
-  "databaseserversgE2611B1C": {
+  "DatabaseServerSecurityGroup8C19A3B7": {
    "Type": "AWS::EC2::SecurityGroup",
    "Properties": {
     "GroupDescription": "security group for a database server",
@@ -717,16 +518,11 @@
      "Ref": "MainVpc919A5E7E"
     }
    },
-   "DependsOn": [
-    "backendserversgfromVpcCdkStackwebserversg2538E56322815EA41A",
-    "backendserversgfromVpcCdkStackwebserversg2538E5635000983BBF1B",
-    "backendserversg3DD86AD0"
-   ],
    "Metadata": {
-    "aws:cdk:path": "VpcCdkStack/database-server-sg/Resource"
+    "aws:cdk:path": "VpcCdkStack/DatabaseServerSecurityGroup/Resource"
    }
   },
-  "databaseserversgfromVpcCdkStackbackendserversg113999453306804BFD6C": {
+  "DatabaseServerSecurityGroupfromVpcCdkStackBackendServerSecurityGroup63517AD3330697CD421B": {
    "Type": "AWS::EC2::SecurityGroupIngress",
    "Properties": {
     "IpProtocol": "tcp",
@@ -734,25 +530,20 @@
     "FromPort": 3306,
     "GroupId": {
      "Fn::GetAtt": [
-      "databaseserversgE2611B1C",
+      "DatabaseServerSecurityGroup8C19A3B7",
       "GroupId"
      ]
     },
     "SourceSecurityGroupId": {
      "Fn::GetAtt": [
-      "backendserversg3DD86AD0",
+      "BackendServerSecurityGroupE2FB8B06",
       "GroupId"
      ]
     },
     "ToPort": 3306
    },
-   "DependsOn": [
-    "backendserversgfromVpcCdkStackwebserversg2538E56322815EA41A",
-    "backendserversgfromVpcCdkStackwebserversg2538E5635000983BBF1B",
-    "backendserversg3DD86AD0"
-   ],
    "Metadata": {
-    "aws:cdk:path": "VpcCdkStack/database-server-sg/from VpcCdkStackbackendserversg11399945:3306"
+    "aws:cdk:path": "VpcCdkStack/DatabaseServerSecurityGroup/from VpcCdkStackBackendServerSecurityGroup63517AD3:3306"
    }
   },
   "CDKMetadata": {
@@ -762,6 +553,81 @@
    },
    "Metadata": {
     "aws:cdk:path": "VpcCdkStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ExportsOutputRefMainVpcPrivateSubnet1SubnetA8D0757B15568C8D": {
+   "Value": {
+    "Ref": "MainVpcPrivateSubnet1SubnetA8D0757B"
+   },
+   "Export": {
+    "Name": "VpcCdkStack:ExportsOutputRefMainVpcPrivateSubnet1SubnetA8D0757B15568C8D"
+   }
+  },
+  "ExportsOutputRefMainVpcPrivateSubnet2SubnetFC4F66C434910780": {
+   "Value": {
+    "Ref": "MainVpcPrivateSubnet2SubnetFC4F66C4"
+   },
+   "Export": {
+    "Name": "VpcCdkStack:ExportsOutputRefMainVpcPrivateSubnet2SubnetFC4F66C434910780"
+   }
+  },
+  "ExportsOutputFnGetAttDatabaseServerSecurityGroup8C19A3B7GroupIdEA97D3E9": {
+   "Value": {
+    "Fn::GetAtt": [
+     "DatabaseServerSecurityGroup8C19A3B7",
+     "GroupId"
+    ]
+   },
+   "Export": {
+    "Name": "VpcCdkStack:ExportsOutputFnGetAttDatabaseServerSecurityGroup8C19A3B7GroupIdEA97D3E9"
+   }
+  },
+  "ExportsOutputFnGetAttBackendServerSecurityGroupE2FB8B06GroupId6751A8AA": {
+   "Value": {
+    "Fn::GetAtt": [
+     "BackendServerSecurityGroupE2FB8B06",
+     "GroupId"
+    ]
+   },
+   "Export": {
+    "Name": "VpcCdkStack:ExportsOutputFnGetAttBackendServerSecurityGroupE2FB8B06GroupId6751A8AA"
+   }
+  },
+  "ExportsOutputRefMainVpc919A5E7E852FB707": {
+   "Value": {
+    "Ref": "MainVpc919A5E7E"
+   },
+   "Export": {
+    "Name": "VpcCdkStack:ExportsOutputRefMainVpc919A5E7E852FB707"
+   }
+  },
+  "ExportsOutputFnGetAttWebServerSecurityGroupEFBF953EGroupIdE0ACD4B8": {
+   "Value": {
+    "Fn::GetAtt": [
+     "WebServerSecurityGroupEFBF953E",
+     "GroupId"
+    ]
+   },
+   "Export": {
+    "Name": "VpcCdkStack:ExportsOutputFnGetAttWebServerSecurityGroupEFBF953EGroupIdE0ACD4B8"
+   }
+  },
+  "ExportsOutputRefMainVpcPublicSubnet1Subnet269349B144A4FA94": {
+   "Value": {
+    "Ref": "MainVpcPublicSubnet1Subnet269349B1"
+   },
+   "Export": {
+    "Name": "VpcCdkStack:ExportsOutputRefMainVpcPublicSubnet1Subnet269349B144A4FA94"
+   }
+  },
+  "ExportsOutputRefMainVpcPublicSubnet2Subnet287D062B1BDD0C32": {
+   "Value": {
+    "Ref": "MainVpcPublicSubnet2Subnet287D062B"
+   },
+   "Export": {
+    "Name": "VpcCdkStack:ExportsOutputRefMainVpcPublicSubnet2Subnet287D062B1BDD0C32"
    }
   }
  },

@@ -5,33 +5,24 @@ import * as route53 from 'aws-cdk-lib/aws-route53';
 
 import conf from '../config/app.conf';
 
+interface HostedZoneCdkStackProps extends cdk.StackProps {
+  vpc: ec2.Vpc;
+}
+
 export class HostedZoneCdkStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+  
+  public readonly hostedZone: route53.PrivateHostedZone;
+
+  constructor(scope: Construct, id: string, props: HostedZoneCdkStackProps) {
     super(scope, id, props);
 
-    // Parameters
-    const hostedZoneName = new cdk.CfnParameter(this, "HostedZoneName", {
-      type: 'String',
-      description: 'The name of priviate hosted zone',
-      default: conf.hostedZoneName
-    });
-
-    // Imports
-    const vpc = ec2.Vpc.fromLookup(this, 'MainVpc', {
-      vpcName: 'main-vpc',
-    });
+    const { vpc } = props;
+    const { hostedZoneName } = conf;
 
     // Resources
-    const hostedZone = new route53.PrivateHostedZone(this, 'HostedZone', {
-      zoneName: hostedZoneName.valueAsString,
-      vpc
-    });
-
-    // Ouputs
-    new cdk.CfnOutput(this, 'PrivateHostedZoneName', {
-      value: hostedZone.zoneName,
-      description: 'The name of private hosted zone',
-      exportName: 'PrivateHostedZoneName'
+    this.hostedZone = new route53.PrivateHostedZone(this, 'PrivateHostedZone', {
+      vpc,
+      zoneName: hostedZoneName
     });
   }
 }

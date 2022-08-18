@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
+
+import conf from '../config/app.conf';
+
 import { VpcCdkStack } from '../lib/vpc-cdk-stack';
-import { IamCdkStack } from '../lib//iam-cdk-stack';
-import { HostedZoneCdkStack } from '../lib/hostzone-cdk-stack';
+import { IamCdkStack } from '../lib/iam-cdk-stack';
 import { RdsCdkStack } from '../lib/rds-cdk-stack';
 import { EcsClusterCdkStack } from '../lib/ecs-cluster-cdk-stack';
 import { EcsServiceAlbCdkStack } from '../lib/ecs-service-alb-cdk-stack';
-
-import conf from '../config/app.conf';
 
 const env = { 
   account: conf.account,
@@ -17,9 +17,25 @@ const env = {
 
 const app = new cdk.App();
 
-new VpcCdkStack(app, 'VpcCdkStack', { env });
-new IamCdkStack(app, 'IamCdkStack', { env });
-new HostedZoneCdkStack(app, 'HostedZoneCdkStack', { env });
-new RdsCdkStack(app, 'RdsCdkStack', { env });
-new EcsClusterCdkStack(app, 'EcsClusterCdkStack', { env });
-new EcsServiceAlbCdkStack(app, 'EcsServiceAlbCdkStack', { env });
+const vpcCdkStack = new VpcCdkStack(app, 'VpcCdkStack', { env });
+const iamCdkStack = new IamCdkStack(app, 'IamCdkStack', { env });
+
+const rdsCdkStack = new RdsCdkStack(app, 'RdsCdkStack', { 
+  vpc: vpcCdkStack.vpc,
+  securityGroup: vpcCdkStack.dbserverSG,
+  env
+});
+
+const ecsClusterCdkStack = new EcsClusterCdkStack(app, 'EcsClusterCdkStack', { 
+  vpc: vpcCdkStack.vpc,
+  securityGroup: vpcCdkStack.backendServerSG,
+  env
+});
+
+new EcsServiceAlbCdkStack(app, 'EcsServiceAlbCdkStack', {
+  vpc: vpcCdkStack.vpc,
+  securityGroup: vpcCdkStack.webserverSG,
+  ecsCluster: ecsClusterCdkStack.ecsCluster,
+  secret: rdsCdkStack.dbCluster.secret,
+  env
+});

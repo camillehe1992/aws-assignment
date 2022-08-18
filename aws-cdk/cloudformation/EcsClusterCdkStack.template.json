@@ -1,25 +1,4 @@
 {
- "Parameters": {
-  "ECSClusterName": {
-   "Type": "String",
-   "Default": "MY-FIRST-ECS-CLUSTER",
-   "Description": "The name of ECS Cluster"
-  },
-  "InstanceType": {
-   "Type": "String",
-   "Default": "t2.micro",
-   "Description": "The EC2 instance type"
-  },
-  "SsmParameterValueawsserviceecsoptimizedamiamazonlinux2recommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter": {
-   "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
-   "Default": "/aws/service/ecs/optimized-ami/amazon-linux-2/recommended/image_id"
-  },
-  "BootstrapVersion": {
-   "Type": "AWS::SSM::Parameter::Value<String>",
-   "Default": "/cdk-bootstrap/hnb659fds/version",
-   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
-  }
- },
  "Resources": {
   "Ec2InstanceRolePolicy0ED2723A": {
    "Type": "AWS::IAM::Policy",
@@ -35,7 +14,7 @@
        "Effect": "Allow",
        "Resource": {
         "Fn::GetAtt": [
-         "ClusterEB0386A7",
+         "ECSCluster7D463CD4",
          "Arn"
         ]
        }
@@ -49,7 +28,7 @@
         "ArnEquals": {
          "ecs:cluster": {
           "Fn::GetAtt": [
-           "ClusterEB0386A7",
+           "ECSCluster7D463CD4",
            "Arn"
           ]
          }
@@ -73,22 +52,33 @@
     },
     "PolicyName": "Ec2InstanceRolePolicy0ED2723A",
     "Roles": [
-     {
-      "Fn::ImportValue": "Ec2InstanceRoleName"
-     }
+     "EC2_Instance_Role"
     ]
    },
    "Metadata": {
     "aws:cdk:path": "EcsClusterCdkStack/Ec2InstanceRole/Policy/Resource"
    }
   },
+  "CfnKeyPair": {
+   "Type": "AWS::EC2::KeyPair",
+   "Properties": {
+    "KeyName": "ecs-instances-private-key",
+    "Tags": [
+     {
+      "Key": "StackName",
+      "Value": "EcsClusterCdkStack"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "EcsClusterCdkStack/CfnKeyPair"
+   }
+  },
   "ASGLaunchTemplateProfile367835EA": {
    "Type": "AWS::IAM::InstanceProfile",
    "Properties": {
     "Roles": [
-     {
-      "Fn::ImportValue": "Ec2InstanceRoleName"
-     }
+     "EC2_Instance_Role"
     ]
    },
    "Metadata": {
@@ -110,12 +100,12 @@
      "ImageId": {
       "Ref": "SsmParameterValueawsserviceecsoptimizedamiamazonlinux2recommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter"
      },
-     "InstanceType": {
-      "Ref": "InstanceType"
-     },
-     "KeyName": "ec2-private-key",
+     "InstanceType": "t2.micro",
+     "KeyName": "ecs-instances-private-key",
      "SecurityGroupIds": [
-      "sg-034a4efbb9dd087d4"
+      {
+       "Fn::ImportValue": "VpcCdkStack:ExportsOutputFnGetAttBackendServerSecurityGroupE2FB8B06GroupId6751A8AA"
+      }
      ],
      "TagSpecifications": [
       {
@@ -144,7 +134,7 @@
         [
          "#!/bin/bash\necho ECS_CLUSTER=",
          {
-          "Ref": "ClusterEB0386A7"
+          "Ref": "ECSCluster7D463CD4"
          },
          " >> /etc/ecs/ecs.config\nsudo iptables --insert FORWARD 1 --in-interface docker+ --destination 169.254.169.254/32 --jump DROP\nsudo service iptables save\necho ECS_AWSVPC_BLOCK_IMDS=true >> /etc/ecs/ecs.config"
         ]
@@ -176,9 +166,12 @@
     },
     "NewInstancesProtectedFromScaleIn": true,
     "VPCZoneIdentifier": [
-     "subnet-001274da75b9662d0",
-     "subnet-07b1599e4316c7c21",
-     "subnet-0db7a60eb2cce1186"
+     {
+      "Fn::ImportValue": "VpcCdkStack:ExportsOutputRefMainVpcPrivateSubnet1SubnetA8D0757B15568C8D"
+     },
+     {
+      "Fn::ImportValue": "VpcCdkStack:ExportsOutputRefMainVpcPrivateSubnet2SubnetFC4F66C434910780"
+     }
     ]
    },
    "UpdatePolicy": {
@@ -199,18 +192,16 @@
     "aws:cdk:path": "EcsClusterCdkStack/ASG/ASG"
    }
   },
-  "ClusterEB0386A7": {
+  "ECSCluster7D463CD4": {
    "Type": "AWS::ECS::Cluster",
    "Properties": {
-    "ClusterName": {
-     "Ref": "ECSClusterName"
-    }
+    "ClusterName": "MY-FIRST-ECS-CLUSTER"
    },
    "Metadata": {
-    "aws:cdk:path": "EcsClusterCdkStack/Cluster/Resource"
+    "aws:cdk:path": "EcsClusterCdkStack/ECSCluster/Resource"
    }
   },
-  "Cluster3DA9CCBA": {
+  "ECSClusterF6D1FAD0": {
    "Type": "AWS::ECS::ClusterCapacityProviderAssociations",
    "Properties": {
     "CapacityProviders": [
@@ -219,12 +210,12 @@
      }
     ],
     "Cluster": {
-     "Ref": "ClusterEB0386A7"
+     "Ref": "ECSCluster7D463CD4"
     },
     "DefaultCapacityProviderStrategy": []
    },
    "Metadata": {
-    "aws:cdk:path": "EcsClusterCdkStack/Cluster/Cluster"
+    "aws:cdk:path": "EcsClusterCdkStack/ECSCluster/ECSCluster"
    }
   },
   "AsgCapacityProvider760D11D9": {
@@ -249,20 +240,31 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/2VQXUsDMRD8Lb7nov0Qn497kILg0fou6962bptLjmxSKSH/3aRFwfNpZ2dnlmGWevWoH+7gSxocTo3hD512AfCkur3twcNIgbzakrjokVQRvieGUafeGcbLVfaLNlYCWKTeuz0byopwqdMLRIufbzROBgJV3V8mK4jBCYJhe9CpLcvutjx7F6dqmHP1s+jUmSg1XlH8hx1MgBwuJcyZB/KtiEOGwM6KauUwv1+tMy7nyr7GMMVQ0U8PWVk3kD7K/Xmx1ounUuFRmBsfbeCR9PY2vwFNjkxzXgEAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/2VQwW7CMAz9lt3TMBho54rDNG2HCrgjzzXMkCZVnICqKP++FDZN60623/Pzs73QTyv9+ABXqbA9V4Y/dNoGwLPakLjokVTh9omh06lxhnFQ64P9zV6tBLBIjXcHNpQV4UKnQrzR0AB79Q7R4ueOut5AoFHyF8kKYnCCYNgedapLsb0XL97FfhRMsdFEiomJEsiPHf/TNfSAHIay14Vb8rWIQ4bAzoqq5Tjlb9IJlvPtVvDQ0ff0n69kZV1L+iSzy3yp58/lhydhrny0gTvSm3v8At+51hNfAQAA"
    },
    "Metadata": {
     "aws:cdk:path": "EcsClusterCdkStack/CDKMetadata/Default"
    }
   }
  },
+ "Parameters": {
+  "SsmParameterValueawsserviceecsoptimizedamiamazonlinux2recommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter": {
+   "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
+   "Default": "/aws/service/ecs/optimized-ami/amazon-linux-2/recommended/image_id"
+  },
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
  "Outputs": {
-  "ClusterName": {
+  "ExportsOutputRefECSCluster7D463CD47A8DFE2F": {
    "Value": {
-    "Ref": "ClusterEB0386A7"
+    "Ref": "ECSCluster7D463CD4"
    },
    "Export": {
-    "Name": "ECSClusterName"
+    "Name": "EcsClusterCdkStack:ExportsOutputRefECSCluster7D463CD47A8DFE2F"
    }
   }
  },

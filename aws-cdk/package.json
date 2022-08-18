@@ -6,7 +6,7 @@
   },
   "scripts": {
     "build": "tsc && cdk synth -o cloudformation",
-    "deploy": "cdk deploy",
+    "deploy": "cdk deploy --all --require-approval never",
     "watch": "tsc -w",
     "destroy": "cdk destroy",
     "test": "jest",

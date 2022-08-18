@@ -4,76 +4,66 @@ import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as elbv2 from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import * as ssm from 'aws-cdk-lib/aws-secretsmanager';
 
 import conf from '../config/app.conf';
 
-// import { VpcCdkStack } from './vpc-cdk-stack';
+interface EcsServiceAlbCdkStackProps extends cdk.StackProps {
+  vpc: ec2.Vpc;
+  securityGroup: ec2.SecurityGroup;
+  ecsCluster: ecs.Cluster;
+  secret?: ssm.ISecret
+}
 
 export class EcsServiceAlbCdkStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: Construct, id: string, props: EcsServiceAlbCdkStackProps) {
     super(scope, id, props);
 
-    // Dependency stacks
-    // const vpcCdkStack = new VpcCdkStack(scope, 'VpcCdkStack') 
-    // this.addDependency(vpcCdkStack);
+    const { vpc, securityGroup, ecsCluster, secret} = props;
+    const { appName, environment, ecsTaskExecutionRoleName, image, taskMemoryMiB, taskCpu } = conf;
 
-    // import VPC by Name
-    const vpc = ec2.Vpc.fromLookup(this, 'MainVpc', {
-      vpcName: 'MainVpc',
-    });
-
-    // import database security group by name
-    const securityGroup = ec2.SecurityGroup.fromLookupByName(this, 'SG', 'web-server-sg', vpc);
-
-     // import ECS cluster by attributes
-     const cluster = ecs.Cluster.fromClusterAttributes(this, 'Cluster', {
-      vpc,
-      securityGroups: [securityGroup],
-      clusterName: cdk.Fn.importValue('ECSClusterName')
-    });
-
-    // import ECS task execution role
+    // import ECS task execution role (workaround dependency cyclic reference issue)
     const executionRole = iam.Role.fromRoleName(
       this,
       'EcsTaskExecutionRole',
-      cdk.Fn.importValue('EcsTaskExecutionRoleName')
+      ecsTaskExecutionRoleName
     );
 
     // Resources
-    const taskDefinition = new ecs.Ec2TaskDefinition(this, 'TaskDefinition', {
+    const taskDefinition = new ecs.Ec2TaskDefinition(this, 'Ec2TaskDefinition', {
       executionRole
     });
     
     taskDefinition.addContainer('TheContainer', {
-      image: ecs.ContainerImage.fromRegistry(conf.image ?? ''),
-      memoryLimitMiB: parseInt(conf.taskMemoryMiB ?? '0'),
-      cpu: parseInt(conf.taskCpu ?? '0'),
+      image: ecs.ContainerImage.fromRegistry(image),
+      memoryLimitMiB: parseInt(taskMemoryMiB),
+      cpu: parseInt(taskCpu),
       portMappings: [
         {
           containerPort: 5000,
           protocol: ecs.Protocol.TCP
         }
       ],
-      logging: ecs.LogDriver.awsLogs({ streamPrefix: `${conf.appName}`, logRetention: 7 })
-      // environment: {
-      //   ['AWS_SECRET_ID']: cdk.Fn.importValue('dbSecretName')
-      // }
+      logging: ecs.LogDriver.awsLogs({ streamPrefix: `${appName}`, logRetention: 7 }),
+      environment: {
+        ['AWS_SECRET_ID']: secret?.secretName ?? ''
+      }
     });
 
-    const targetGroup = new elbv2.ApplicationTargetGroup(this, 'TargetGroup', {
+    const targetGroup = new elbv2.ApplicationTargetGroup(this, 'ApplicationTargetGroup', {
       healthCheck: {
         path: '/health'
       },
       port: 80,
       protocol: elbv2.ApplicationProtocol.HTTP,
       protocolVersion: elbv2.ApplicationProtocolVersion.HTTP1,
-      targetGroupName: `${conf.appName}-${conf.environment}-default`,
+      targetGroupName: `${appName}-${environment}-default`,
       targetType: elbv2.TargetType.INSTANCE,
       vpc
     });
 
     // create an alb
-    const alb = new elbv2.ApplicationLoadBalancer(this, 'LoadBalancer', {
+    const alb = new elbv2.ApplicationLoadBalancer(this, 'ApplicationLoadBalancer', {
       vpc,
       idleTimeout: cdk.Duration.seconds(60),
       ipAddressType: elbv2.IpAddressType.IPV4,
@@ -84,14 +74,14 @@ export class EcsServiceAlbCdkStack extends cdk.Stack {
       }
     });
 
-    const albListener = new elbv2.ApplicationListener(this, 'AlbListener', {
+    const albListener = new elbv2.ApplicationListener(this, 'ApplicationListener', {
       loadBalancer: alb,
       port: 80,
       defaultAction: elbv2.ListenerAction.forward([targetGroup])
     });
 
     const ecsService = new ecs.Ec2Service(this, 'Ec2Service', {
-      cluster,
+      cluster: ecsCluster,
       taskDefinition,
       deploymentController:  {
         type: ecs.DeploymentControllerType.ECS,
@@ -107,15 +97,11 @@ export class EcsServiceAlbCdkStack extends cdk.Stack {
       minCapacity: 1,
       maxCapacity: 2
     });
+
     scaleTarget.scaleOnCpuUtilization('CpuScaling', {
       targetUtilizationPercent: 60,
       scaleInCooldown: cdk.Duration.seconds(60),
       scaleOutCooldown: cdk.Duration.seconds(60)
-    });
-    // Outputs
-    new cdk.CfnOutput(this, 'AlbDNSName', {
-      value: alb.loadBalancerDnsName,
-      exportName: 'AlbDNSName'
     });
   }
 }

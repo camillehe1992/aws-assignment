@@ -7,54 +7,44 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 
 import conf from '../config/app.conf';
 
-// import { VpcCdkStack } from './vpc-cdk-stack';
+interface EcsClusterCdkStackProps extends cdk.StackProps {
+  vpc: ec2.Vpc;
+  securityGroup: ec2.SecurityGroup;
+}
 
 export class EcsClusterCdkStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+
+  public readonly ecsCluster: ecs.Cluster;
+
+  constructor(scope: Construct, id: string, props: EcsClusterCdkStackProps) {
     super(scope, id, props);
 
-    // Dependency stacks
-    // const vpcCdkStack = new VpcCdkStack(scope, 'VpcCdkStack') 
-    // this.addDependency(vpcCdkStack);
+    const { vpc, securityGroup } = props;
+    const { ec2InstanceRoleName, ecsClusterName, ec2InstanceType, keyPairName } = conf;
     
-    // Parameters
-    const clusterName = new cdk.CfnParameter(this, "ECSClusterName", {
-      type: "String",
-      description: 'The name of ECS Cluster',
-      default: conf.ecsClusterName
-    });
-
-    const instanceType = new cdk.CfnParameter(this, "InstanceType", {
-      type: "String",
-      description: 'The EC2 instance type',
-      default: conf.ec2InstanceType
-    });
-
-    // import VPC by name
-    const vpc = ec2.Vpc.fromLookup(this, 'MainVpc', {
-      vpcName: 'MainVpc',
-    });
-
-    // import backend security group by name
-    const securityGroup = ec2.SecurityGroup.fromLookupByName(this, 'SG', 'backend-server-sg', vpc);
-    
-    // import ECS container instance IAM role
-    const role = iam.Role.fromRoleName(
+    // import ECS container instance IAM role (workaround dependency cyclic reference issue)
+    const instanceRole = iam.Role.fromRoleName(
       this,
       'Ec2InstanceRole',
-      cdk.Fn.importValue('Ec2InstanceRoleName')
+      ec2InstanceRoleName
     );
 
-    const userData = ec2.UserData.forLinux();
+    const keyPair = new ec2.CfnKeyPair(this, 'CfnKeyPair', {
+      keyName: keyPairName,
+      tags: [{
+        key: 'StackName',
+        value: this.stackName,
+      }],
+    });
 
     // create a EC2 launch template
     const launchTemplate = new ec2.LaunchTemplate(this, 'ASG-LaunchTemplate', {
-      instanceType: new ec2.InstanceType(instanceType.valueAsString),
+      instanceType: new ec2.InstanceType(ec2InstanceType),
       machineImage: ecs.EcsOptimizedImage.amazonLinux2(),
-      userData,
+      userData:  ec2.UserData.forLinux(),
       securityGroup: securityGroup,
-      role,
-      keyName: 'ec2-private-key',
+      role: instanceRole,
+      keyName: keyPair.keyName,
       launchTemplateName: this.stackName + '-launch-template'
     });
   
@@ -66,9 +56,9 @@ export class EcsClusterCdkStack extends cdk.Stack {
     }); 
 
     // create an ECS cluster
-    const cluster = new ecs.Cluster(this, 'Cluster', {
+    this.ecsCluster = new ecs.Cluster(this, 'ECSCluster', {
       vpc,
-      clusterName: clusterName.valueAsString,
+      clusterName: ecsClusterName,
     });
 
     // create a capacity provider and associate it with ECS cluster
@@ -78,12 +68,6 @@ export class EcsClusterCdkStack extends cdk.Stack {
       capacityProviderName: 'AsgCapacityProvider'
     });
     
-    cluster.addAsgCapacityProvider(capacityProvider);
-
-    // Outputs
-    new cdk.CfnOutput(this, 'ClusterName', {
-      value: cluster.clusterName,
-      exportName: 'ECSClusterName'
-    });
+    this.ecsCluster.addAsgCapacityProvider(capacityProvider);
   }
 }

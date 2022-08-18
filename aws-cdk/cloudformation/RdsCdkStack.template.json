@@ -1,19 +1,23 @@
 {
  "Resources": {
-  "DatabaseSubnets56F17B9A": {
+  "DatabaseClusterSubnets7FAE1846": {
    "Type": "AWS::RDS::DBSubnetGroup",
    "Properties": {
-    "DBSubnetGroupDescription": "Subnets for Database database",
+    "DBSubnetGroupDescription": "Subnets for DatabaseCluster database",
     "SubnetIds": [
-     "p-12345",
-     "p-67890"
+     {
+      "Fn::ImportValue": "VpcCdkStack:ExportsOutputRefMainVpcPrivateSubnet1SubnetA8D0757B15568C8D"
+     },
+     {
+      "Fn::ImportValue": "VpcCdkStack:ExportsOutputRefMainVpcPrivateSubnet2SubnetFC4F66C434910780"
+     }
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "RdsCdkStack/Database/Subnets/Default"
+    "aws:cdk:path": "RdsCdkStack/DatabaseCluster/Subnets/Default"
    }
   },
-  "RdsCdkStackDatabaseSecretA8D574B33fdaad7efa858a3daf9490cf0a702aeb": {
+  "RdsCdkStackDatabaseClusterSecretE350133A3fdaad7efa858a3daf9490cf0a702aeb": {
    "Type": "AWS::SecretsManager::Secret",
    "Properties": {
     "Description": {
@@ -37,25 +41,25 @@
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",
    "Metadata": {
-    "aws:cdk:path": "RdsCdkStack/Database/Secret/Resource"
+    "aws:cdk:path": "RdsCdkStack/DatabaseCluster/Secret/Resource"
    }
   },
-  "DatabaseSecretAttachmentE5D1B020": {
+  "DatabaseClusterSecretAttachmentB8BF2F7B": {
    "Type": "AWS::SecretsManager::SecretTargetAttachment",
    "Properties": {
     "SecretId": {
-     "Ref": "RdsCdkStackDatabaseSecretA8D574B33fdaad7efa858a3daf9490cf0a702aeb"
+     "Ref": "RdsCdkStackDatabaseClusterSecretE350133A3fdaad7efa858a3daf9490cf0a702aeb"
     },
     "TargetId": {
-     "Ref": "DatabaseB269D8BB"
+     "Ref": "DatabaseCluster68FC2945"
     },
     "TargetType": "AWS::RDS::DBCluster"
    },
    "Metadata": {
-    "aws:cdk:path": "RdsCdkStack/Database/Secret/Attachment/Resource"
+    "aws:cdk:path": "RdsCdkStack/DatabaseCluster/Secret/Attachment/Resource"
    }
   },
-  "DatabaseB269D8BB": {
+  "DatabaseCluster68FC2945": {
    "Type": "AWS::RDS::DBCluster",
    "Properties": {
     "Engine": "aurora-mysql",
@@ -63,7 +67,7 @@
     "DBClusterIdentifier": "mysql",
     "DBClusterParameterGroupName": "default.aurora-mysql8.0",
     "DBSubnetGroupName": {
-     "Ref": "DatabaseSubnets56F17B9A"
+     "Ref": "DatabaseClusterSubnets7FAE1846"
     },
     "EngineVersion": "8.0.mysql_aurora.3.02.0",
     "MasterUsername": "clusteradmin",
@@ -73,32 +77,34 @@
       [
        "{{resolve:secretsmanager:",
        {
-        "Ref": "RdsCdkStackDatabaseSecretA8D574B33fdaad7efa858a3daf9490cf0a702aeb"
+        "Ref": "RdsCdkStackDatabaseClusterSecretE350133A3fdaad7efa858a3daf9490cf0a702aeb"
        },
        ":SecretString:password::}}"
       ]
      ]
     },
     "VpcSecurityGroupIds": [
-     "sg-12345"
+     {
+      "Fn::ImportValue": "VpcCdkStack:ExportsOutputFnGetAttDatabaseServerSecurityGroup8C19A3B7GroupIdEA97D3E9"
+     }
     ]
    },
    "UpdateReplacePolicy": "Snapshot",
    "DeletionPolicy": "Snapshot",
    "Metadata": {
-    "aws:cdk:path": "RdsCdkStack/Database/Resource"
+    "aws:cdk:path": "RdsCdkStack/DatabaseCluster/Resource"
    }
   },
-  "DatabaseInstance1844F58FD": {
+  "DatabaseClusterInstance1C566869D": {
    "Type": "AWS::RDS::DBInstance",
    "Properties": {
     "DBInstanceClass": "db.t3.medium",
     "DBClusterIdentifier": {
-     "Ref": "DatabaseB269D8BB"
+     "Ref": "DatabaseCluster68FC2945"
     },
     "DBInstanceIdentifier": "mysqlinstance1",
     "DBSubnetGroupName": {
-     "Ref": "DatabaseSubnets56F17B9A"
+     "Ref": "DatabaseClusterSubnets7FAE1846"
     },
     "Engine": "aurora-mysql",
     "EngineVersion": "8.0.mysql_aurora.3.02.0",
@@ -107,19 +113,19 @@
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",
    "Metadata": {
-    "aws:cdk:path": "RdsCdkStack/Database/Instance1"
+    "aws:cdk:path": "RdsCdkStack/DatabaseCluster/Instance1"
    }
   },
-  "DatabaseInstance2AA380DEE": {
+  "DatabaseClusterInstance252BB9A46": {
    "Type": "AWS::RDS::DBInstance",
    "Properties": {
     "DBInstanceClass": "db.t3.medium",
     "DBClusterIdentifier": {
-     "Ref": "DatabaseB269D8BB"
+     "Ref": "DatabaseCluster68FC2945"
     },
     "DBInstanceIdentifier": "mysqlinstance2",
     "DBSubnetGroupName": {
-     "Ref": "DatabaseSubnets56F17B9A"
+     "Ref": "DatabaseClusterSubnets7FAE1846"
     },
     "Engine": "aurora-mysql",
     "EngineVersion": "8.0.mysql_aurora.3.02.0",
@@ -128,13 +134,13 @@
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",
    "Metadata": {
-    "aws:cdk:path": "RdsCdkStack/Database/Instance2"
+    "aws:cdk:path": "RdsCdkStack/DatabaseCluster/Instance2"
    }
   },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/22PSw+CQAyEf4v3ZRUf8ayQGE8m4N2UpSKvhWy7eiD7311BEg+eJu0303TWcrOTqwW8KFB5HTRlJoeUQdUiQeqsUSg8uw0mJznEwJABYdRYYjQitZlGPpnO9iK66/j4u5jNKSqDPPE5OA5nTQxaoRM0WqgFDQUaOXj8TU1yBVMgH9j/9WhRj8f+E+c+7GK5t6NrLuGE7nKUFS2f4VaGe1+5orIMjNVctiiTSd+5yiNCDgEAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/21PuQ7CMAz9FvY0UA4xQysh1pYduakpvVIUOzBE+XdCSyUGpme/S/ZabnZytYAXRapso64upMsZVCsCdXWmJOlSYCiAMOksMRqR20Ijn8xgHyK56fT4S8zmHJVBnvQ5OC5nTQxaoRc0WqgHDRUa6YL8TU1wAVMhHzicc+9Rj2X/Fe9FhjRYo/Bjmmcv9FCibGj5jLcy3odHG6rryFjNdY8ym/ANR3JyugQBAAA="
    },
    "Metadata": {
     "aws:cdk:path": "RdsCdkStack/CDKMetadata/Default"
@@ -142,78 +148,12 @@
   }
  },
  "Outputs": {
-  "DbReaderEndpoint": {
+  "ExportsOutputRefRdsCdkStackDatabaseClusterSecretE350133A3fdaad7efa858a3daf9490cf0a702aebCDE2CD3D": {
    "Value": {
-    "Fn::GetAtt": [
-     "DatabaseB269D8BB",
-     "ReadEndpoint.Address"
-    ]
-   }
-  },
-  "DbWriterEndpoint": {
-   "Value": {
-    "Fn::GetAtt": [
-     "DatabaseB269D8BB",
-     "Endpoint.Address"
-    ]
-   }
-  },
-  "SecretName": {
-   "Value": {
-    "Fn::Join": [
-     "-",
-     [
-      {
-       "Fn::Select": [
-        0,
-        {
-         "Fn::Split": [
-          "-",
-          {
-           "Fn::Select": [
-            6,
-            {
-             "Fn::Split": [
-              ":",
-              {
-               "Ref": "RdsCdkStackDatabaseSecretA8D574B33fdaad7efa858a3daf9490cf0a702aeb"
-              }
-             ]
-            }
-           ]
-          }
-         ]
-        }
-       ]
-      },
-      {
-       "Fn::Select": [
-        1,
-        {
-         "Fn::Split": [
-          "-",
-          {
-           "Fn::Select": [
-            6,
-            {
-             "Fn::Split": [
-              ":",
-              {
-               "Ref": "RdsCdkStackDatabaseSecretA8D574B33fdaad7efa858a3daf9490cf0a702aeb"
-              }
-             ]
-            }
-           ]
-          }
-         ]
-        }
-       ]
-      }
-     ]
-    ]
+    "Ref": "RdsCdkStackDatabaseClusterSecretE350133A3fdaad7efa858a3daf9490cf0a702aeb"
    },
    "Export": {
-    "Name": "DbSecretName"
+    "Name": "RdsCdkStack:ExportsOutputRefRdsCdkStackDatabaseClusterSecretE350133A3fdaad7efa858a3daf9490cf0a702aebCDE2CD3D"
    }
   }
  },
