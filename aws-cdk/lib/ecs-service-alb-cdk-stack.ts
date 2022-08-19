@@ -20,7 +20,7 @@ export class EcsServiceAlbCdkStack extends cdk.Stack {
     super(scope, id, props);
 
     const { vpc, securityGroup, ecsCluster, secret} = props;
-    const { appName, environment, ecsTaskExecutionRoleName, image, taskMemoryMiB, taskCpu } = conf;
+    const { appName, environment, ecsTaskExecutionRoleName, ecsTaskRoleName, image, taskMemoryMiB, taskCpu } = conf;
 
     // import ECS task execution role (workaround dependency cyclic reference issue)
     const executionRole = iam.Role.fromRoleName(
@@ -29,9 +29,17 @@ export class EcsServiceAlbCdkStack extends cdk.Stack {
       ecsTaskExecutionRoleName
     );
 
+    // import ECS task role (workaround dependency cyclic reference issue)
+    const taskRole = iam.Role.fromRoleName(
+      this,
+      'EcsTaskRole',
+      ecsTaskRoleName
+    );
+
     // Resources
     const taskDefinition = new ecs.Ec2TaskDefinition(this, 'Ec2TaskDefinition', {
-      executionRole
+      executionRole,
+      taskRole
     });
     
     taskDefinition.addContainer('TheContainer', {

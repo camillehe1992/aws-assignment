@@ -8,11 +8,12 @@ export class IamCdkStack extends cdk.Stack {
 
   public readonly ec2InstanceRole: iam.Role;
   public readonly ecsTaskExecutionRole: iam.Role;
+  public readonly ecsTaskRole: iam.Role;
 
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const { ec2InstanceRoleName, ecsTaskExecutionRoleName } = conf;
+    const { ec2InstanceRoleName, ecsTaskExecutionRoleName, ecsTaskRoleName } = conf;
 
     // create an IAM role to associate with the instance profile that is used by ECS container instances    
     this.ec2InstanceRole = new iam.Role(this, 'EC2InstanceRole', {
@@ -42,7 +43,7 @@ export class IamCdkStack extends cdk.Stack {
 
     // create an ECS task definition execution IAM role   
     this.ecsTaskExecutionRole = new iam.Role(this, 'EcsTaskExecutionRole', {
-      description: 'The role is used for task that running in ECS container instances',
+      description: 'The role is required by tasks to pull container images and publish logs to CW',
       roleName: ecsTaskExecutionRoleName,
       assumedBy: new iam.CompositePrincipal(
         new iam.ServicePrincipal('ecs-tasks.amazonaws.com')
@@ -57,7 +58,18 @@ export class IamCdkStack extends cdk.Stack {
             resources: ['*'],
             effect: iam.Effect.ALLOW
           })]
-        }),
+        })
+      }
+    });
+
+    // create an ECS task definition execution IAM role   
+    this.ecsTaskRole = new iam.Role(this, 'EcsTaskRole', {
+      description: 'The role is used for task that running in ECS container instances',
+      roleName: ecsTaskRoleName,
+      assumedBy: new iam.CompositePrincipal(
+        new iam.ServicePrincipal('ecs-tasks.amazonaws.com')
+      ),
+      inlinePolicies: {
         ['allow-secret-manager-readonly-policy']: new iam.PolicyDocument({
           statements: [ new iam.PolicyStatement({
             actions: [

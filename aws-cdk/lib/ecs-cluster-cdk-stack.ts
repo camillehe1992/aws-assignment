@@ -65,7 +65,8 @@ export class EcsClusterCdkStack extends cdk.Stack {
     const capacityProvider = new ecs.AsgCapacityProvider(this, 'AsgCapacityProvider', {
       autoScalingGroup,
       enableManagedScaling: true,
-      capacityProviderName: 'AsgCapacityProvider'
+      capacityProviderName: 'AsgCapacityProvider',
+      enableManagedTerminationProtection: false
     });
     
     this.ecsCluster.addAsgCapacityProvider(capacityProvider);

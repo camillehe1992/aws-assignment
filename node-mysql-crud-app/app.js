@@ -5,9 +5,6 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const app = express();
 const conf = require("./config/app.conf");
-const { dbConnection } = require("./connect");
-
-global.db = dbConnection();
 
 const { getHomePage } = require("./routes/index");
 const {
@@ -17,6 +14,10 @@ const {
   editPlayer,
   editPlayerPage,
 } = require("./routes/player");
+
+// connect to database
+const { dbConnection } = require("./connect");
+global.db = dbConnection();
 
 // configure middleware
 app.set("port", conf.server.port); // set express to use this port

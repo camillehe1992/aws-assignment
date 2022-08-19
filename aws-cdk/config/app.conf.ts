@@ -8,6 +8,7 @@ export default {
   hostedZoneName: process.env.HOSTED_ZONE_NAME || 'playground.demo.com',
   ec2InstanceRoleName: process.env.EC2_INSTANCE_ROLE_NAME || 'EC2_Instance_Role',
   ecsTaskExecutionRoleName: process.env.ECS_TASK_EXECUTION_ROLE_NAME || 'ECS_Task_Execution_Role',
+  ecsTaskRoleName: process.env.ECS_TASK_ROLE_NAME || 'ECS_Task_Role',
   image: process.env.IMAGE || 'camillehe1992/webapp',
   ecsClusterName: process.env.ECS_CLUSTER_NAME,
   ec2InstanceType: process.env.ECS_INSTANCE_TYPE || 't2.micro',
