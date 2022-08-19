@@ -58,12 +58,10 @@ export class IamCdkStack extends cdk.Stack {
             effect: iam.Effect.ALLOW
           })]
         }),
-        ['allow-ssm-readonly-policy']: new iam.PolicyDocument({
+        ['allow-secret-manager-readonly-policy']: new iam.PolicyDocument({
           statements: [ new iam.PolicyStatement({
             actions: [
-              'ssm:Describe*',
-              'ssm:Get*',
-              'ssm:List'
+              'secretsmanager:GetSecretValue'
             ],
             resources: ['*'],
             effect: iam.Effect.ALLOW

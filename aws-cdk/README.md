@@ -24,7 +24,6 @@ npm install
 ```
 
 ## Build Stacks
-
 ```sh
 npm run build
 ```
