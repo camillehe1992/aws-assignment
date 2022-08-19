@@ -11,7 +11,22 @@ const getSecretValue = async (secretId) => {
   const command = new GetSecretValueCommand({
     SecretId: secretId,
   });
-  return await client.send(command);
+  try {
+    console.log(`Get secretId ${secretId}`);
+    const response = await client.send(command);
+    let secret;
+    if ("SecretString" in response) {
+      secret = response.SecretString;
+    } else {
+      console.log("else:", response);
+      // Create a buffer
+      const buff = Buffer.from(data.SecretBinary, "base64");
+      secret = buff.toString("ascii");
+    }
+    return JSON.parse(secret);
+  } catch (error) {
+    console.error("failed to get secret value from secret manager", error);
+  }
 };
 
 module.exports = {

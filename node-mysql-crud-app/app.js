@@ -2,12 +2,12 @@ require("dotenv").config();
 const express = require("express");
 const fileUpload = require("express-fileupload");
 const bodyParser = require("body-parser");
-const mysql = require("mysql2");
 const path = require("path");
-const { getSecretValue } = require("./helpers/aws");
 const app = express();
-
 const conf = require("./config/app.conf");
+const { dbConnection } = require("./connect");
+
+global.db = dbConnection();
 
 const { getHomePage } = require("./routes/index");
 const {
@@ -17,28 +17,6 @@ const {
   editPlayer,
   editPlayerPage,
 } = require("./routes/player");
-
-// create connection to database
-// the mysql.createConnection function takes in a configuration object which contains host, user, password and the database name.
-console.log(`Get secretId ${conf.secretId}`);
-const { host, username, password } = getSecretValue(conf.secretId);
-console.log(`Get secret for ${host}`);
-
-const db = mysql.createConnection({
-  host,
-  user: username,
-  password,
-  multipleStatements: true,
-});
-
-// connect to database
-db.connect((err) => {
-  if (err) {
-    throw err;
-  }
-  console.log("Connected to database");
-});
-global.db = db;
 
 // configure middleware
 app.set("port", conf.server.port); // set express to use this port
@@ -68,5 +46,5 @@ app.post("/edit/:id", editPlayer);
 
 // set the app to listen on the port
 app.listen(conf.server.port, () => {
-  console.log(`Server running on port: ${conf.server.port}`);
+  console.log(`server running on port: ${conf.server.port}`);
 });
