@@ -46,7 +46,7 @@ export class EcsServiceAlbCdkStack extends cdk.Stack {
       ],
       logging: ecs.LogDriver.awsLogs({ streamPrefix: `${appName}`, logRetention: 7 }),
       environment: {
-        ['AWS_SECRET_ID']: secret?.secretName ?? ''
+        ['AWS_SECRET_ID']: secret?.secretArn ?? ''
       }
     });
 

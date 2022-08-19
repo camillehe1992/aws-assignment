@@ -105,7 +105,7 @@ dist
 
 cert/*
 
-**/*.js
+aws-cdk/*.js
 **/!jest.config.js
 **/*.d.ts
 **/node_modules
