@@ -3,11 +3,19 @@
   "version": "1.0.0",
   "description": "RDS initialization implementation in Node.js",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "build": "webpack --mode=production",
+    "build:dev": "webpack --mode=development"
+  },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "aws-sdk": "^2.1199.0",
     "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
   }
 }
