@@ -49,7 +49,7 @@ export class RdsCdkStack extends cdk.Stack {
         credsSecretName: credentials.secretName
       },
       fnLogRetention: cwlogs.RetentionDays.TWO_WEEKS,
-      fnCode: lambda.DockerImageCode.fromImageAsset(`${__dirname}/rds-init-fn-code`, {}),
+      fnCode: lambda.Code.fromAsset(`${__dirname}/rds-init-fn-code`, {}),
       fnTimeout: cdk.Duration.minutes(2),
       fnSecurityGroups: [],
       vpc,

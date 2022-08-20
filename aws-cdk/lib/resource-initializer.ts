@@ -3,6 +3,7 @@ import * as ec2 from 'aws-cdk-lib/aws-ec2'
 import * as lambda from 'aws-cdk-lib/aws-lambda'
 import * as cwlogs from 'aws-cdk-lib/aws-logs';
 import  * as iam from 'aws-cdk-lib/aws-iam'
+import * as signer from 'aws-cdk-lib/aws-signer';
 import { Construct } from 'constructs'
 import { AwsCustomResource, AwsCustomResourcePolicy, AwsSdkCall, PhysicalResourceId } from 'aws-cdk-lib/custom-resources'
 import { createHash } from 'crypto'
@@ -12,7 +13,7 @@ export interface CdkResourceInitializerProps {
   subnetsSelection: ec2.SubnetSelection
   fnSecurityGroups: ec2.ISecurityGroup[]
   fnTimeout: cdk.Duration
-  fnCode: lambda.DockerImageCode
+  fnCode: lambda.AssetCode
   fnLogRetention: cwlogs.RetentionDays
   fnMemorySize?: number
   config: object
@@ -34,10 +35,21 @@ export class CdkResourceInitializer extends Construct {
       allowAllOutbound: true
     })
 
-    const fn = new lambda.DockerImageFunction(this, 'ResourceInitializerFn', {
+    const signingProfile = new signer.SigningProfile(this, 'SigningProfile', {
+      platform: signer.Platform.AWS_LAMBDA_SHA384_ECDSA,
+    });
+    
+    const codeSigningConfig = new lambda.CodeSigningConfig(this, 'CodeSigningConfig', {
+      signingProfiles: [signingProfile],
+    });
+
+    const fn = new lambda.Function(this, 'ResourceInitializerFn', {
+      codeSigningConfig,
+      runtime: lambda.Runtime.NODEJS_16_X,
+      handler: 'index.handler',
+      code: props.fnCode,
       memorySize: props.fnMemorySize || 128,
       functionName: `${id}-ResInit${stack.stackName}`,
-      code: props.fnCode,
       vpcSubnets: props.vpc.selectSubnets(props.subnetsSelection),
       vpc: props.vpc,
       securityGroups: [fnSg, ...props.fnSecurityGroups],
