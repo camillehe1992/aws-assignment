@@ -26,7 +26,7 @@ module.exports = {
     let usernameQuery =
       "SELECT * FROM `players` WHERE user_name = '" + username + "'";
 
-    db.query(usernameQuery, (err, result) => {
+    pool.query(usernameQuery, (err, result) => {
       if (err) {
         return res.status(500).send(err);
       }
@@ -63,7 +63,7 @@ module.exports = {
               "', '" +
               username +
               "')";
-            db.query(query, (err, result) => {
+            pool.query(query, (err, result) => {
               if (err) {
                 return res.status(500).send(err);
               }
@@ -84,7 +84,7 @@ module.exports = {
   editPlayerPage: (req, res) => {
     let playerId = req.params.id;
     let query = "SELECT * FROM `players` WHERE id = '" + playerId + "' ";
-    db.query(query, (err, result) => {
+    pool.query(query, (err, result) => {
       if (err) {
         return res.status(500).send(err);
       }
@@ -114,7 +114,7 @@ module.exports = {
       "' WHERE `players`.`id` = '" +
       playerId +
       "'";
-    db.query(query, (err, result) => {
+    pool.query(query, (err, result) => {
       if (err) {
         return res.status(500).send(err);
       }
@@ -127,7 +127,7 @@ module.exports = {
       'SELECT image from `players` WHERE id = "' + playerId + '"';
     let deleteUserQuery = 'DELETE FROM players WHERE id = "' + playerId + '"';
 
-    db.query(getImageQuery, (err, result) => {
+    pool.query(getImageQuery, (err, result) => {
       if (err) {
         return res.status(500).send(err);
       }
@@ -138,7 +138,7 @@ module.exports = {
         if (err) {
           return res.status(500).send(err);
         }
-        db.query(deleteUserQuery, (err, result) => {
+        pool.query(deleteUserQuery, (err, result) => {
           if (err) {
             return res.status(500).send(err);
           }

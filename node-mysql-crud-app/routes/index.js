@@ -3,8 +3,9 @@ module.exports = {
     let query = "SELECT * FROM `players` ORDER BY id ASC"; // query database to get all the players
 
     // execute query
-    db.query(query, (err, result) => {
+    pool.query(query, (err, result) => {
       if (err) {
+        console.log(`failed to query database with query ${query}`);
         res.redirect("/");
       }
       res.render("index.ejs", {

@@ -6,6 +6,10 @@ const path = require("path");
 const app = express();
 const conf = require("./config/app.conf");
 
+// connect to database
+const { createPool } = require("./connect");
+(async () => (global.pool = await createPool()))();
+
 const { getHomePage } = require("./routes/index");
 const {
   addPlayerPage,
@@ -14,10 +18,6 @@ const {
   editPlayer,
   editPlayerPage,
 } = require("./routes/player");
-
-// connect to database
-const { dbConnection } = require("./connect");
-global.db = dbConnection();
 
 // configure middleware
 app.set("port", conf.server.port); // set express to use this port
