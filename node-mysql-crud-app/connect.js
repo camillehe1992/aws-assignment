@@ -6,7 +6,7 @@ const getSecret = async (secretId) => {
   if (conf.environment == "local") {
     return conf.database;
   } else {
-    return await getSecretValue(conf.secretId);
+    return await getSecretValue(secretId);
   }
 };
 

@@ -7,6 +7,7 @@ module.exports = {
       if (err) {
         console.log(`failed to query database with query ${query}`);
         res.redirect("/");
+        return;
       }
       res.render("index.ejs", {
         title: "Welcome to Socka | View Players",
