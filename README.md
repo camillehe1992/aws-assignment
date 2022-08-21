@@ -20,7 +20,7 @@ All CDK projects have similar structure except for a little difference to fit sp
 | [basic-cdk](./basic-cdk/)                 | internal-facing auto scaling web app hosted in ECS cluster and interacts with RDS database. |
 | [internet-facing](./internet-facing-cdk/) | internet-facing auto scaling web app hosted in ECS cluster and interacts with RDS database. |
 
-## Troubleshoting
+## Troubleshootng
 
 ### 1. ECS container instances failed to registered into ECS Cluster.
 
