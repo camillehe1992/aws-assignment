@@ -42,6 +42,7 @@ cd -
 ## Build Stacks
 
 ```sh
+# cp .env.sample to .env, and replace `AWS_ACCOUNT_ID` and `AWS_REGION`
 npm run build
 ```
 
