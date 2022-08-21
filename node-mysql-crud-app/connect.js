@@ -13,12 +13,10 @@ const getSecret = async (secretId) => {
 // Create the connection pool. The pool-specific settings are the defaults
 const createPool = async () => {
   try {
-    const { name, host, username, password, port } = await getSecret(
-      conf.secretId
-    );
+    const { host, username, password, port } = await getSecret(conf.secretId);
     console.log(`get secret for ${host}`);
     const pool = mysql.createPool({
-      database: name,
+      database: conf.database.name,
       host,
       user: username,
       password,
