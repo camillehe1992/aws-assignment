@@ -13,10 +13,12 @@ import { HostedZoneCdkStack } from '../lib/hostzone-cdk-stack';
 
 const env = { 
   account: conf.account,
-  region: conf.region
+  region: conf.region,
 }
 
 const app = new cdk.App();
+
+cdk.Tags.of(app).add('StackType', 'basic-cdk');
 
 const vpcCdkStack = new VpcCdkStack(app, 'VpcCdkStack', { env });
 const iamCdkStack = new IamCdkStack(app, 'IamCdkStack', { env });
