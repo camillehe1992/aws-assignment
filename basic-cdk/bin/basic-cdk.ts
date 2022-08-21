@@ -7,9 +7,9 @@ import { IamCdkStack } from '../lib/iam-cdk-stack';
 import { RdsCdkStack } from '../lib/rds-cdk-stack';
 import { EcsClusterCdkStack } from '../lib/ecs-cluster-cdk-stack';
 import { EcsServiceAlbCdkStack } from '../lib/ecs-service-alb-cdk-stack';
+import { HostedZoneCdkStack } from '../lib/hostzone-cdk-stack';
 
 import conf from '../config/app.conf';
-import { HostedZoneCdkStack } from '../lib/hostzone-cdk-stack';
 
 const env = { 
   account: conf.account,

@@ -1,17 +1,15 @@
 // import * as cdk from 'aws-cdk-lib';
 // import { Template } from 'aws-cdk-lib/assertions';
-// import * as BasicCdk from '../lib/basic-cdk-stack';
+// import * as BasicCdk from '../bin/basic-cdk';
 
-// example test. To run these tests, uncomment this file along with the
-// example resource in lib/basic-cdk-stack.ts
-test('SQS Queue Created', () => {
-//   const app = new cdk.App();
-//     // WHEN
-//   const stack = new BasicCdk.BasicCdkStack(app, 'MyTestStack');
-//     // THEN
-//   const template = Template.fromStack(stack);
+test('Main stacks created', () => {
+  // const app = new cdk.App();
+  //   // WHEN
+  // const stack = new BasicCdk.BasicCdkStack(app, 'MyTestStack');
+  //   // THEN
+  // const template = Template.fromStack(stack);
 
-//   template.hasResourceProperties('AWS::SQS::Queue', {
-//     VisibilityTimeout: 300
-//   });
+  // template.hasResourceProperties('AWS::SQS::Queue', {
+  //   VisibilityTimeout: 300
+  // });
 });

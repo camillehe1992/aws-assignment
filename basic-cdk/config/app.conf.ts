@@ -8,7 +8,7 @@ export default {
   environment: process.env.ENVIRONEMNT || 'dev',
   // ECS Cluster
   ec2InstanceRoleName: process.env.EC2_INSTANCE_ROLE_NAME || 'EC2_Instance_Role',
-  ecsClusterName: process.env.ECS_CLUSTER_NAME || '',
+  ecsClusterName: process.env.ECS_CLUSTER_NAME || 'MY-FIRST-ECS-CLUSTER',
   ec2InstanceType: process.env.ECS_INSTANCE_TYPE || 't2.micro',
   keyPairName: process.env.KEY_PAIR_NAME || 'ecs-instances-private-key',
   // ECS Service
