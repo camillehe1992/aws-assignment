@@ -17,6 +17,8 @@ const env = {
 
 const app = new cdk.App();
 
+cdk.Tags.of(app).add('StackType', 'internet-facing-cdk');
+
 const vpcCdkStack = new VpcCdkStack(app, 'VpcCdkStack', { env });
 const iamCdkStack = new IamCdkStack(app, 'IamCdkStack', { env });
 
@@ -34,17 +36,9 @@ const ecsClusterCdkStack = new EcsClusterCdkStack(app, 'EcsClusterCdkStack', {
 });
 
 new EcsServiceAlbCdkStack(app, 'EcsServiceAlbCdkStack', {
-  albIsInternetFacing: conf.albIsInternetFacing,
   vpc: vpcCdkStack.vpc,
   securityGroup: vpcCdkStack.webserverSG,
   ecsCluster: ecsClusterCdkStack.ecsCluster,
   secret: rdsCdkStack.dbCluster.secret,
   env
 });
-
-export {
-  app,
-  vpcCdkStack,
-  rdsCdkStack,
-  ecsClusterCdkStack
-};

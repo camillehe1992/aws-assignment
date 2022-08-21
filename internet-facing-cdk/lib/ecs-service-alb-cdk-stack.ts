@@ -9,7 +9,6 @@ import * as ssm from 'aws-cdk-lib/aws-secretsmanager';
 import conf from '../config/app.conf';
 
 interface EcsServiceAlbCdkStackProps extends cdk.StackProps {
-  albIsInternetFacing: boolean;
   vpc: ec2.Vpc;
   securityGroup: ec2.SecurityGroup;
   ecsCluster: ecs.Cluster;
@@ -20,8 +19,8 @@ export class EcsServiceAlbCdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: EcsServiceAlbCdkStackProps) {
     super(scope, id, props);
 
-    const { albIsInternetFacing, vpc, securityGroup, ecsCluster, secret} = props;
-    const { appName, environment, ecsTaskExecutionRoleName, ecsTaskRoleName, image, taskMemoryMiB, taskCpu } = conf;
+    const { vpc, securityGroup, ecsCluster, secret} = props;
+    const { appName, environment, ecsTaskExecutionRoleName, ecsTaskRoleName, image, taskMemoryMiB, taskCpu, containerCount } = conf;
 
     // import ECS task execution role (workaround dependency cyclic reference issue)
     const executionRole = iam.Role.fromRoleName(
@@ -76,8 +75,8 @@ export class EcsServiceAlbCdkStack extends cdk.Stack {
       vpc,
       idleTimeout: cdk.Duration.seconds(60),
       ipAddressType: elbv2.IpAddressType.IPV4,
-      internetFacing: albIsInternetFacing,
-      loadBalancerName: `${conf.appName}-${conf.environment}`,
+      internetFacing: true,
+      loadBalancerName: `${appName}-${environment}`,
       securityGroup,
       vpcSubnets: {
         subnetType: ec2.SubnetType.PUBLIC
@@ -96,8 +95,8 @@ export class EcsServiceAlbCdkStack extends cdk.Stack {
       deploymentController:  {
         type: ecs.DeploymentControllerType.ECS,
       },
-      desiredCount: parseInt(conf.containerCount ?? '1'),
-      serviceName: `${conf.appName}-${conf.environment}-${conf.groupId}`,
+      desiredCount: parseInt(containerCount),
+      serviceName: `${appName}-${environment}`,
     });
 
     ecsService.attachToApplicationTargetGroup(targetGroup);
