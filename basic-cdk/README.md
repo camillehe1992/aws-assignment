@@ -66,7 +66,7 @@ npm run destroy
 
 1. Get `SERVER IS UP` from health check endpoint, but fail to reach home page.
 
-When MYSQL database is created, there is no database and tables on it. We use a Lambda function `MyRdsInit-ResInitRdsCdkStack` to initialize database and tables. But sometimes function cannot be invoked successfully during deploying. If you found error logs `sqlMessage: "Unknown database 'socka'",` from task logs, you need to invoke the function manually with a JSON payload in Console.
+When MYSQL database is created, there is no database and tables on it. We use a Lambda function `MyRdsInit-ResInitRdsCdkStack` to initialize database and tables. But sometimes function cannot be invoked successfully during deploying. If you found error logs `sqlMessage: "Unknown database 'pokemon'",` from task logs, you need to invoke the function manually with a JSON payload in Console.
 
 You can get the name of secret from secret manager console
 

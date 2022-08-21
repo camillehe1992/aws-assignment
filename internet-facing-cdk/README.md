@@ -49,7 +49,7 @@ npm run build
 npm run deploy
 ```
 
-After deployment is done, verify all stacks is created completed. As the application is internet-facing, you can directly access the application via ALB DNS `internet-pokemon-dev-xxxxxxxxx.ap-south-1.elb.amazonaws.com`.
+After deployment is done, verify all stacks is created completed. As the application is internet-facing, you can directly access the application via ALB DNS `http://pokemon-dev-xxxxxxxx.ap-south-1.elb.amazonaws.com/`.
 
 ## Destory all stacks into AWS
 
@@ -62,9 +62,9 @@ npm run destroy
 
 1. Get `SERVER IS UP` from health check endpoint, but fail to reach home page.
 
-When MYSQL database is created, there is no database and tables on it. We use a Lambda function `MyRdsInit-ResInitRdsCdkStack` to initialize database and tables. But sometimes function cannot be invoked successfully during deploying. If you found error logs `sqlMessage: "Unknown database 'socka'",` from task logs, you need to invoke the function manually with a JSON payload in Console.
+When MYSQL database is created, there is no database and tables on it. We use a Lambda function `MyRdsInit-ResInitRdsCdkStack` to initialize database and tables. But sometimes function cannot be invoked successfully during deploying. If you found error logs `sqlMessage: "Unknown database 'pokemon'",` from task logs, you need to invoke the function manually with a JSON payload in Console.
 
-You can get the name of secret from the output of deployment, something like `arn:aws:secretsmanager:ap-south-1:xxxxxxxxx:secret:<the name of secret>`
+You can get the name of secret from secret manager console
 
 ```
 {

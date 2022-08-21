@@ -55,8 +55,8 @@ docker exec -it test-mysql mysql -p
 CREATE USER `root`@`175.171.183.164`;
 GRANT ALL ON *.* to `root`@`175.171.183.164` WITH GRANT OPTION;
 
-CREATE DATABASE IF NOT EXISTS socka;
-USE socka;
+CREATE DATABASE IF NOT EXISTS pokemon;
+USE pokemon;
 CREATE TABLE IF NOT EXISTS `players` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `first_name` varchar(255) NOT NULL,
