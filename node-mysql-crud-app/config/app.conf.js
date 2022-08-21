@@ -9,7 +9,7 @@ module.exports = {
     name: process.env.MYSQL_DATABASE || "socka",
     host: process.env.MYSQL_HOST || "localhost",
     username: process.env.MYSQL_USERNAME || "root",
-    passord: process.env.MYSQL_ROOT_PASSWORD,
+    password: process.env.MYSQL_ROOT_PASSWORD,
     port: process.env.MYSQL_PORT || 3306,
   },
 };

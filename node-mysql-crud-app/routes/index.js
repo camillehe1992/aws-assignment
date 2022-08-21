@@ -5,7 +5,7 @@ module.exports = {
     // execute query
     pool.query(query, (err, result) => {
       if (err) {
-        console.log(`failed to query database with query ${query}`);
+        console.log(`failed to query database with query ${query}`, err);
         res.redirect("/");
         return;
       }

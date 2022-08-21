@@ -27,7 +27,7 @@ docker run \
   --detach \
   --name=test-mysql \
   --env="MYSQL_ROOT_PASSWORD=password" \
-  --publish 3306:3306 \
+  --publish 6603:3306 \
   mysql
 
 # Enter the container to init database
@@ -52,8 +52,8 @@ docker exec -it test-mysql mysql -p
 
 # grant  `root`@`xxx.xxx.xxx.xxx` remote access
 # xxx.xxx.xxx.xxx is your local machine ip address for remote server or localhost for local server
-CREATE USER `root`@`xxx.xxx.xxx.xxx`;
-GRANT ALL ON *.* to `root`@`xxx.xxx.xxx.xxx` WITH GRANT OPTION;
+CREATE USER `root`@`175.171.183.164`;
+GRANT ALL ON *.* to `root`@`175.171.183.164` WITH GRANT OPTION;
 
 CREATE DATABASE IF NOT EXISTS socka;
 USE socka;
