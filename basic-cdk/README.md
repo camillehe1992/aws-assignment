@@ -1,8 +1,10 @@
 # A basic CDK TypeScript project
 
+For the basic project, we deploy our application in ECS cluster that managed by ASG. We create an internal-facing ALB to route traffic to the target group with several ECS tasks registered. Besides, we create a Private Hosted Zone and A record with ALB (regional endpoint) as target in Route 53. As Route 53 is a global service, it helps route traffic between multiple regions if our application is multi-region enabled.
+
 The basic infrastructure as below shows.
 
-![](./images/playground-ecs.png)
+![](./images/basic-digram.png)
 
 Main components:
 
@@ -22,7 +24,7 @@ As we don't specify a domain name here, the basic design is not accessable from 
 | VpcCdkStack           | VPC, Public Subnets, Private Subnets, Internet Gateway, NAT Gateway, Security Groups |
 | EcsClusterCdkStack    | ECS Cluster, Instance Template, ASG                                                  |
 | RdsCdkStack           | RDS MySQL Cluster                                                                    |
-| EcsServiceAlbCdkStack | ECS Service, ALB, Target Group                                                       |
+| EcsServiceAlbCdkStack | ECS Service, ALB, Target Group, A internal-facing ALB                                |
 | HostedZoneStck        | Private Hosted Zone, A Record                                                        |
 
 ## Install Dependencies
@@ -46,13 +48,35 @@ npm run build
 ## Deploy all above stacks into AWS
 
 ```sh
+# take a cup of coffee, as the whole deployment will spend about 25 mins
 npm run deploy
 ```
 
-## Destory all above stacks into AWS
+After deployment is done, verify all stacks is created completed. As the application is internal-facing, in order to test it, you can launch an EC2 instance in the VPC you just created and choose `web-server-sg`. SSH into EC2, and curl the application ALB DNS, for example `internal-pokemon-dev-xxxxxxxxx.ap-south-1.elb.amazonaws.com`, it should return a HTML of application home page. Besides, you can check if the application server is up via health check route `internal-pokemon-dev-xxxxxxxxx.ap-south-1.elb.amazonaws.com/health`.
+
+## Destory all stacks into AWS
 
 ```sh
+# clear up resources to reduce cost. If you create a EC2 to verify the application, DON'T forget to terminate it before clear up all resources.
 npm run destroy
+```
+
+## Throubleshooting
+
+1. Get `SERVER IS UP` from health check endpoint, but fail to reach home page.
+
+When MYSQL database is created, there is no database and tables on it. We use a Lambda function `MyRdsInit-ResInitRdsCdkStack` to initialize database and tables. But sometimes function cannot be invoked successfully during deploying. If you found error logs `sqlMessage: "Unknown database 'socka'",` from task logs, you need to invoke the function manually with a JSON payload in Console.
+
+You can get the name of secret from the output of deployment, something like `arn:aws:secretsmanager:ap-south-1:xxxxxxxxx:secret:<the name of secret>`
+
+```
+{
+  "params": {
+    "config": {
+      "credsSecretName": "The name of secret"
+    }
+  }
+}
 ```
 
 ## Other Useful commands
