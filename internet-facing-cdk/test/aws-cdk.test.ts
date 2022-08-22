@@ -4,7 +4,7 @@
 
 // example test. To run these tests, uncomment this file along with the
 // example resource in lib/aws-cdk-stack.ts
-test('SQS Queue Created', () => {
+test('Main Stacks Created', () => {
 //   const app = new cdk.App();
 //     // WHEN
 //   const stack = new AwsCdk.AwsCdkStack(app, 'MyTestStack');
