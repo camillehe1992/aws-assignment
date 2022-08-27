@@ -2,14 +2,40 @@
 
 Reference here https://aws.amazon.com/blogs/infrastructure-and-automation/use-aws-cdk-to-initialize-amazon-rds-instances/
 
+**Note**: In order to deploy the infrastructure on local machine without Docker installed, the lambda function initialization source code `rds-init-fn-code` is imported from local files instead of docker image. So the source code dependencies, such as mysql package should be installed before deploy stacks. Don't need to install aws-cdk, as it's already reinstalled in lambda function runtime when created.
+
+In rds-cdk-stack.ts:
+
+```sh
+# Original:
+fnCode: DockerImageCode.fromImageAsset(`${__dirname}/rds-init-fn-code`, {});
+
+# Updated:
+fnCode: lambda.Code.fromAsset(`${__dirname}/rds-init-fn-code`, {});
+```
+
+In resource-initializer.ts
+
+```sh
+# Original:
+const fn = new lambda.DockerImageFunction(this, 'ResourceInitializerFn', {
+  code: props.fnCode,
+  ...
+});
+
+# Updated:
+const fn = new lambda.Function(this, 'ResourceInitializerCdkStackFn', {
+  code: props.fnCode,
+  ...
+}
+```
+
 ## Stack Structure
 
 | Stack Name  | Main AWS Resources                                                                   |
 | ----------- | ------------------------------------------------------------------------------------ |
 | VpcCdkStack | VPC, Public Subnets, Private Subnets, Internet Gateway, NAT Gateway, Security Groups |
 | RdsCdkStack | RDS MySQL Database                                                                   |
-
-| ResourceIni
 
 ## Install Dependencies
 
@@ -44,24 +70,6 @@ After deployment is done, verify all stacks is created completed.
 ```sh
 # clear up resources to reduce cost. If you create a EC2 to verify the application, DON'T forget to terminate it before clear up all resources.
 npm run destroy
-```
-
-## Throubleshooting
-
-1. Check lambda function logs to verify the provison process works.
-
-When MYSQL database is created, there is no database and tables on it. We use a Lambda function `MyRdsInit-ResInitRdsCdkStack` to initialize database and tables. But sometimes function cannot be invoked successfully during deploying. If you found error logs `sqlMessage: "Unknown database 'pokemon'",` from task logs, you need to invoke the function manually with a JSON payload in Console.
-
-You can get the name of secret from secret manager console
-
-```
-{
-  "params": {
-    "config": {
-      "credsSecretName": "The name of secret"
-    }
-  }
-}
 ```
 
 ## Other Useful commands
