@@ -5,6 +5,7 @@ import * as cwlogs from 'aws-cdk-lib/aws-logs';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { Construct } from 'constructs';
 import { ResourceInitializerCdkStack } from '../lib/resource-initializer';
+import conf from '../config/app.conf';
 
 interface RdsCdkStackProps extends cdk.StackProps {
   vpc: ec2.Vpc;
@@ -20,8 +21,8 @@ export class RdsCdkStack extends cdk.Stack {
     super(scope, id, props);
 
     const { vpc, backendSG, dbSG } = props;
+    const { instanceIdentifier } = conf;
 
-    const instanceIdentifier = 'mysql-01';
     const credsSecretName = `/${id}/rds/creds/${instanceIdentifier}`.toLowerCase()
     const credentials = new rds.DatabaseSecret(this, 'MysqlRdsCredentials', {
       secretName: credsSecretName,
