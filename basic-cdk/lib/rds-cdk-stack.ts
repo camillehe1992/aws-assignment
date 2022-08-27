@@ -4,7 +4,7 @@ import * as rds from 'aws-cdk-lib/aws-rds';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as cwlogs from 'aws-cdk-lib/aws-logs';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
-import { CdkResourceInitializer } from '../lib/resource-initializer';
+import { CdkResourceInitializer } from './resource-initializer';
 
 interface RdsCdkStackProps extends cdk.StackProps {
   vpc: ec2.Vpc;
