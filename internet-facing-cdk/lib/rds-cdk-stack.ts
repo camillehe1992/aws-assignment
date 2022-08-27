@@ -1,11 +1,10 @@
 import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
 import * as rds from 'aws-cdk-lib/aws-rds';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
-import { Construct } from 'constructs';
-import { CdkResourceInitializer } from '../lib/resource-initializer';
 import * as cwlogs from 'aws-cdk-lib/aws-logs';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
-
+import { CdkResourceInitializer } from './resource-initializer';
 
 interface RdsCdkStackProps extends cdk.StackProps {
   vpc: ec2.Vpc;
@@ -22,7 +21,12 @@ export class RdsCdkStack extends cdk.Stack {
 
     const { vpc, backendSG, dbSG } = props;
 
-    const credentials = rds.Credentials.fromGeneratedSecret('clusteradmin');
+    const clusterIdentifier = 'mysql';
+    const credsSecretName = `/${id}/rds/creds/${clusterIdentifier}`.toLowerCase();
+    const credentials = new rds.DatabaseSecret(this, 'MysqlRdsCredentials', {
+      secretName: credsSecretName,
+      username: 'clusteradmin'
+    });
     
     // create the rds cluster with 2 instances (1 reader and 1 writer)
     this.dbCluster = new rds.DatabaseCluster(this, 'DatabaseCluster', {
@@ -30,8 +34,8 @@ export class RdsCdkStack extends cdk.Stack {
         version: rds.AuroraMysqlEngineVersion.VER_3_02_0
       }),
       // Optional - will default to 'admin' username and generated password
-      credentials,
-      clusterIdentifier: 'mysql',
+      credentials: rds.Credentials.fromSecret(credentials),
+      clusterIdentifier,
       instanceProps: {
         // optional , defaults to t3.medium (wiil incur charge)
         instanceType: ec2.InstanceType.of(
@@ -47,7 +51,7 @@ export class RdsCdkStack extends cdk.Stack {
 
     const initializer = new CdkResourceInitializer(this, 'MyRdsInit', {
       config: {
-        credsSecretName: credentials.secretName
+        credsSecretName: credsSecretName
       },
       fnLogRetention: cwlogs.RetentionDays.TWO_WEEKS,
       fnCode: lambda.Code.fromAsset(`${__dirname}/rds-init-fn-code`, {}),

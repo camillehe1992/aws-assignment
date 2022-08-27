@@ -1,10 +1,11 @@
 import * as cdk from 'aws-cdk-lib';
-import { Construct } from 'constructs';
 import * as rds from 'aws-cdk-lib/aws-rds';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as cwlogs from 'aws-cdk-lib/aws-logs';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
-import { CdkResourceInitializer } from './resource-initializer';
+import { Construct } from 'constructs';
+import { ResourceInitializerCdkStack } from '../lib/resource-initializer';
+import conf from '../config/app.conf';
 
 interface RdsCdkStackProps extends cdk.StackProps {
   vpc: ec2.Vpc;
@@ -14,42 +15,36 @@ interface RdsCdkStackProps extends cdk.StackProps {
 
 export class RdsCdkStack extends cdk.Stack {
   
-  public readonly dbCluster: rds.DatabaseCluster;
+  public readonly dbInstance: rds.DatabaseInstance;
 
   constructor(scope: Construct, id: string, props: RdsCdkStackProps) {
     super(scope, id, props);
 
     const { vpc, backendSG, dbSG } = props;
+    const { instanceIdentifier } = conf;
 
-    const clusterIdentifier = 'mysql';
-    const credsSecretName = `/${id}/rds/creds/${clusterIdentifier}`.toLowerCase();
+    const credsSecretName = `/${id}/rds/creds/${instanceIdentifier}`.toLowerCase()
     const credentials = new rds.DatabaseSecret(this, 'MysqlRdsCredentials', {
       secretName: credsSecretName,
       username: 'clusteradmin'
     });
-    
-    // create the rds cluster with 2 instances (1 reader and 1 writer)
-    this.dbCluster = new rds.DatabaseCluster(this, 'DatabaseCluster', {
-      engine: rds.DatabaseClusterEngine.auroraMysql({ 
-        version: rds.AuroraMysqlEngineVersion.VER_3_02_0
-      }),
-      // Optional - will default to 'admin' username and generated password
+
+    this.dbInstance = new rds.DatabaseInstance(this, "MysqlInstance", {
+      engine: rds.DatabaseInstanceEngine.MYSQL,
       credentials: rds.Credentials.fromSecret(credentials),
-      clusterIdentifier,
-      instanceProps: {
-        // optional , defaults to t3.medium (wiil incur charge)
-        instanceType: ec2.InstanceType.of(
-          ec2.InstanceClass.T3,
-          ec2.InstanceSize.MEDIUM),
-        vpcSubnets: {
-          subnetType: ec2.SubnetType.PRIVATE_WITH_NAT,
-        },
-        vpc,
-        securityGroups: [dbSG]
+      vpc,
+      instanceIdentifier,
+      instanceType: ec2.InstanceType.of(
+        ec2.InstanceClass.T2,
+        ec2.InstanceSize.MICRO
+        ),
+      vpcSubnets: {
+        subnetType: ec2.SubnetType.PRIVATE_WITH_NAT,
       },
+      securityGroups: [dbSG]
     });
 
-    const initializer = new CdkResourceInitializer(this, 'MyRdsInit', {
+    const initializer = new ResourceInitializerCdkStack(this, 'MyRdsInit', {
       config: {
         credsSecretName: credsSecretName
       },
@@ -63,6 +58,6 @@ export class RdsCdkStack extends cdk.Stack {
       })
     })
     // manage resources dependency
-    initializer.customResource.node.addDependency(this.dbCluster);
+    initializer.customResource.node.addDependency(this.dbInstance);
   }
 }

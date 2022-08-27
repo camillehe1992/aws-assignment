@@ -15,10 +15,11 @@ All CDK projects have similar structure except for a little difference to fit sp
 
 ## CDK Projects
 
-| Project                                   | Business case                                                                               |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------- |
-| [basic-cdk](./basic-cdk/)                 | internal-facing auto scaling web app hosted in ECS cluster and interacts with RDS database. |
-| [internet-facing](./internet-facing-cdk/) | internet-facing auto scaling web app hosted in ECS cluster and interacts with RDS database. |
+| Project                                       | Business case                                                                               |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| [basic-cdk](./basic-cdk/)                     | internal-facing auto scaling web app hosted in ECS cluster and interacts with RDS database. |
+| [internet-facing-cdk](./internet-facing-cdk/) | internet-facing auto scaling web app hosted in ECS cluster and interacts with RDS database. |
+| [rds-init-cdk](./rds-init-cdk/)               | How to use Custom Resource to initialize Amazon RDS instances                               |
 
 ## Troubleshootng
 

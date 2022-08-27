@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+require("dotenv/config");
+exports.default = {
+    // General
+    account: process.env.AWS_ACCOUNT_ID,
+    region: process.env.AWS_REGION,
+    environment: process.env.ENVIRONEMNT || 'dev',
+    // RDS
+    instanceIdentifier: process.env.DB_INSTANCE_IDENTIFIER || 'mysql-01'
+};
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYXBwLmNvbmYuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJhcHAuY29uZi50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLHlCQUFzQjtBQUV0QixrQkFBZTtJQUNiLFVBQVU7SUFDVixPQUFPLEVBQUUsT0FBTyxDQUFDLEdBQUcsQ0FBQyxjQUFjO0lBQ25DLE1BQU0sRUFBRSxPQUFPLENBQUMsR0FBRyxDQUFDLFVBQVU7SUFDOUIsV0FBVyxFQUFFLE9BQU8sQ0FBQyxHQUFHLENBQUMsV0FBVyxJQUFJLEtBQUs7SUFDN0MsTUFBTTtJQUNOLGtCQUFrQixFQUFFLE9BQU8sQ0FBQyxHQUFHLENBQUMsc0JBQXNCLElBQUksVUFBVTtDQUNyRSxDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0ICdkb3RlbnYvY29uZmlnJ1xyXG5cclxuZXhwb3J0IGRlZmF1bHQge1xyXG4gIC8vIEdlbmVyYWxcclxuICBhY2NvdW50OiBwcm9jZXNzLmVudi5BV1NfQUNDT1VOVF9JRCxcclxuICByZWdpb246IHByb2Nlc3MuZW52LkFXU19SRUdJT04sXHJcbiAgZW52aXJvbm1lbnQ6IHByb2Nlc3MuZW52LkVOVklST05FTU5UIHx8ICdkZXYnLFxyXG4gIC8vIFJEU1xyXG4gIGluc3RhbmNlSWRlbnRpZmllcjogcHJvY2Vzcy5lbnYuREJfSU5TVEFOQ0VfSURFTlRJRklFUiB8fCAnbXlzcWwtMDEnXHJcbn07Il19
